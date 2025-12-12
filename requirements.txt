@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+
+# Optional advanced integrations (commented by default)
+# weaviate-client==3.26.1      # Vector store (optional)
+# redis==5.0.1                 # Memory store (optional)
+# neo4j==5.23.0                # Neo4j driver (optional)
+# gitpython==3.1.43            # Repo engine
+# playwright==1.48.0           # UI automation (optional)
+# mss==9.0.1                   # Screen capture
+# requests==2.32.3             # Crawling
+# beautifulsoup4==4.12.3       # Parsing/Scraping
+# networkx==3.3                # DAG support
+# langchain==0.3.0             # RAG/GraphRAG (optional)
+# transformers==4.46.0         # Models (optional)
+# sentence-transformers==3.2.1 # Embeddings (optional)

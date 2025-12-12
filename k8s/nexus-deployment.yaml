@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-ai
+  labels:
+    app: nexus-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexus-ai
+  template:
+    metadata:
+      labels:
+        app: nexus-ai
+    spec:
+      containers:
+      - name: nexus
+        image: nexus-ai:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: nexus-data
+          mountPath: /root/.nexus
+      volumes:
+      - name: nexus-data
+        emptyDir: {}

@@ -32,7 +32,16 @@
 # World-Class Visual Design • 3D Effects • Gradient Colorization • Full Responsive
 ################################################################################
 
-set -euo pipefail
+set -eo pipefail
+
+# Source Nova core for unified logging and error handling
+# Load Nova core only if not already available
+if ! whence -w nova_log >/dev/null 2>&1; then
+  if [[ -z "${NOVA_ROOT:-}" ]]; then
+    typeset -g NOVA_ROOT="${0:a:h}/../.."
+  fi
+  [[ -f "${NOVA_ROOT}/src/core/nova_core.zsh" ]] && source "${NOVA_ROOT}/src/core/nova_core.zsh"
+fi
 
 typeset -g TUI_ROOT="${0:a:h}"
 typeset -g TUI_VERSION="3.0.0-ULTRA"
@@ -277,10 +286,10 @@ tui_render_progress_bar() {
 }
 
 tui_render_status_indicator() {
-  local status="$1"
+  local indicator_status="$1"
   local label="$2"
   
-  case "$status" in
+  case "$indicator_status" in
     "active"|"success"|"✓")
       echo "${TUI_COLORS[green]}● ${TUI_COLORS[bold]}$label${TUI_COLORS[reset]}"
       ;;
@@ -297,14 +306,16 @@ tui_render_status_indicator() {
 }
 
 tui_render_stats_grid() {
-  local -n stats=$1
+  local stats_ref_name="$1"
+  local -a keys
+  keys=("${(kP)stats_ref_name}")
   local width="${2:-100}"
   local per_row="${3:-3}"
   
   local idx=0
   local row_count=0
   
-  for key in "${!stats[@]}"; do
+  for key in $keys; do
     if (( idx % per_row == 0 )); then
       ((row_count++))
       [[ $row_count -gt 1 ]] && echo ""
@@ -312,7 +323,7 @@ tui_render_stats_grid() {
     fi
     
     local label="${key}"
-    local value="${stats[$key]}"
+    local value="${(P)stats_ref_name[$key]}"
     local cell_width=$(( width / per_row - 4 ))
     printf "%-${cell_width}s" "[$label: $value]"
     ((idx++))
@@ -365,19 +376,14 @@ tui_render_system_status() {
 
 tui_render_metrics_dashboard() {
   local width="${1:-100}"
-  
-  declare -A metrics=(
-    [Entities]="2,847"
-    [Propagations]="156"
-    [Webhooks]="1,024"
-    [Streams]="42"
-    [Uptime]="99.9%"
-    [Memory]="127 MB"
-  )
-  
   echo ""
   echo "${TUI_COLORS[bold]}${TUI_COLORS[blue]}📊 METRICS OVERVIEW${TUI_COLORS[reset]}"
-  tui_render_stats_grid metrics "$width" 3
+  printf "  %-32s %-20s\n" "Entities" "2,847"
+  printf "  %-32s %-20s\n" "Propagations" "156"
+  printf "  %-32s %-20s\n" "Webhooks" "1,024"
+  printf "  %-32s %-20s\n" "Streams" "42"
+  printf "  %-32s %-20s\n" "Uptime" "99.9%"
+  printf "  %-32s %-20s\n" "Memory" "127 MB"
   echo ""
 }
 
@@ -421,27 +427,7 @@ tui_render_main_dashboard() {
 # ╚════════════════════════════════════════════════════════════════════════════╝
 
 # Export all functions for sourcing
-export -f tui_get_terminal_dimensions
-export -f tui_calculate_centering
-export -f tui_pad_center
-export -f tui_repeat_char
-export -f tui_render_frame_top
-export -f tui_render_frame_middle
-export -f tui_render_frame_bottom
-export -f tui_render_panel
-export -f tui_apply_rainbow_gradient
-export -f tui_apply_aurora_gradient
-export -f tui_spinner
-export -f tui_pulse
-export -f tui_particle_burst
-export -f tui_render_progress_bar
-export -f tui_render_status_indicator
-export -f tui_render_stats_grid
-export -f tui_render_dashboard_header
-export -f tui_render_dashboard_footer
-export -f tui_render_system_status
-export -f tui_render_metrics_dashboard
-export -f tui_render_main_dashboard
+# Functions are available when sourced; no explicit export needed in zsh
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
 # ║ 🎨 3D WIREFRAME VISUALIZATIONS - DASHBOARD FOOTER                         ║
@@ -534,10 +520,15 @@ PYRAMID
   echo ""
 }
 
-export -f tui_append_3d_wireframe_footer
+# Functions are available when sourced; no explicit export needed in zsh
 
 # Run dashboard if sourced directly
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]] || [[ "${ZSH_EXECUTION_STRING}" == *"tui_quantum_dashboard"* ]]; then
-  tui_render_main_dashboard
-  tui_append_3d_wireframe_footer
+if [[ "${(%):-%x}" == "${0}" ]] || [[ "${ZSH_EXECUTION_STRING}" == *"tui_quantum_dashboard"* ]]; then
+  if whence -w nova_safe_run >/dev/null 2>&1; then
+    nova_safe_run tui_render_main_dashboard || echo "[ERROR] Dashboard render failed" >&2
+    nova_safe_run tui_append_3d_wireframe_footer || echo "[ERROR] Footer render failed" >&2
+  else
+    tui_render_main_dashboard
+    tui_append_3d_wireframe_footer
+  fi
 fi

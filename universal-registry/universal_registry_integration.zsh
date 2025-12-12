@@ -1,4 +1,20 @@
 #!/usr/bin/env zsh
+# Agents Sub-Registry loader
+universal_agents_registry_init() {
+  local registry_py="${0:a:h}/agents/registry.py"
+  if [[ -f "$registry_py" ]]; then
+    # Print registered agents/tools via Python
+    python3 - <<'PY'
+from universal_registry.agents.registry import DEFAULT_SUBREGISTRY
+print("Agents:", ", ".join(DEFAULT_SUBREGISTRY.list_agents()))
+print("Tools:", ", ".join(DEFAULT_SUBREGISTRY.list_tools()))
+PY
+  else
+    echo "[INFO] Agents Sub-Registry not found"
+  fi
+}
+
+typeset -fx universal_agents_registry_init
 ################################################################################
 # 🌍 UNIVERSAL_REGISTRY - Merged ZSH + Python Integration
 # Comprehensive registry system merging hyper_registry.zsh with Python bindings
@@ -6,7 +22,7 @@
 # Includes Propagation Engine for directional sync with Nexus AI Studio
 ################################################################################
 
-set -euo pipefail
+set -eo pipefail
 
 typeset -g UNIVERSAL_REGISTRY_ROOT="${0:a:h}"
 typeset -g PYTHON_REGISTRY_ROOT="${UNIVERSAL_REGISTRY_ROOT}/hyper_registry"
@@ -674,37 +690,37 @@ function universal_registry_demo() {
 
 # ============ EXPORTS ============
 
-export -f universal_registry_init
-export -f universal_registry_with_propagation_init
-export -f universal_registry_show_tables
-export -f universal_registry_query
-export -f universal_registry_register_palette
-export -f universal_registry_register_visual
-export -f universal_registry_register_animation
-export -f universal_registry_register_alias
-export -f universal_registry_register_path
-export -f universal_registry_register_symlink
-export -f universal_registry_register_command
-export -f universal_registry_register_prompt
-export -f universal_registry_register_entity
-export -f universal_registry_register_zsh_config
-export -f universal_registry_query_entity
-export -f universal_registry_register_documentation
-export -f universal_registry_query_documentation
-export -f universal_registry_register_capability
-export -f universal_registry_query_capability
-export -f universal_registry_add_dependency
-export -f universal_registry_register_dependency
-export -f universal_registry_list_dependencies
-export -f universal_registry_add_relationship
-export -f universal_registry_register_relationship
-export -f universal_registry_set_health
-export -f universal_registry_get_health
-export -f universal_registry_record_lifecycle
-export -f universal_registry_dispatch_webhook
-export -f universal_registry_export_json
-export -f universal_registry_export_yaml
-export -f universal_registry_python_sync
-export -f universal_registry_status
-export -f universal_registry_demo
+typeset -f universal_registry_init
+typeset -f universal_registry_with_propagation_init
+typeset -f universal_registry_show_tables
+typeset -f universal_registry_query
+typeset -f universal_registry_register_palette
+typeset -f universal_registry_register_visual
+typeset -f universal_registry_register_animation
+typeset -f universal_registry_register_alias
+typeset -f universal_registry_register_path
+typeset -f universal_registry_register_symlink
+typeset -f universal_registry_register_command
+typeset -f universal_registry_register_prompt
+typeset -f universal_registry_register_entity
+typeset -f universal_registry_register_zsh_config
+typeset -f universal_registry_query_entity
+typeset -f universal_registry_register_documentation
+typeset -f universal_registry_query_documentation
+typeset -f universal_registry_register_capability
+typeset -f universal_registry_query_capability
+typeset -f universal_registry_add_dependency
+typeset -f universal_registry_register_dependency
+typeset -f universal_registry_list_dependencies
+typeset -f universal_registry_add_relationship
+typeset -f universal_registry_register_relationship
+typeset -f universal_registry_set_health
+typeset -f universal_registry_get_health
+typeset -f universal_registry_record_lifecycle
+typeset -f universal_registry_dispatch_webhook
+typeset -f universal_registry_export_json
+typeset -f universal_registry_export_yaml
+typeset -f universal_registry_python_sync
+typeset -f universal_registry_status
+typeset -f universal_registry_demo
 
