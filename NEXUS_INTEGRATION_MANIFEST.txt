@@ -1,0 +1,11 @@
+QNTI / COSMOS Integration Manifest
+Generated: Thu Dec 11 11:56:49 PM UTC 2025
+
+Sourced modules:
+  - nexus_merged.zsh (if present)
+  - deploy_nexuspro.sh (deployment helper, not sourced)
+
+Validation: Run qnti_validate_features to list expected function availability.
+
+Usage: source qnti_cosmos_integration.zsh && qnti_menu
+

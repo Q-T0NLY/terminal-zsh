@@ -34,6 +34,16 @@ for d in ${(v)NEXUS_DIRS}; do
   mkdir -p $d 2>/dev/null
 done
 
+# Source Universal Registry integration and propagation engine if available
+if [[ -f "${PWD}/universal-registry/universal_registry_integration.zsh" ]]; then
+  source "${PWD}/universal-registry/universal_registry_integration.zsh"
+fi
+
+# Helper to initialize registry (with propagation if available)
+function nexus_registry_init() {
+  universal_registry_with_propagation_init 2>/dev/null || universal_registry_init 2>/dev/null || true
+}
+
 # Load zsh modules commonly used
 zmodload zsh/zpty 2>/dev/null
 zmodload zsh/mathfunc 2>/dev/null
