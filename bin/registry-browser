@@ -1,0 +1,107 @@
+#!/usr/bin/env zsh
+# 🎯 Visual Component Registry Browser
+# Interactive CLI for exploring the visual component database
+
+# Source the registry
+source "${0:A:h}/../src/registry/visual_component_registry.zsh"
+source "${0:A:h}/../src/visuals/quantum_3d_engine.zsh"
+
+# Main loop
+while true; do
+    show_registry_menu
+    read choice
+    
+    case "$choice" in
+        1)
+            clear
+            show_top_components 10
+            echo -ne "\n${Q3D_INFO}Press Enter to continue...${Q3D_RESET}"
+            read
+            ;;
+        2)
+            clear
+            echo -e "${Q3D_SUCCESS}Categories:${Q3D_RESET}\n"
+            echo -e "  1. Progress Indicators"
+            echo -e "  2. Spinners"
+            echo -e "  3. 3D Objects"
+            echo -e "  4. Particle Effects"
+            echo -e "  5. Headers"
+            echo -e "  6. Panels"
+            echo -e "  7. Charts"
+            echo -e "  8. Network Visualizations"
+            echo -e "  9. Text Effects"
+            echo -e " 10. Statistics"
+            echo -e " 11. Timing/ETA"
+            echo -e " 12. Celebrations"
+            echo -ne "\n${Q3D_HIGHLIGHT}Select category: ${Q3D_RESET}"
+            read cat_choice
+            
+            clear
+            case "$cat_choice" in
+                1) list_components_by_category "progress" ;;
+                2) list_components_by_category "spinner" ;;
+                3) list_components_by_category "3d_object" ;;
+                4) list_components_by_category "particle_effect" ;;
+                5) list_components_by_category "header" ;;
+                6) list_components_by_category "panel" ;;
+                7) list_components_by_category "chart" ;;
+                8) list_components_by_category "network" ;;
+                9) list_components_by_category "text_effect" ;;
+                10) list_components_by_category "statistics" ;;
+                11) list_components_by_category "timing" ;;
+                12) list_components_by_category "celebration" ;;
+            esac
+            
+            echo -ne "${Q3D_INFO}Press Enter to continue...${Q3D_RESET}"
+            read
+            ;;
+        3)
+            clear
+            echo -e "${Q3D_INFO}Enter component ID:${Q3D_RESET} "
+            read comp_id
+            clear
+            show_component_details "$comp_id"
+            echo -ne "\n${Q3D_INFO}Press Enter to continue...${Q3D_RESET}"
+            read
+            ;;
+        4)
+            clear
+            echo -e "${Q3D_WARNING}⚡ Calculating all fusion scores...${Q3D_RESET}\n"
+            
+            local count=0
+            local total=${#VISUAL_REGISTRY}
+            
+            for comp_id in ${(k)VISUAL_REGISTRY}; do
+                ((count++))
+                local percent=$((count * 100 / total))
+                
+                echo -ne "\r"
+                holographic_progress $percent "Scoring Components" 50
+                
+                calculate_fusion_score "$comp_id"
+                generate_usage_recommendations "$comp_id"
+            done
+            
+            echo -e "\n\n${Q3D_SUCCESS}✅ All components scored!${Q3D_RESET}"
+            echo -ne "\n${Q3D_INFO}Press Enter to continue...${Q3D_RESET}"
+            read
+            ;;
+        5)
+            clear
+            echo -e "${Q3D_INFO}📝 Exporting registry report...${Q3D_RESET}\n"
+            export_registry_data
+            echo -ne "\n${Q3D_INFO}Press Enter to continue...${Q3D_RESET}"
+            read
+            ;;
+        q|Q)
+            clear
+            quantum_celebration "REGISTRY CLOSED"
+            echo -e "${Q3D_SUCCESS}Thank you for using the Visual Component Registry!${Q3D_RESET}\n"
+            exit 0
+            ;;
+        *)
+            echo -e "${Q3D_ERROR}Invalid option${Q3D_RESET}"
+            sleep 1
+            ;;
+    esac
+done
