@@ -58,6 +58,24 @@ if [[ -f "${CLEAN_SLATE_ROOT}/cleanup_engine.zsh" ]]; then
     clean_slate_log "INFO" "Loaded cleanup engine"
 fi
 
+# Load Aeternum Download Guardian
+if [[ -f "${CLEAN_SLATE_ROOT}/aeternum_guardian.zsh" ]]; then
+    source "${CLEAN_SLATE_ROOT}/aeternum_guardian.zsh"
+    clean_slate_log "INFO" "Loaded Aeternum Download Guardian"
+fi
+
+# Load Installation Guardian
+if [[ -f "${CLEAN_SLATE_ROOT}/installation_guardian.zsh" ]]; then
+    source "${CLEAN_SLATE_ROOT}/installation_guardian.zsh"
+    clean_slate_log "INFO" "Loaded Installation Guardian"
+fi
+
+# Load Package Manager Integration
+if [[ -f "${CLEAN_SLATE_ROOT}/pkg_manager_integration.zsh" ]]; then
+    source "${CLEAN_SLATE_ROOT}/pkg_manager_integration.zsh"
+    clean_slate_log "INFO" "Loaded Package Manager Integration"
+fi
+
 # ============================================================================
 # MAIN CLEAN SLATE OPERATIONS
 # ============================================================================
@@ -132,25 +150,46 @@ COMMANDS:
   propagate   Auto-propagate discovered items to configs
   cleanup     Run cleanup and core file management
   scan        Run full scan (detect + propagate + optional cleanup)
+  daemon      Start Aeternum monitoring daemon
+  status      Show protection status and recent activity
   help        Show this help message
+
+INTEGRATED PROTECTION SYSTEMS:
+  ✓ Aeternum Download Guardian (7-layer verification)
+  ✓ Installation Guardian (9-phase protection)
+  ✓ Package Manager Integration (brew, pip, npm, cargo, gem)
+  ✓ Process Monitoring & Auto-Recovery
 
 EXAMPLES:
   clean_slate detect           # Scan system for paths/tools/apps
   clean_slate propagate        # Update configs with discoveries
   clean_slate scan             # Full Clean Slate operation
+  clean_slate daemon           # Start background monitoring
+  clean_slate status           # Check protection status
+
+ALSO AVAILABLE:
+  aeternum <command>          - Download protection commands
+  install-guardian <command>  - Installation protection commands
 
 DATA LOCATION:
-  ~/.nexus/clean_slate/
+  ~/.nexus/clean_slate/        - Detection data and configs
+  ~/.aeternum/                 - Download protection vault
+  ~/.install_guardian/         - Installation checkpoints
 
 LOGS:
   ~/.nexus/clean_slate/logs/
+  ~/.aeternum/logs/
+  ~/.install_guardian/logs/
 
 Ready for detailed advanced code implementation.
 EOF
 }
 
 clean_slate_main() {
-    case "${1}" in
+    local command="${1:-help}"
+    shift
+    
+    case "$command" in
         detect)
             clean_slate_run_detection
             ;;
@@ -158,20 +197,94 @@ clean_slate_main() {
             clean_slate_propagate_config
             ;;
         cleanup)
-            clean_slate_cleanup
+            clean_slate_cleanup "$@"
             ;;
         scan)
             clean_slate_full_scan
+            ;;
+        daemon)
+            if command -v start_monitoring_daemon &>/dev/null; then
+                start_monitoring_daemon
+            else
+                echo "Aeternum Guardian not loaded"
+            fi
+            ;;
+        status)
+            clean_slate_status
             ;;
         help|--help|-h|"")
             clean_slate_help
             ;;
         *)
-            echo "Unknown command: ${1}"
+            echo "Unknown command: ${command}"
             echo "Run 'clean_slate help' for usage information"
             return 1
             ;;
     esac
+}
+
+clean_slate_status() {
+    echo ""
+    echo "=== Clean Slate Protection Status ==="
+    echo ""
+    
+    # Aeternum status
+    if [[ -f "${AETERNUM_DAEMON_PID:-}" ]]; then
+        local pid=$(cat "${AETERNUM_DAEMON_PID}")
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "✓ Aeternum Daemon: Running (PID: $pid)"
+        else
+            echo "⚠ Aeternum Daemon: Stopped (stale PID file)"
+        fi
+    else
+        echo "ℹ Aeternum Daemon: Not running"
+    fi
+    
+    # Protection status
+    echo ""
+    echo "Package Manager Protection:"
+    echo "  Homebrew: ${AETERNUM_PROTECT_BREW:-false}"
+    echo "  pip/pip3: ${AETERNUM_PROTECT_PIP:-false}"
+    echo "  npm:      ${AETERNUM_PROTECT_NPM:-false}"
+    echo "  cargo:    ${AETERNUM_PROTECT_CARGO:-false}"
+    echo "  gem:      ${AETERNUM_PROTECT_GEM:-false}"
+    
+    # Storage info
+    echo ""
+    echo "Storage Locations:"
+    echo "  Aeternum:     ${AETERNUM_ROOT:-Not loaded}"
+    echo "  Install Guard: ${INSTALL_GUARDIAN_ROOT:-Not loaded}"
+    echo "  Clean Slate:  ${CLEAN_SLATE_DATA}"
+    
+    # Recent activity
+    echo ""
+    if [[ -f "${AETERNUM_JOURNAL:-}" ]]; then
+        local count=$(wc -l < "${AETERNUM_JOURNAL}" 2>/dev/null || echo 0)
+        echo "Recent Activity:"
+        echo "  Total operations: $count"
+        if [[ $count -gt 0 ]]; then
+            echo "  Last 3 operations:"
+            tail -3 "${AETERNUM_JOURNAL}" | while IFS= read -r line; do
+                local op=$(echo "$line" | grep -o '"operation": "[^"]*"' | cut -d'"' -f4)
+                local status=$(echo "$line" | grep -o '"status": "[^"]*"' | cut -d'"' -f4)
+                local timestamp=$(echo "$line" | grep -o '"timestamp": "[^"]*"' | cut -d'"' -f4)
+                echo "    [$timestamp] $op - $status"
+            done
+        fi
+    fi
+    
+    # Resumable installations
+    echo ""
+    if [[ -d "${INSTALL_GUARDIAN_CHECKPOINTS:-}" ]]; then
+        local resumable_count=$(ls -1 "${INSTALL_GUARDIAN_CHECKPOINTS}" 2>/dev/null | wc -l)
+        if [[ $resumable_count -gt 0 ]]; then
+            echo "ℹ Resumable installations: $resumable_count (run 'install-guardian list' for details)"
+        else
+            echo "  No resumable installations"
+        fi
+    fi
+    
+    echo ""
 }
 
 # Create convenient alias
