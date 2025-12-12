@@ -1,0 +1,15 @@
+[Unit]
+Description=Universal Registry Propagation Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/universal-registry
+ExecStart=/opt/universal-registry/run_registry.sh
+Restart=on-failure
+RestartSec=5
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=multi-user.target
