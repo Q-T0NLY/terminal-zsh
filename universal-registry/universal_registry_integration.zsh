@@ -3,6 +3,7 @@
 # 🌍 UNIVERSAL_REGISTRY - Merged ZSH + Python Integration
 # Comprehensive registry system merging hyper_registry.zsh with Python bindings
 # SQLite-backed storage with 63 classifications, health, lifecycle, dependencies
+# Includes Propagation Engine for directional sync with Nexus AI Studio
 ################################################################################
 
 set -euo pipefail
@@ -11,6 +12,11 @@ typeset -g UNIVERSAL_REGISTRY_ROOT="${0:a:h}"
 typeset -g PYTHON_REGISTRY_ROOT="${UNIVERSAL_REGISTRY_ROOT}/hyper_registry"
 typeset -g UNIVERSAL_REGISTRY_DB
 UNIVERSAL_REGISTRY_DB="${PWD}/.universal_registry.db"
+
+# Source propagation engine for bidirectional/multicast/broadcast support
+if [[ -f "${UNIVERSAL_REGISTRY_ROOT}/registry_propagation_nexus.zsh" ]]; then
+  source "${UNIVERSAL_REGISTRY_ROOT}/registry_propagation_nexus.zsh"
+fi
 
 # ============ UTILITY FUNCTIONS ============
 
@@ -298,6 +304,15 @@ CREATE TABLE IF NOT EXISTS capabilities(
 SQL
 
   printf "✅ Universal Registry initialized at %s\n" "$UNIVERSAL_REGISTRY_DB"
+}
+
+# ============ UNIFIED INITIALIZATION WITH PROPAGATION ============
+
+function universal_registry_with_propagation_init() {
+  printf "🌍 Initializing Universal Registry with Propagation Engine...\n"
+  universal_registry_init || return 1
+  registry_propagation_init || return 1
+  printf "✅ Registry with Propagation Engine fully initialized\n"
 }
 
 # ============ TABLE MANAGEMENT ============
@@ -660,6 +675,7 @@ function universal_registry_demo() {
 # ============ EXPORTS ============
 
 export -f universal_registry_init
+export -f universal_registry_with_propagation_init
 export -f universal_registry_show_tables
 export -f universal_registry_query
 export -f universal_registry_register_palette
