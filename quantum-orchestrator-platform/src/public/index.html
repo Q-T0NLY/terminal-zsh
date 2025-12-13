@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Quantum Orchestrator Dashboard - Agent Workflow Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles-enhanced.css">
+</head>
+<body class="theme-dark">
+    <!-- 🌟 Global Header -->
+    <header class="global-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">⚡</div>
+                <h1 class="logo-text">Quantum Orchestrator</h1>
+                <span class="badge-pro">v1.0.0 PRO</span>
+            </div>
+            <div class="header-center">
+                <div class="status-indicator">
+                    <span class="pulse"></span>
+                    <span class="status-text">🟢 System Online</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="🔍 Search agents, workflows...">
+                </div>
+                <div class="header-icons">
+                    <button class="icon-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">5</span>
+                    </button>
+                    <button class="icon-btn" title="Help">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    <div class="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="User" class="user-avatar">
+                        <div class="user-dropdown">
+                            <div class="dropdown-item">👤 Profile</div>
+                            <div class="dropdown-item">⚙️ Settings</div>
+                            <div class="dropdown-item">📊 Analytics</div>
+                            <hr>
+                            <div class="dropdown-item">🚪 Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-glow">🤖</div>
+                <h1>Quantum</h1>
+            </div>
+            
+            <div class="nav-section">
+                <h3>📊 Dashboard</h3>
+                <div class="nav-item active" data-tooltip="Executive overview">
+                    <span class="emoji">👑</span>
+                    <span>Executive Intelligence</span>
+                </div>
+                <div class="nav-item" data-tooltip="Agent management">
+                    <span class="emoji">🤖</span>
+                    <span>Agent Control Board</span>
+                </div>
+                <div class="nav-item" data-tooltip="Token tracking">
+                    <span class="emoji">💰</span>
+                    <span>Tokenization Center</span>
+                </div>
+                <div class="nav-item" data-tooltip="Runtime map">
+                    <span class="emoji">🗺️</span>
+                    <span>Orchestrator Runtime</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <h3>⚙️ Core Systems</h3>
+                <div class="nav-item" data-tooltip="Event streaming">
+                    <span class="emoji">📨</span>
+                    <span>Message Bus & Events</span>
+                </div>
+                <div class="nav-item" data-tooltip="Task scheduling">
+                    <span class="emoji">⏰</span>
+                    <span>Scheduler & Cron</span>
+                </div>
+                <div class="nav-item" data-tooltip="Workflow design">
+                    <span class="emoji">🔧</span>
+                    <span>Workflow Builder</span>
+                </div>
+                <div class="nav-item" data-tooltip="System integrations">
+                    <span class="emoji">🔌</span>
+                    <span>Integration Hub</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <h3>🧠 Intelligence</h3>
+                <div class="nav-item" data-tooltip="System alerts">
+                    <span class="emoji">🔔</span>
+                    <span>Notifications Center</span>
+                </div>
+                <div class="nav-item" data-tooltip="Data insights">
+                    <span class="emoji">📈</span>
+                    <span>Analytics & Insights</span>
+                </div>
+                <div class="nav-item" data-tooltip="Security logs">
+                    <span class="emoji">🔒</span>
+                    <span>Security & Audit</span>
+                </div>
+                <div class="nav-item" data-tooltip="System status">
+                    <span class="emoji">💚</span>
+                    <span>System Health</span>
+                </div>
+            </div>
+            
+            <div class="nav-section" style="margin-top: auto;">
+                <div class="nav-item" data-tooltip="Configuration">
+                    <span class="emoji">⚙️</span>
+                    <span>Settings</span>
+                </div>
+                <div class="nav-item" data-tooltip="Get help">
+                    <span class="emoji">🆘</span>
+                    <span>Help & Support</span>
+                </div>
+                <div class="nav-item theme-toggle-nav">
+                    <span class="emoji">🎨</span>
+                    <span>Themes</span>
+                    <div class="theme-quick-select">
+                        <button class="theme-dot" data-theme="theme-dark" title="Dark" style="background: #1a1a2e;"></button>
+                        <button class="theme-dot" data-theme="theme-light" title="Light" style="background: #f5f5f5;"></button>
+                        <button class="theme-dot" data-theme="theme-blue" title="Blue" style="background: #0f3460;"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <span>🏠 Home</span>
+                    <span>/</span>
+                    <span>📊 Executive Intelligence</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" title="Refresh data">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-secondary" title="Export report">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn btn-primary" title="Start new workflow">
+                        <i class="fas fa-play"></i> New Workflow
+                    </button>
+                </div>
+            </div>
+            
+            <!-- KPI Dashboard -->
+            <div class="kpi-dashboard">
+                <div class="kpi-card pulse-animate">
+                    <div class="kpi-header">
+                        <h3>🤖 Active Agents</h3>
+                        <span class="kpi-icon">🚀</span>
+                    </div>
+                    <div class="kpi-value">847</div>
+                    <div class="kpi-trend positive">
+                        <i class="fas fa-arrow-trending-up"></i> +23% from yesterday
+                    </div>
+                    <div class="kpi-bar">
+                        <div class="kpi-progress" style="width: 85%;"></div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card pulse-animate" style="animation-delay: 0.1s;">
+                    <div class="kpi-header">
+                        <h3>💚 System Uptime</h3>
+                        <span class="kpi-icon">✨</span>
+                    </div>
+                    <div class="kpi-value">99.97%</div>
+                    <div class="kpi-trend positive">
+                        <i class="fas fa-check-circle"></i> SLA: Met ✓
+                    </div>
+                    <div class="kpi-bar">
+                        <div class="kpi-progress" style="width: 99.97%; background: linear-gradient(90deg, #00ff88, #00cc66);"></div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card pulse-animate" style="animation-delay: 0.2s;">
+                    <div class="kpi-header">
+                        <h3>💰 Token Throughput</h3>
+                        <span class="kpi-icon">📊</span>
+                    </div>
+                    <div class="kpi-value">12.4M</div>
+                    <div class="kpi-trend positive">
+                        <i class="fas fa-arrow-trending-up"></i> +15% efficiency
+                    </div>
+                    <div class="kpi-bar">
+                        <div class="kpi-progress" style="width: 92%; background: linear-gradient(90deg, #00d4ff, #0099ff);"></div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card pulse-animate" style="animation-delay: 0.3s;">
+                    <div class="kpi-header">
+                        <h3>⚡ Avg Response Time</h3>
+                        <span class="kpi-icon">🎯</span>
+                    </div>
+                    <div class="kpi-value">142ms</div>
+                    <div class="kpi-trend positive">
+                        <i class="fas fa-arrow-trending-down"></i> -8% latency
+                    </div>
+                    <div class="kpi-bar">
+                        <div class="kpi-progress" style="width: 72%; background: linear-gradient(90deg, #ff6b6b, #ff4757);"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Workspace -->
+            <div class="workspace">
+                <!-- Toolbox -->
+                <div class="toolbox">
+                    <h3>🧰 Agent Components</h3>
+                    
+                    <div class="tool-category">
+                        <h4>🎯 Core Agents</h4>
+                        <div class="tool-item drag-item" draggable="true" data-type="orchestrator" title="Orchestrator Agent">
+                            <span class="tool-emoji">🧭</span>
+                            <span>Orchestrator</span>
+                            <span class="tool-badge">Core</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="router" title="Router Agent">
+                            <span class="tool-emoji">🛣️</span>
+                            <span>Router</span>
+                            <span class="tool-badge">Core</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="balancer" title="Load Balancer">
+                            <span class="tool-emoji">⚖️</span>
+                            <span>Load Balancer</span>
+                            <span class="tool-badge">Core</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="scheduler" title="Scheduler Agent">
+                            <span class="tool-emoji">📅</span>
+                            <span>Scheduler</span>
+                            <span class="tool-badge">Core</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h4>🔧 Specialized Agents</h4>
+                        <div class="tool-item drag-item" draggable="true" data-type="data-processing" title="Data Processing">
+                            <span class="tool-emoji">📊</span>
+                            <span>Data Processing</span>
+                            <span class="tool-badge">Special</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="api-gateway" title="API Gateway">
+                            <span class="tool-emoji">🌐</span>
+                            <span>API Gateway</span>
+                            <span class="tool-badge">Special</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="security" title="Security Agent">
+                            <span class="tool-emoji">🔐</span>
+                            <span>Security</span>
+                            <span class="tool-badge">Special</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h4>🧠 ML Agents</h4>
+                        <div class="tool-item drag-item" draggable="true" data-type="ml-training" title="Model Training">
+                            <span class="tool-emoji">🎓</span>
+                            <span>Model Training</span>
+                            <span class="tool-badge">ML</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="ml-inference" title="Model Inference">
+                            <span class="tool-emoji">🔮</span>
+                            <span>Model Inference</span>
+                            <span class="tool-badge">ML</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="ml-analysis" title="Analysis">
+                            <span class="tool-emoji">📈</span>
+                            <span>Analysis</span>
+                            <span class="tool-badge">ML</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h4>✨ Generative Agents</h4>
+                        <div class="tool-item drag-item" draggable="true" data-type="text-generation" title="Text Generation">
+                            <span class="tool-emoji">✍️</span>
+                            <span>Text Generation</span>
+                            <span class="tool-badge">Gen</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="code-generation" title="Code Generator">
+                            <span class="tool-emoji">💻</span>
+                            <span>Code Generator</span>
+                            <span class="tool-badge">Gen</span>
+                        </div>
+                        <div class="tool-item drag-item" draggable="true" data-type="conversation" title="Conversational AI">
+                            <span class="tool-emoji">💬</span>
+                            <span>Conversational AI</span>
+                            <span class="tool-badge">Gen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Canvas -->
+                <div class="canvas" id="canvas">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-content">
+                            <div class="drop-icon">🎨</div>
+                            <h3>Drag Agents to Build Your Workflow</h3>
+                            <p>✨ Create your custom orchestration pipeline ✨</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Properties Panel -->
+                <div class="properties-panel">
+                    <h3>⚙️ Agent Properties</h3>
+                    
+                    <div class="property-group">
+                        <h4>🔧 Configuration</h4>
+                        
+                        <div class="property">
+                            <label>📛 Agent Name</label>
+                            <input type="text" id="agent-name" placeholder="Enter agent name" class="input-glow">
+                        </div>
+                        
+                        <div class="property">
+                            <label>🎯 Agent Type</label>
+                            <select id="agent-type" class="select-glow">
+                                <option value="">Select type...</option>
+                                <option value="orchestrator">🧭 Orchestrator</option>
+                                <option value="processor">⚙️ Processor</option>
+                                <option value="generator">✨ Generator</option>
+                            </select>
+                        </div>
+                        
+                        <div class="property">
+                            <label>⏱️ Timeout (seconds)</label>
+                            <div class="slider-container">
+                                <input type="range" min="1" max="300" value="30" class="slider" id="timeout">
+                                <span class="slider-value">30s</span>
+                            </div>
+                        </div>
+                        
+                        <div class="property">
+                            <label>🔄 Retry Count</label>
+                            <input type="number" id="retry-count" value="3" min="0" max="10" class="input-glow">
+                        </div>
+                    </div>
+                    
+                    <div class="property-group">
+                        <h4>⚡ Performance</h4>
+                        
+                        <div class="property">
+                            <label>💯 Confidence Threshold</label>
+                            <div class="slider-container">
+                                <input type="range" min="0" max="100" value="85" class="slider" id="confidence">
+                                <span class="slider-value">85%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="property">
+                            <label>👥 Max Concurrent</label>
+                            <input type="number" id="max-concurrent" value="10" min="1" max="1000" class="input-glow">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Suggestions -->
+            <div class="ai-suggestions">
+                <h3>💡 AI Optimization Suggestions</h3>
+                
+                <div class="suggestion-item success-suggestion">
+                    <span class="suggestion-icon">⚡</span>
+                    <div class="suggestion-content">
+                        <strong>🚀 Enhance Performance:</strong> Add a caching layer between Data Processing and API Gateway agents.
+                    </div>
+                </div>
+                
+                <div class="suggestion-item warning-suggestion">
+                    <span class="suggestion-icon">🛡️</span>
+                    <div class="suggestion-content">
+                        <strong>🔒 Improve Reliability:</strong> Consider adding failover routing for critical paths.
+                    </div>
+                </div>
+                
+                <div class="suggestion-item info-suggestion">
+                    <span class="suggestion-icon">💰</span>
+                    <div class="suggestion-content">
+                        <strong>💵 Optimize Costs:</strong> ML Inference agent can be optimized for 18% cost reduction.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 Global Footer -->
+    <footer class="global-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>📱 Product</h4>
+                <ul>
+                    <li><a href="#"><span>🚀</span> Features</a></li>
+                    <li><a href="#"><span>📊</span> Dashboard</a></li>
+                    <li><a href="#"><span>🔌</span> Integrations</a></li>
+                    <li><a href="#"><span>💰</span> Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>🛠️ Developer</h4>
+                <ul>
+                    <li><a href="#"><span>📚</span> Documentation</a></li>
+                    <li><a href="#"><span>🔌</span> API Reference</a></li>
+                    <li><a href="#"><span>💻</span> SDK</a></li>
+                    <li><a href="#"><span>🐛</span> Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>🤝 Company</h4>
+                <ul>
+                    <li><a href="#"><span>📧</span> Contact</a></li>
+                    <li><a href="#"><span>📜</span> Terms</a></li>
+                    <li><a href="#"><span>🔒</span> Privacy</a></li>
+                    <li><a href="#"><span>🏢</span> About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>🌐 Social</h4>
+                <div class="social-links">
+                    <a href="#" title="Twitter">𝕏</a>
+                    <a href="#" title="GitHub">💻</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="Discord">🎮</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Quantum Orchestrator ⚡ | Powered by AI 🤖 | <span class="status-online">🟢 All Systems Operational</span></p>
+            <div class="footer-stats">
+                <span>📡 Uptime: 99.99%</span>
+                <span>⚡ Latency: 42ms</span>
+                <span>💾 Data: Encrypted</span>
+                <span>🔒 Security: A+</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app-enhanced.js"></script>
+</body>
+</html>

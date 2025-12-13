@@ -1,0 +1,314 @@
+#!/usr/bin/env zsh
+# ═══════════════════════════════════════════════════════════════════════════════
+# NEXUSPRO CONFIGURATION MANAGEMENT SYSTEM
+# Multi-environment deployment, profiles, and configuration profiles
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PROFILES SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# List all available profiles
+nexuspro_profiles_list() {
+    echo "📋 Available NexusPro Profiles:"
+    echo ""
+    echo "Profiles:"
+    echo "  • development   - Development environment with debug logging"
+    echo "  • production    - Production environment with security hardening"
+    echo "  • testing       - Testing environment with verbose output"
+    echo "  • research      - AI research mode with extended context"
+    echo ""
+    echo "Usage: nexuspro_profiles_set <profile-name>"
+}
+
+# Set active profile
+nexuspro_profiles_set() {
+    local profile="${1:-development}"
+    
+    export NEXUSPRO_PROFILE="$profile"
+    echo "✅ Profile set to: $profile"
+    
+    case "$profile" in
+        development)
+            export NEXUSPRO_DEBUG=1
+            export NEXUSPRO_LOG_LEVEL="DEBUG"
+            export NEXUSPRO_AI_TEMPERATURE=0.9
+            ;;
+        production)
+            export NEXUSPRO_DEBUG=0
+            export NEXUSPRO_LOG_LEVEL="ERROR"
+            export NEXUSPRO_AI_TEMPERATURE=0.3
+            ;;
+        testing)
+            export NEXUSPRO_DEBUG=1
+            export NEXUSPRO_LOG_LEVEL="INFO"
+            export NEXUSPRO_AI_TEMPERATURE=0.5
+            ;;
+        research)
+            export NEXUSPRO_DEBUG=1
+            export NEXUSPRO_LOG_LEVEL="VERBOSE"
+            export NEXUSPRO_AI_TEMPERATURE=0.95
+            export NEXUSPRO_CONTEXT_MAX_HISTORY=500
+            ;;
+    esac
+    
+    nexuspro_config_save_profile
+}
+
+# Get current profile
+nexuspro_profiles_current() {
+    echo "Current Profile: ${NEXUSPRO_PROFILE:-development}"
+    echo "Debug Mode: ${NEXUSPRO_DEBUG:-0}"
+    echo "Log Level: ${NEXUSPRO_LOG_LEVEL:-INFO}"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONFIGURATION MANAGEMENT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Save configuration to file
+nexuspro_config_save_profile() {
+    local config_file="$NEXUSPRO_CONFIG/profile_${NEXUSPRO_PROFILE:-development}.conf"
+    
+    cat > "$config_file" << EOF
+# NexusPro Configuration Profile
+PROFILE=${NEXUSPRO_PROFILE:-development}
+DEBUG=${NEXUSPRO_DEBUG:-0}
+LOG_LEVEL=${NEXUSPRO_LOG_LEVEL:-INFO}
+AI_MODEL=${NEXUSPRO_AI_MODEL:-gpt-4}
+AI_TEMPERATURE=${NEXUSPRO_AI_TEMPERATURE:-0.7}
+AI_MAX_TOKENS=${NEXUSPRO_AI_MAX_TOKENS:-2000}
+CONTEXT_TTL=${NEXUSPRO_CONTEXT_TTL:-3600}
+CONTEXT_MAX_HISTORY=${NEXUSPRO_CONTEXT_MAX_HISTORY:-100}
+EOF
+    
+    echo "✅ Configuration saved: $config_file"
+}
+
+# Load configuration from file
+nexuspro_config_load_profile() {
+    local profile="${1:-development}"
+    local config_file="$NEXUSPRO_CONFIG/profile_${profile}.conf"
+    
+    if [[ -f "$config_file" ]]; then
+        source "$config_file"
+        export NEXUSPRO_PROFILE="$profile"
+        echo "✅ Loaded profile: $profile"
+    else
+        echo "⚠️  Profile not found: $profile"
+        return 1
+    fi
+}
+
+# View current configuration
+nexuspro_config_show() {
+    echo "═══════════════════════════════════════════════════════════════════════"
+    echo "NEXUSPRO CONFIGURATION"
+    echo "═══════════════════════════════════════════════════════════════════════"
+    echo ""
+    echo "Version: $NEXUSPRO_VERSION"
+    echo "Profile: ${NEXUSPRO_PROFILE:-development}"
+    echo "Debug: ${NEXUSPRO_DEBUG:-0}"
+    echo "Log Level: ${NEXUSPRO_LOG_LEVEL:-INFO}"
+    echo ""
+    echo "AI Settings:"
+    echo "  Model: $NEXUSPRO_AI_MODEL"
+    echo "  Temperature: $NEXUSPRO_AI_TEMPERATURE"
+    echo "  Max Tokens: $NEXUSPRO_AI_MAX_TOKENS"
+    echo ""
+    echo "Context Engine:"
+    echo "  TTL: $NEXUSPRO_CONTEXT_TTL seconds"
+    echo "  Max History: $NEXUSPRO_CONTEXT_MAX_HISTORY entries"
+    echo ""
+    echo "Paths:"
+    echo "  Home: $NEXUSPRO_HOME"
+    echo "  Config: $NEXUSPRO_CONFIG"
+    echo "  Cache: $NEXUSPRO_CACHE"
+    echo "  Logs: $NEXUSPRO_LOGS"
+    echo ""
+}
+
+# Edit configuration
+nexuspro_config_edit() {
+    local profile="${1:-development}"
+    local config_file="$NEXUSPRO_CONFIG/profile_${profile}.conf"
+    
+    if [[ ! -f "$config_file" ]]; then
+        nexuspro_config_save_profile
+    fi
+    
+    ${EDITOR:-nano} "$config_file"
+    echo "✅ Configuration updated"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ENVIRONMENT SWITCHING
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Switch to development environment
+nexuspro_env_dev() {
+    nexuspro_profiles_set development
+    echo "🔧 Development environment activated"
+}
+
+# Switch to production environment
+nexuspro_env_prod() {
+    nexuspro_profiles_set production
+    echo "🚀 Production environment activated"
+}
+
+# Switch to testing environment
+nexuspro_env_test() {
+    nexuspro_profiles_set testing
+    echo "🧪 Testing environment activated"
+}
+
+# Switch to research environment
+nexuspro_env_research() {
+    nexuspro_profiles_set research
+    echo "🔬 Research environment activated"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LOGGING SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Unified logging function
+nexuspro_log() {
+    local level="$1"
+    shift
+    local message="$*"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local log_file="$NEXUSPRO_LOGS/nexuspro.log"
+    
+    # Only log if not suppressed
+    case "${NEXUSPRO_LOG_LEVEL:-INFO}" in
+        VERBOSE) ;;
+        DEBUG)
+            [[ "$level" == "VERBOSE" ]] && return 0
+            ;;
+        INFO)
+            [[ "$level" == "DEBUG" ]] || [[ "$level" == "VERBOSE" ]] && return 0
+            ;;
+        WARNING)
+            [[ ! "$level" =~ ^(ERROR|WARNING)$ ]] && return 0
+            ;;
+        ERROR)
+            [[ "$level" != "ERROR" ]] && return 0
+            ;;
+    esac
+    
+    echo "[$timestamp] [$level] $message" >> "$log_file"
+    [[ "${NEXUSPRO_DEBUG:-0}" == "1" ]] && echo "[$timestamp] [$level] $message"
+}
+
+# View logs
+nexuspro_logs_view() {
+    local lines="${1:-50}"
+    tail -n "$lines" "$NEXUSPRO_LOGS/nexuspro.log"
+}
+
+# Clear logs
+nexuspro_logs_clear() {
+    echo "" > "$NEXUSPRO_LOGS/nexuspro.log"
+    echo "✅ Logs cleared"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DEPLOYMENT MODES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Quick deployment mode
+nexuspro_deploy_quick() {
+    echo "⚡ Quick Deployment Mode"
+    export NEXUSPRO_DEPLOY_MODE="quick"
+    export NEXUSPRO_VERIFY_ENABLED=0
+    echo "✅ Quick mode activated (verification disabled)"
+}
+
+# Safe deployment mode
+nexuspro_deploy_safe() {
+    echo "🔒 Safe Deployment Mode"
+    export NEXUSPRO_DEPLOY_MODE="safe"
+    export NEXUSPRO_VERIFY_ENABLED=1
+    echo "✅ Safe mode activated (full verification enabled)"
+}
+
+# Staging deployment mode
+nexuspro_deploy_staging() {
+    echo "🎭 Staging Deployment Mode"
+    export NEXUSPRO_DEPLOY_MODE="staging"
+    export NEXUSPRO_VERIFY_ENABLED=1
+    export NEXUSPRO_DEBUG=1
+    echo "✅ Staging mode activated (debug logging enabled)"
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BACKUP & RESTORE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Backup all configurations
+nexuspro_backup_config() {
+    local backup_dir="$NEXUSPRO_HOME/backups/$(date +%Y%m%d_%H%M%S)"
+    mkdir -p "$backup_dir"
+    
+    cp -r "$NEXUSPRO_CONFIG"/* "$backup_dir/" 2>/dev/null || true
+    cp -r "$NEXUSPRO_LOGS"/* "$backup_dir/" 2>/dev/null || true
+    cp -r "$NEXUSPRO_CACHE"/* "$backup_dir/" 2>/dev/null || true
+    
+    echo "✅ Configuration backed up to: $backup_dir"
+}
+
+# Restore from backup
+nexuspro_restore_backup() {
+    local backup="${1:-latest}"
+    
+    if [[ "$backup" == "latest" ]]; then
+        backup=$(ls -td "$NEXUSPRO_HOME/backups"/*/ 2>/dev/null | head -1)
+    fi
+    
+    if [[ -d "$backup" ]]; then
+        cp -r "$backup"/* "$NEXUSPRO_CONFIG/" 2>/dev/null || true
+        echo "✅ Restored from: $backup"
+    else
+        echo "❌ Backup not found: $backup"
+        return 1
+    fi
+}
+
+# List backups
+nexuspro_backups_list() {
+    echo "📦 Available Backups:"
+    ls -ld "$NEXUSPRO_HOME/backups"/*/ 2>/dev/null | awk '{print $NF}' | xargs -I {} basename {}
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ALIASES FOR CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+alias nexus-config-show="nexuspro_config_show"
+alias nexus-config-edit="nexuspro_config_edit"
+alias nexus-profiles="nexuspro_profiles_list"
+alias nexus-profile-set="nexuspro_profiles_set"
+alias nexus-profile-current="nexuspro_profiles_current"
+alias nexus-env-dev="nexuspro_env_dev"
+alias nexus-env-prod="nexuspro_env_prod"
+alias nexus-logs="nexuspro_logs_view"
+alias nexus-backup="nexuspro_backup_config"
+alias nexus-restore="nexuspro_restore_backup"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# INITIALIZATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Load default profile on startup
+if [[ -z "$NEXUSPRO_CONFIG_LOADED" ]]; then
+    export NEXUSPRO_CONFIG_LOADED=1
+    nexuspro_config_load_profile "${NEXUSPRO_PROFILE:-development}" 2>/dev/null || {
+        nexuspro_profiles_set development
+    }
+fi
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# END OF CONFIGURATION SYSTEM
+# ═══════════════════════════════════════════════════════════════════════════════
