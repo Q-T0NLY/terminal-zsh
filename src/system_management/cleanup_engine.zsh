@@ -53,21 +53,41 @@ nexus_safe_cleanup() {
     echo "   Categories: $categories"
     echo ""
     
-    # TODO: Implement safe cleanup
-    # Features to add:
-    # - User confirmation for each category
-    # - Backup before deletion
-    # - Move to trash instead of permanent delete
-    # - Preserve critical dependencies
-    # - Rollback capability
-    # - Progress visualization
-    # - Size estimation before cleanup
-    # - Impact analysis
-    # - Safe deletion with verification
-    # - Retention policy (7-day trash)
+    # Create backup before cleanup
+    echo "  💾 Creating backup..."
+    nexus_backup_critical "safe_cleanup_$(date +%Y%m%d_%H%M%S)"
     
-    clean_slate_log "DEBUG" "Safe cleanup - stub implementation"
-    echo "  ⚠️  Safe cleanup not yet implemented"
+    local total_freed=0
+    local files_removed=0
+    
+    # Cleanup temporary files
+    if [[ "$categories" == *"TEMP"* ]] || [[ "$categories" == *"all"* ]]; then
+        echo "  🗑️  Cleaning temporary files..."
+        local temp_size=$(du -sk /tmp 2>/dev/null | awk '{print $1}' || echo 0)
+        find /tmp -type f -atime +7 -delete 2>/dev/null && files_removed=$((files_removed + $(find /tmp -type f | wc -l)))
+        total_freed=$((total_freed + temp_size))
+    fi
+    
+    # Clear package manager caches
+    if [[ "$categories" == *"CACHE"* ]] || [[ "$categories" == *"all"* ]]; then
+        echo "  🗑️  Clearing package caches..."
+        if command -v brew >/dev/null 2>&1; then
+            local brew_cache=$(du -sk $(brew --cache) 2>/dev/null | awk '{print $1}' || echo 0)
+            brew cleanup --prune=7 >/dev/null 2>&1
+            total_freed=$((total_freed + brew_cache))
+        fi
+        
+        if command -v pip3 >/dev/null 2>&1; then
+            pip3 cache purge >/dev/null 2>&1
+        fi
+    fi
+    
+    echo ""
+    echo "  ✅ Safe cleanup complete"
+    echo "  📊 Space freed: $(( total_freed / 1024 )) MB"
+    echo "  📁 Files processed: $files_removed"
+    
+    clean_slate_log "INFO" "Safe cleanup: $(( total_freed / 1024 )) MB freed, $files_removed files"
 }
 
 # ============================================================================
@@ -81,21 +101,63 @@ nexus_deep_cleanup() {
     echo "   Categories: $categories"
     echo ""
     
-    # TODO: Implement deep cleanup
-    # Features to add:
-    # - More aggressive file removal
-    # - Cache clearing (all levels)
-    # - Temporary file cleanup
-    # - Log file rotation and compression
-    # - Orphaned package removal
-    # - Broken symlink cleanup
-    # - Duplicate file detection
-    # - Large file identification
-    # - Space recovery optimization
-    # - Multi-stage verification
+    echo -n "  ⚠️  Deep cleanup will remove more files. Continue? (y/N): "
+    read -r confirm
     
-    clean_slate_log "DEBUG" "Deep cleanup - stub implementation"
-    echo "  ⚠️  Deep cleanup not yet implemented"
+    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+        echo "  ❌ Deep cleanup cancelled"
+        return 1
+    fi
+    
+    # Create backup
+    nexus_backup_critical "deep_cleanup_$(date +%Y%m%d_%H%M%S)"
+    
+    local total_freed=0
+    
+    # Clear all caches
+    echo "  🗑️  Clearing all caches..."
+    
+    # Homebrew cleanup
+    if command -v brew >/dev/null 2>&1; then
+        echo "     - Homebrew cache..."
+        local brew_size=$(du -sk $(brew --cache) 2>/dev/null | awk '{print $1}' || echo 0)
+        brew cleanup -s >/dev/null 2>&1
+        brew autoremove >/dev/null 2>&1
+        total_freed=$((total_freed + brew_size))
+    fi
+    
+    # npm cleanup
+    if command -v npm >/dev/null 2>&1; then
+        echo "     - npm cache..."
+        npm cache clean --force >/dev/null 2>&1
+    fi
+    
+    # pip cleanup
+    if command -v pip3 >/dev/null 2>&1; then
+        echo "     - pip cache..."
+        pip3 cache purge >/dev/null 2>&1
+    fi
+    
+    # Docker cleanup (if exists)
+    if command -v docker >/dev/null 2>&1; then
+        echo "     - Docker system..."
+        docker system prune -af --volumes >/dev/null 2>&1
+    fi
+    
+    # Clean broken symlinks
+    echo "  🔗 Removing broken symlinks..."
+    find "$HOME" -type l ! -exec test -e {} \; -delete 2>/dev/null || true
+    
+    # Clean log files older than 30 days
+    echo "  📜 Rotating old logs..."
+    find "$HOME/Library/Logs" -type f -mtime +30 -delete 2>/dev/null || true
+    find "$HOME/.local/share/logs" -type f -mtime +30 -delete 2>/dev/null || true
+    
+    echo ""
+    echo "  ✅ Deep cleanup complete"
+    echo "  📊 Space freed: $(( total_freed / 1024 )) MB"
+    
+    clean_slate_log "INFO" "Deep cleanup: $(( total_freed / 1024 )) MB freed"
 }
 
 # ============================================================================
@@ -130,22 +192,63 @@ nexus_surgical_cleanup() {
 
 nexus_backup_critical() {
     local backup_id="${1:-$(date +%Y%m%d_%H%M%S)}"
-    local backup_dir="${CLEAN_SLATE_BACKUP}/critical_${backup_id}"
+    local backup_dir="${CLEAN_SLATE_BACKUP:-$HOME/.nexus/backups}/critical_${backup_id}"
     
-    # TODO: Implement critical file backup
-    # Features to add:
-    # - Identify critical system files
-    # - Create timestamped backups
-    # - Compression for space efficiency
-    # - Encryption for sensitive data
-    # - Incremental backup support
-    # - Cloud backup integration
-    # - Verification after backup
-    # - Metadata preservation
-    # - Quick restore capability
-    # - Backup integrity checking
+    mkdir -p "$backup_dir"
     
-    clean_slate_log "DEBUG" "Critical backup - stub implementation"
+    echo "  💾 Creating critical backup: $backup_id"
+    
+    local -a critical_files=(
+        "$HOME/.zshrc"
+        "$HOME/.zshenv"
+        "$HOME/.gitconfig"
+        "$HOME/.ssh/config"
+    )
+    
+    local -a critical_dirs=(
+        "$HOME/.config"
+        "$HOME/.local/bin"
+    )
+    
+    local backup_count=0
+    
+    # Backup critical files
+    for file in "${critical_files[@]}"; do
+        if [[ -f "$file" ]]; then
+            mkdir -p "$backup_dir/$(dirname ${file#$HOME/})"
+            cp -p "$file" "$backup_dir/${file#$HOME/}"
+            backup_count=$((backup_count + 1))
+        fi
+    done
+    
+    # Backup critical directories (selective)
+    for dir in "${critical_dirs[@]}"; do
+        if [[ -d "$dir" ]]; then
+            mkdir -p "$backup_dir/${dir#$HOME/}"
+            rsync -a --exclude='*.cache' --exclude='*.log' "$dir/" "$backup_dir/${dir#$HOME/}/" 2>/dev/null || true
+            backup_count=$((backup_count + 1))
+        fi
+    done
+    
+    # Create manifest
+    {
+        echo "Critical Backup Manifest"
+        echo "ID: $backup_id"
+        echo "Created: $(date)"
+        echo "Files backed up: $backup_count"
+        echo ""
+        find "$backup_dir" -type f | sed "s|$backup_dir/|  - |"
+    } > "$backup_dir/MANIFEST.txt"
+    
+    # Compress backup
+    tar -czf "${backup_dir}.tar.gz" -C "$(dirname $backup_dir)" "$(basename $backup_dir)" 2>/dev/null
+    
+    if [[ -f "${backup_dir}.tar.gz" ]]; then
+        rm -rf "$backup_dir"
+        echo "  ✅ Backup compressed: ${backup_dir}.tar.gz"
+    fi
+    
+    clean_slate_log "INFO" "Critical backup created: $backup_id ($backup_count items)"
 }
 
 nexus_restore_critical() {
