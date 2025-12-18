@@ -1,0 +1,91 @@
+{
+  "dashboard": {
+    "title": "Nexus Quantum - Orchestrator",
+    "tags": ["nexus-quantum", "orchestrator"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Request Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{service=\"orchestrator\"}[5m])",
+            "legendFormat": "{{method}} {{path}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+      },
+      {
+        "id": 2,
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{service=\"orchestrator\",status=~\"5..\"}[5m])",
+            "legendFormat": "5xx Errors"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+      },
+      {
+        "id": 3,
+        "title": "Active Agents",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "agent_registry_total{status=\"active\"}"
+          }
+        ],
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 8 }
+      },
+      {
+        "id": 4,
+        "title": "Workflow Executions",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "workflow_executions_total"
+          }
+        ],
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 8 }
+      },
+      {
+        "id": 5,
+        "title": "Message Queue Depth",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "message_queue_depth{service=\"orchestrator\"}",
+            "legendFormat": "{{queue}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+      },
+      {
+        "id": 6,
+        "title": "Response Time (p95)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{service=\"orchestrator\"}[5m]))",
+            "legendFormat": "{{method}} {{path}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+      },
+      {
+        "id": 7,
+        "title": "CPU Usage",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(process_cpu_seconds_total{service=\"orchestrator\"}[5m])",
+            "legendFormat": "CPU"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+      }
+    ]
+  }
+}

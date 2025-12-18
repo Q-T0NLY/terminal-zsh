@@ -1,0 +1,81 @@
+{
+  "dashboard": {
+    "title": "Nexus Quantum - Agents",
+    "tags": ["nexus-quantum", "agents"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Agent Health Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "agent_health_status",
+            "legendFormat": "{{agent_id}} - {{status}}"
+          }
+        ],
+        "gridPos": { "h": 6, "w": 8, "x": 0, "y": 0 }
+      },
+      {
+        "id": 2,
+        "title": "Task Execution Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(agent_task_executions_total[5m])",
+            "legendFormat": "{{agent_type}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 16, "x": 8, "y": 0 }
+      },
+      {
+        "id": 3,
+        "title": "Task Success Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(agent_task_executions_total{status=\"success\"}[5m]) / rate(agent_task_executions_total[5m])",
+            "legendFormat": "{{agent_type}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+      },
+      {
+        "id": 4,
+        "title": "Capability Execution Time",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "rate(agent_capability_duration_seconds_bucket[5m])",
+            "legendFormat": "{{capability}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+      },
+      {
+        "id": 5,
+        "title": "Circuit Breaker Status",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "agent_circuit_breaker_state",
+            "legendFormat": "{{agent_id}} - {{capability}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+      },
+      {
+        "id": 6,
+        "title": "Memory Usage by Agent",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "agent_memory_usage_bytes",
+            "legendFormat": "{{agent_id}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+      }
+    ]
+  }
+}
