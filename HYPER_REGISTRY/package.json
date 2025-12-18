@@ -1,0 +1,29 @@
+{
+  "name": "hyper-registry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Advanced Dynamic Universal Hyper Registry - Enterprise-grade modular artifact management",
+  "type": "module",
+  "packageManager": "pnpm@8.0.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "test:watch": "pnpm -r run test:watch",
+    "dev": "pnpm -r run dev --parallel",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "typecheck": "pnpm -r run typecheck",
+    "clean": "pnpm -r run clean && rm -rf dist node_modules",
+    "proto:generate": "cd packages/proto && pnpm run generate"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.5.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "esbuild": "^0.19.0",
+    "vitest": "^1.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

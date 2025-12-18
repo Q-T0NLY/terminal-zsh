@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;">
+  <defs>
+    <linearGradient id="quantum1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="quantum2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="quantum3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#84cc16;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="quantum4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" style="font-size: 32px; font-weight: bold; fill: #1f2937;">
+    ADUHR Quantum Stack - 4 Layers × 4 Columns
+  </text>
+  
+  <!-- Layer Labels (Left side) -->
+  <g id="layer-labels">
+    <text x="30" y="180" style="font-size: 16px; font-weight: bold; fill: #a78bfa; writing-mode: tb;">Quantum Layer</text>
+    <text x="30" y="380" style="font-size: 16px; font-weight: bold; fill: #3b82f6; writing-mode: tb;">Neural Layer</text>
+    <text x="30" y="580" style="font-size: 16px; font-weight: bold; fill: #10b981; writing-mode: tb;">Processing Layer</text>
+    <text x="30" y="780" style="font-size: 16px; font-weight: bold; fill: #f59e0b; writing-mode: tb;">Foundation Layer</text>
+  </g>
+  
+  <!-- Column Labels (Top) -->
+  <g id="column-labels">
+    <text x="180" y="75" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: #6b7280;">Security</text>
+    <text x="470" y="75" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: #6b7280;">Intelligence</text>
+    <text x="760" y="75" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: #6b7280;">Operations</text>
+    <text x="1050" y="75" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: #6b7280;">Infrastructure</text>
+  </g>
+  
+  <!-- LAYER 1: Quantum Layer -->
+  <g id="quantum-layer">
+    <!-- Security Column -->
+    <rect x="80" y="100" width="200" height="150" rx="10" fill="url(#quantum1)" opacity="0.9" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+    <text x="180" y="130" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Post-Quantum</text>
+    <text x="180" y="150" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Cryptography</text>
+    <text x="180" y="180" text-anchor="middle" style="font-size: 11px; fill: white;">• Lattice-based crypto</text>
+    <text x="180" y="200" text-anchor="middle" style="font-size: 11px; fill: white;">• Quantum-resistant</text>
+    <text x="180" y="220" text-anchor="middle" style="font-size: 11px; fill: white;">• NIST standards</text>
+    
+    <!-- Intelligence Column -->
+    <rect x="370" y="100" width="200" height="150" rx="10" fill="url(#quantum1)" opacity="0.9" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+    <text x="470" y="130" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Quantum Neural</text>
+    <text x="470" y="150" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Networks</text>
+    <text x="470" y="180" text-anchor="middle" style="font-size: 11px; fill: white;">• Qubit simulation</text>
+    <text x="470" y="200" text-anchor="middle" style="font-size: 11px; fill: white;">• Superposition states</text>
+    <text x="470" y="220" text-anchor="middle" style="font-size: 11px; fill: white;">• Quantum gates</text>
+    
+    <!-- Operations Column -->
+    <rect x="660" y="100" width="200" height="150" rx="10" fill="url(#quantum1)" opacity="0.9" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+    <text x="760" y="130" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Quantum</text>
+    <text x="760" y="150" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Optimization</text>
+    <text x="760" y="180" text-anchor="middle" style="font-size: 11px; fill: white;">• Dependency solver</text>
+    <text x="760" y="200" text-anchor="middle" style="font-size: 11px; fill: white;">• Resource allocation</text>
+    <text x="760" y="220" text-anchor="middle" style="font-size: 11px; fill: white;">• Path optimization</text>
+    
+    <!-- Infrastructure Column -->
+    <rect x="950" y="100" width="200" height="150" rx="10" fill="url(#quantum1)" opacity="0.9" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+    <text x="1050" y="130" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Quantum-Safe</text>
+    <text x="1050" y="150" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Infrastructure</text>
+    <text x="1050" y="180" text-anchor="middle" style="font-size: 11px; fill: white;">• QKD protocols</text>
+    <text x="1050" y="200" text-anchor="middle" style="font-size: 11px; fill: white;">• Secure channels</text>
+    <text x="1050" y="220" text-anchor="middle" style="font-size: 11px; fill: white;">• Key management</text>
+  </g>
+  
+  <!-- LAYER 2: Neural Layer -->
+  <g id="neural-layer">
+    <!-- Security Column -->
+    <rect x="80" y="300" width="200" height="150" rx="10" fill="url(#quantum2)" opacity="0.9" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+    <text x="180" y="330" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Anomaly</text>
+    <text x="180" y="350" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Detection</text>
+    <text x="180" y="380" text-anchor="middle" style="font-size: 11px; fill: white;">• Behavior analysis</text>
+    <text x="180" y="400" text-anchor="middle" style="font-size: 11px; fill: white;">• Threat detection</text>
+    <text x="180" y="420" text-anchor="middle" style="font-size: 11px; fill: white;">• Pattern recognition</text>
+    
+    <!-- Intelligence Column -->
+    <rect x="370" y="300" width="200" height="150" rx="10" fill="url(#quantum2)" opacity="0.9" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+    <text x="470" y="330" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Multi-Model</text>
+    <text x="470" y="350" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Ensemble</text>
+    <text x="470" y="380" text-anchor="middle" style="font-size: 11px; fill: white;">• GPT-4, Claude-3</text>
+    <text x="470" y="400" text-anchor="middle" style="font-size: 11px; fill: white;">• Gemini, Llama-3</text>
+    <text x="470" y="420" text-anchor="middle" style="font-size: 11px; fill: white;">• Fusion scoring</text>
+    
+    <!-- Operations Column -->
+    <rect x="660" y="300" width="200" height="150" rx="10" fill="url(#quantum2)" opacity="0.9" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+    <text x="760" y="330" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Predictive</text>
+    <text x="760" y="350" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Analytics</text>
+    <text x="760" y="380" text-anchor="middle" style="font-size: 11px; fill: white;">• Usage forecasting</text>
+    <text x="760" y="400" text-anchor="middle" style="font-size: 11px; fill: white;">• Capacity planning</text>
+    <text x="760" y="420" text-anchor="middle" style="font-size: 11px; fill: white;">• Trend analysis</text>
+    
+    <!-- Infrastructure Column -->
+    <rect x="950" y="300" width="200" height="150" rx="10" fill="url(#quantum2)" opacity="0.9" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+    <text x="1050" y="330" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Adaptive</text>
+    <text x="1050" y="350" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Infrastructure</text>
+    <text x="1050" y="380" text-anchor="middle" style="font-size: 11px; fill: white;">• Auto-scaling</text>
+    <text x="1050" y="400" text-anchor="middle" style="font-size: 11px; fill: white;">• Self-healing</text>
+    <text x="1050" y="420" text-anchor="middle" style="font-size: 11px; fill: white;">• Smart routing</text>
+  </g>
+  
+  <!-- LAYER 3: Processing Layer -->
+  <g id="processing-layer">
+    <!-- Security Column -->
+    <rect x="80" y="500" width="200" height="150" rx="10" fill="url(#quantum3)" opacity="0.9" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+    <text x="180" y="530" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Zero-Trust</text>
+    <text x="180" y="550" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Security</text>
+    <text x="180" y="580" text-anchor="middle" style="font-size: 11px; fill: white;">• mTLS everywhere</text>
+    <text x="180" y="600" text-anchor="middle" style="font-size: 11px; fill: white;">• Policy enforcement</text>
+    <text x="180" y="620" text-anchor="middle" style="font-size: 11px; fill: white;">• Capability tokens</text>
+    
+    <!-- Intelligence Column -->
+    <rect x="370" y="500" width="200" height="150" rx="10" fill="url(#quantum3)" opacity="0.9" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+    <text x="470" y="530" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Semantic</text>
+    <text x="470" y="550" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Search</text>
+    <text x="470" y="580" text-anchor="middle" style="font-size: 11px; fill: white;">• Vector embeddings</text>
+    <text x="470" y="600" text-anchor="middle" style="font-size: 11px; fill: white;">• Hybrid search</text>
+    <text x="470" y="620" text-anchor="middle" style="font-size: 11px; fill: white;">• Graph discovery</text>
+    
+    <!-- Operations Column -->
+    <rect x="660" y="500" width="200" height="150" rx="10" fill="url(#quantum3)" opacity="0.9" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+    <text x="760" y="530" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Event-Driven</text>
+    <text x="760" y="550" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Processing</text>
+    <text x="760" y="580" text-anchor="middle" style="font-size: 11px; fill: white;">• Stream processing</text>
+    <text x="760" y="600" text-anchor="middle" style="font-size: 11px; fill: white;">• Event sourcing</text>
+    <text x="760" y="620" text-anchor="middle" style="font-size: 11px; fill: white;">• CQRS pattern</text>
+    
+    <!-- Infrastructure Column -->
+    <rect x="950" y="500" width="200" height="150" rx="10" fill="url(#quantum3)" opacity="0.9" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+    <text x="1050" y="530" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Observability</text>
+    <text x="1050" y="550" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Platform</text>
+    <text x="1050" y="580" text-anchor="middle" style="font-size: 11px; fill: white;">• Distributed tracing</text>
+    <text x="1050" y="600" text-anchor="middle" style="font-size: 11px; fill: white;">• Metrics & logs</text>
+    <text x="1050" y="620" text-anchor="middle" style="font-size: 11px; fill: white;">• 3D topology view</text>
+  </g>
+  
+  <!-- LAYER 4: Foundation Layer -->
+  <g id="foundation-layer">
+    <!-- Security Column -->
+    <rect x="80" y="700" width="200" height="150" rx="10" fill="url(#quantum4)" opacity="0.9" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+    <text x="180" y="730" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Ed25519</text>
+    <text x="180" y="750" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Signing</text>
+    <text x="180" y="780" text-anchor="middle" style="font-size: 11px; fill: white;">• Digital signatures</text>
+    <text x="180" y="800" text-anchor="middle" style="font-size: 11px; fill: white;">• Key management</text>
+    <text x="180" y="820" text-anchor="middle" style="font-size: 11px; fill: white;">• Verification</text>
+    
+    <!-- Intelligence Column -->
+    <rect x="370" y="700" width="200" height="150" rx="10" fill="url(#quantum4)" opacity="0.9" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+    <text x="470" y="730" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Meilisearch</text>
+    <text x="470" y="750" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Engine</text>
+    <text x="470" y="780" text-anchor="middle" style="font-size: 11px; fill: white;">• Full-text search</text>
+    <text x="470" y="800" text-anchor="middle" style="font-size: 11px; fill: white;">• Faceted filters</text>
+    <text x="470" y="820" text-anchor="middle" style="font-size: 11px; fill: white;">• Typo tolerance</text>
+    
+    <!-- Operations Column -->
+    <rect x="660" y="700" width="200" height="150" rx="10" fill="url(#quantum4)" opacity="0.9" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+    <text x="760" y="730" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">gRPC/REST</text>
+    <text x="760" y="750" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">APIs</text>
+    <text x="760" y="780" text-anchor="middle" style="font-size: 11px; fill: white;">• Protocol Buffers</text>
+    <text x="760" y="800" text-anchor="middle" style="font-size: 11px; fill: white;">• GraphQL gateway</text>
+    <text x="760" y="820" text-anchor="middle" style="font-size: 11px; fill: white;">• Unix sockets</text>
+    
+    <!-- Infrastructure Column -->
+    <rect x="950" y="700" width="200" height="150" rx="10" fill="url(#quantum4)" opacity="0.9" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+    <text x="1050" y="730" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Kubernetes</text>
+    <text x="1050" y="750" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: white;">Platform</text>
+    <text x="1050" y="780" text-anchor="middle" style="font-size: 11px; fill: white;">• StatefulSets</text>
+    <text x="1050" y="800" text-anchor="middle" style="font-size: 11px; fill: white;">• Service mesh</text>
+    <text x="1050" y="820" text-anchor="middle" style="font-size: 11px; fill: white;">• Multi-cloud</text>
+  </g>
+  
+  <!-- Connection Lines -->
+  <path d="M 180 250 L 180 300" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 470 250 L 470 300" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 760 250 L 760 300" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 1050 250 L 1050 300" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  
+  <path d="M 180 450 L 180 500" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 470 450 L 470 500" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 760 450 L 760 500" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 1050 450 L 1050 500" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  
+  <path d="M 180 650 L 180 700" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 470 650 L 470 700" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 760 650 L 760 700" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  <path d="M 1050 650 L 1050 700" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <rect x="1200" y="100" width="180" height="350" rx="8" fill="white" stroke="#ccc" stroke-width="2"/>
+  <text x="1290" y="130" text-anchor="middle" style="font-size: 14px; font-weight: bold; fill: #333;">Legend</text>
+  
+  <rect x="1220" y="150" width="20" height="20" fill="url(#quantum1)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="1250" y="165" style="font-size: 12px; fill: #333;">Quantum Layer</text>
+  
+  <rect x="1220" y="185" width="20" height="20" fill="url(#quantum2)" stroke="#3b82f6" stroke-width="1"/>
+  <text x="1250" y="200" style="font-size: 12px; fill: #333;">Neural Layer</text>
+  
+  <rect x="1220" y="220" width="20" height="20" fill="url(#quantum3)" stroke="#10b981" stroke-width="1"/>
+  <text x="1250" y="235" style="font-size: 12px; fill: #333;">Processing</text>
+  
+  <rect x="1220" y="255" width="20" height="20" fill="url(#quantum4)" stroke="#f59e0b" stroke-width="1"/>
+  <text x="1250" y="270" style="font-size: 12px; fill: #333;">Foundation</text>
+  
+  <line x1="1220" y1="300" x2="1360" y2="300" stroke="#ccc" stroke-width="1"/>
+  
+  <text x="1220" y="325" style="font-size: 11px; fill: #666;">Stack flows top-down</text>
+  <text x="1220" y="345" style="font-size: 11px; fill: #666;">Each layer builds on</text>
+  <text x="1220" y="365" style="font-size: 11px; fill: #666;">the layer below it</text>
+  
+  <text x="1220" y="395" style="font-size: 11px; fill: #666;">Columns represent</text>
+  <text x="1220" y="415" style="font-size: 11px; fill: #666;">functional domains</text>
+  <text x="1220" y="435" style="font-size: 11px; fill: #666;">across all layers</text>
+</svg>

@@ -1,0 +1,56 @@
+{
+  "id": "subregistry-nexuspro.subregistries.cli:CLI-Layouts",
+  "name": "CLI-Layouts",
+  "namespace": "nexuspro.subregistries.cli",
+  "version": "1.0.0",
+  "description": "Dedicated subregistry for CLI/TUI layout templates, dashboards, and presets used across the NEXUSPRO terminal suite.",
+  "owner": "NEXUSPRO",
+  "tags": ["cli", "tui", "layouts", "registry", "presets"],
+  "artifact_type": "layout",
+  "scope": "cli",
+  "metadata": {
+    "category": "subregistry",
+    "visibility": "public",
+    "governance": "curated",
+    "default_branch": "main",
+    "schema_version": "1.0.0"
+  },
+  "templates": [
+    {
+      "id": "layout-command-deck",
+      "name": "Command Deck",
+      "version": "1.0.0",
+      "description": "List-focused deck for command/search-first workflows with status rail and quick actions.",
+      "panels": ["artifact-list", "context-rail", "actions", "status"],
+      "shortcuts": ["j", "k", "/", "enter", "g g"],
+      "density": "balanced"
+    },
+    {
+      "id": "layout-neural-matrix",
+      "name": "Neural Matrix",
+      "version": "1.0.0",
+      "description": "Dependency graph-first layout with live graph panel and detail inspector.",
+      "panels": ["graph", "inspector", "timeline", "status"],
+      "shortcuts": ["tab", "shift+tab", "[", "]", "enter"],
+      "density": "graph-heavy"
+    },
+    {
+      "id": "layout-temporal-fabric",
+      "name": "Temporal Fabric",
+      "version": "1.0.0",
+      "description": "Audit/log timeline with streaming updates and filter rail.",
+      "panels": ["timeline", "filters", "details", "status"],
+      "shortcuts": ["f", "F", "enter", "u", "d"],
+      "density": "timeline"
+    },
+    {
+      "id": "layout-quantum-field",
+      "name": "Quantum Field",
+      "version": "1.0.0",
+      "description": "Metrics-forward dashboard with gauges and mini-panels for throughput, latency, and health.",
+      "panels": ["metrics", "gauges", "alerts", "status"],
+      "shortcuts": ["1", "2", "3", "4", "r"],
+      "density": "metrics"
+    }
+  ]
+}

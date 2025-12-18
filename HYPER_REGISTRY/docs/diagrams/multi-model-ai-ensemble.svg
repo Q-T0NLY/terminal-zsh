@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="gradientPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a6f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradientSecondary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff8a65;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff5722;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradientTertiary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffa726;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6f00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradientFusion" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ab47bc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7b1fa2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Filters -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Arrow Marker -->
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#333">
+    Multi-Model AI Ensemble Architecture
+  </text>
+  <text x="700" y="70" font-size="14" text-anchor="middle" fill="#666">
+    Consensus-based AI with 6 models, intelligent routing, and fusion scoring
+  </text>
+  
+  <!-- Input Processing Layer -->
+  <g id="inputLayer">
+    <rect x="50" y="120" width="250" height="100" fill="url(#gradientPrimary)" filter="url(#dropShadow)" rx="8"/>
+    <text x="175" y="155" font-size="16" font-weight="bold" text-anchor="middle" fill="white">User Request</text>
+    <text x="175" y="175" font-size="12" text-anchor="middle" fill="white">Intent Detection</text>
+    <text x="175" y="192" font-size="12" text-anchor="middle" fill="white">Context Parsing</text>
+  </g>
+  
+  <!-- Task Router -->
+  <g id="routerLayer">
+    <rect x="400" y="120" width="250" height="100" fill="url(#gradientSecondary)" filter="url(#dropShadow)" rx="8"/>
+    <text x="525" y="155" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Task Router</text>
+    <text x="525" y="175" font-size="12" text-anchor="middle" fill="white">Model Selection</text>
+    <text x="525" y="192" font-size="12" text-anchor="middle" fill="white">Capability Matching</text>
+  </g>
+  
+  <!-- Arrow from Input to Router -->
+  <line x1="300" y1="170" x2="400" y2="170" stroke="#666" stroke-width="2" marker-end="url(#arrowHead)"/>
+  
+  <!-- Model Pool Section -->
+  <text x="700" y="310" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Model Execution Pool</text>
+  
+  <!-- Model Boxes -->
+  <g id="model1">
+    <rect x="80" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="150" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">GPT-4.5</text>
+    <text x="150" y="395" font-size="11" text-anchor="middle" fill="white">Reasoning</text>
+    <text x="150" y="410" font-size="11" text-anchor="middle" fill="white">Code Generation</text>
+    <text x="150" y="425" font-size="11" text-anchor="middle" fill="white">Long Context</text>
+    <text x="150" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.2x</text>
+  </g>
+  
+  <g id="model2">
+    <rect x="260" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="330" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Claude-3.7</text>
+    <text x="330" y="395" font-size="11" text-anchor="middle" fill="white">Analysis</text>
+    <text x="330" y="410" font-size="11" text-anchor="middle" fill="white">Accuracy</text>
+    <text x="330" y="425" font-size="11" text-anchor="middle" fill="white">Context Window</text>
+    <text x="330" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.2x</text>
+  </g>
+  
+  <g id="model3">
+    <rect x="440" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="510" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Gemini-3</text>
+    <text x="510" y="395" font-size="11" text-anchor="middle" fill="white">Multimodal</text>
+    <text x="510" y="410" font-size="11" text-anchor="middle" fill="white">Search</text>
+    <text x="510" y="425" font-size="11" text-anchor="middle" fill="white">Creativity</text>
+    <text x="510" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.0x</text>
+  </g>
+  
+  <g id="model4">
+    <rect x="620" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="690" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Grok-3</text>
+    <text x="690" y="395" font-size="11" text-anchor="middle" fill="white">Real-time</text>
+    <text x="690" y="410" font-size="11" text-anchor="middle" fill="white">Edge Cases</text>
+    <text x="690" y="425" font-size="11" text-anchor="middle" fill="white">Speed</text>
+    <text x="690" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.1x</text>
+  </g>
+  
+  <g id="model5">
+    <rect x="800" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="870" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">DeepSeek-R1</text>
+    <text x="870" y="395" font-size="11" text-anchor="middle" fill="white">Efficiency</text>
+    <text x="870" y="410" font-size="11" text-anchor="middle" fill="white">Cost</text>
+    <text x="870" y="425" font-size="11" text-anchor="middle" fill="white">Inference</text>
+    <text x="870" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.0x</text>
+  </g>
+  
+  <g id="model6">
+    <rect x="980" y="350" width="140" height="120" fill="url(#gradientTertiary)" filter="url(#dropShadow)" rx="6"/>
+    <text x="1050" y="375" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Llama-3</text>
+    <text x="1050" y="395" font-size="11" text-anchor="middle" fill="white">Open-Source</text>
+    <text x="1050" y="410" font-size="11" text-anchor="middle" fill="white">Fine-tuning</text>
+    <text x="1050" y="425" font-size="11" text-anchor="middle" fill="white">Custom</text>
+    <text x="1050" y="440" font-size="11" text-anchor="middle" fill="white">Weight: 1.0x</text>
+  </g>
+  
+  <!-- Arrows from Router to Models -->
+  <line x1="525" y1="220" x2="150" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="525" y1="220" x2="330" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="525" y1="220" x2="510" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="525" y1="220" x2="690" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="525" y1="220" x2="870" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="525" y1="220" x2="1050" y2="350" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+  
+  <!-- Fusion & Consensus Layer -->
+  <text x="700" y="545" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Consensus & Fusion Engine</text>
+  
+  <g id="consensusBox">
+    <rect x="300" y="570" width="800" height="140" fill="url(#gradientFusion)" filter="url(#dropShadow)" rx="8"/>
+    <text x="700" y="595" font-size="16" font-weight="bold" text-anchor="middle" fill="white">1. Response Collection & Analysis</text>
+    <text x="700" y="615" font-size="12" text-anchor="middle" fill="white">• Collect 6 model responses in parallel</text>
+    <text x="700" y="630" font-size="12" text-anchor="middle" fill="white">• Analyze semantic similarity and confidence scores</text>
+    <text x="700" y="645" font-size="12" text-anchor="middle" fill="white">• Calculate weighted voting matrix (6 models × unique responses)</text>
+    <text x="700" y="660" font-size="12" text-anchor="middle" fill="white">• Apply model-specific confidence multipliers (GPT-4.5: 1.2x, Claude-3.7: 1.2x, Grok-3: 1.1x, others: 1.0x)</text>
+    <text x="700" y="675" font-size="12" text-anchor="middle" fill="white">• Determine consensus level and conflict resolution strategy</text>
+    <text x="700" y="690" font-size="12" text-anchor="middle" fill="white">• Generate GEFS (Generative Ensemble Fusion Score) = 99.99%</text>
+  </g>
+  
+  <!-- Arrows from Models to Fusion -->
+  <line x1="150" y1="470" x2="500" y2="570" stroke="#999" stroke-width="2"/>
+  <line x1="330" y1="470" x2="550" y2="570" stroke="#999" stroke-width="2"/>
+  <line x1="510" y1="470" x2="600" y2="570" stroke="#999" stroke-width="2"/>
+  <line x1="690" y1="470" x2="700" y2="570" stroke="#999" stroke-width="2"/>
+  <line x1="870" y1="470" x2="800" y2="570" stroke="#999" stroke-width="2"/>
+  <line x1="1050" y1="470" x2="850" y2="570" stroke="#999" stroke-width="2"/>
+  
+  <!-- Output & Delivery -->
+  <g id="outputBox">
+    <rect x="300" y="760" width="800" height="100" fill="url(#gradientPrimary)" filter="url(#dropShadow)" rx="8"/>
+    <text x="700" y="785" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Consensus Output & Delivery</text>
+    <text x="700" y="805" font-size="12" text-anchor="middle" fill="white">Primary Response (highest consensus) + Confidence Score + Alternative Views + Reasoning Chains</text>
+    <text x="700" y="825" font-size="12" text-anchor="middle" fill="white">Automatic Model Retraining on User Feedback • Continuous GEFS Optimization</text>
+  </g>
+  
+  <!-- Arrow from Fusion to Output -->
+  <line x1="700" y1="710" x2="700" y2="760" stroke="#666" stroke-width="2" marker-end="url(#arrowHead)"/>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <text x="1200" y="350" font-size="12" font-weight="bold" fill="#333">Routing Logic:</text>
+    <text x="1200" y="370" font-size="11" fill="#666">Reasoning tasks</text>
+    <text x="1200" y="385" font-size="11" fill="#666">→ GPT-4.5, Claude</text>
+    <text x="1200" y="402" font-size="12" font-weight="bold" fill="#333">Data analysis</text>
+    <text x="1200" y="417" font-size="11" fill="#666">→ Gemini, DeepSeek</text>
+    <text x="1200" y="435" font-size="12" font-weight="bold" fill="#333">Speed-critical</text>
+    <text x="1200" y="450" font-size="11" fill="#666">→ Grok, DeepSeek</text>
+    <text x="1200" y="468" font-size="12" font-weight="bold" fill="#333">Creative tasks</text>
+    <text x="1200" y="483" font-size="11" fill="#666">→ GPT-4.5, Gemini</text>
+    <text x="1200" y="501" font-size="12" font-weight="bold" fill="#333">Critical tasks</text>
+    <text x="1200" y="516" font-size="11" fill="#666">→ Multi-model consensus</text>
+  </g>
+</svg>

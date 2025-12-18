@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" style="font-size: 28px; font-weight: bold; fill: #333;">
+    Hyper Registry - System Architecture Overview
+  </text>
+  
+  <!-- Layer 1: Client Layer -->
+  <g id="client-layer">
+    <rect x="50" y="80" width="1100" height="120" rx="10" fill="url(#grad1)" opacity="0.2" stroke="#667eea" stroke-width="2"/>
+    <text x="100" y="110" style="font-size: 18px; font-weight: bold; fill: #667eea;">Client Layer</text>
+    
+    <!-- CLI -->
+    <rect x="100" y="130" width="200" height="50" rx="5" fill="white" stroke="#667eea" stroke-width="2" filter="url(#shadow)"/>
+    <text x="200" y="160" text-anchor="middle" style="font-size: 14px; fill: #333;">CLI (Command Line)</text>
+    
+    <!-- TUI -->
+    <rect x="350" y="130" width="200" height="50" rx="5" fill="white" stroke="#667eea" stroke-width="2" filter="url(#shadow)"/>
+    <text x="450" y="160" text-anchor="middle" style="font-size: 14px; fill: #333;">TUI (Terminal UI)</text>
+    
+    <!-- REST API -->
+    <rect x="600" y="130" width="200" height="50" rx="5" fill="white" stroke="#667eea" stroke-width="2" filter="url(#shadow)"/>
+    <text x="700" y="160" text-anchor="middle" style="font-size: 14px; fill: #333;">REST API Client</text>
+    
+    <!-- gRPC Client -->
+    <rect x="850" y="130" width="200" height="50" rx="5" fill="white" stroke="#667eea" stroke-width="2" filter="url(#shadow)"/>
+    <text x="950" y="160" text-anchor="middle" style="font-size: 14px; fill: #333;">gRPC Client</text>
+  </g>
+  
+  <!-- Arrows from Layer 1 to Layer 2 -->
+  <path d="M 200 180 L 200 230" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 450 180 L 450 230" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 700 180 L 700 230" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 950 180 L 950 230" stroke="#667eea" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Layer 2: API Gateway Layer -->
+  <g id="api-layer">
+    <rect x="50" y="240" width="1100" height="120" rx="10" fill="url(#grad2)" opacity="0.2" stroke="#f5576c" stroke-width="2"/>
+    <text x="100" y="270" style="font-size: 18px; font-weight: bold; fill: #f5576c;">API Gateway Layer</text>
+    
+    <!-- gRPC Server -->
+    <rect x="150" y="290" width="300" height="50" rx="5" fill="white" stroke="#f5576c" stroke-width="2" filter="url(#shadow)"/>
+    <text x="300" y="320" text-anchor="middle" style="font-size: 14px; fill: #333;">gRPC Server (Unix Socket)</text>
+    
+    <!-- REST/GraphQL -->
+    <rect x="500" y="290" width="300" height="50" rx="5" fill="white" stroke="#f5576c" stroke-width="2" filter="url(#shadow)"/>
+    <text x="650" y="320" text-anchor="middle" style="font-size: 14px; fill: #333;">REST/GraphQL Gateway</text>
+    
+    <!-- Auth/Rate Limiting -->
+    <rect x="850" y="290" width="200" height="50" rx="5" fill="white" stroke="#f5576c" stroke-width="2" filter="url(#shadow)"/>
+    <text x="950" y="310" text-anchor="middle" style="font-size: 12px; fill: #333;">Auth & Rate</text>
+    <text x="950" y="325" text-anchor="middle" style="font-size: 12px; fill: #333;">Limiting</text>
+  </g>
+  
+  <!-- Arrows from Layer 2 to Layer 3 -->
+  <path d="M 300 340 L 300 390" stroke="#f5576c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 650 340 L 650 390" stroke="#f5576c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 950 340 L 950 390" stroke="#f5576c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Layer 3: Core Services Layer -->
+  <g id="core-layer">
+    <rect x="50" y="400" width="1100" height="180" rx="10" fill="url(#grad3)" opacity="0.2" stroke="#00f2fe" stroke-width="2"/>
+    <text x="100" y="430" style="font-size: 18px; font-weight: bold; fill: #0891b2;">Core Services Layer</text>
+    
+    <!-- Registry Core -->
+    <rect x="100" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="175" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">Registry</text>
+    <text x="175" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Core</text>
+    
+    <!-- Plugin Manager -->
+    <rect x="280" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="355" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">Plugin</text>
+    <text x="355" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Manager</text>
+    
+    <!-- Service Mesh -->
+    <rect x="460" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="535" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">Service</text>
+    <text x="535" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Mesh</text>
+    
+    <!-- Security Engine -->
+    <rect x="640" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="715" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">Security</text>
+    <text x="715" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Engine</text>
+    
+    <!-- Discovery -->
+    <rect x="820" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="895" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">Discovery</text>
+    <text x="895" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Service</text>
+    
+    <!-- AI Ensemble -->
+    <rect x="1000" y="450" width="150" height="60" rx="5" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#shadow)"/>
+    <text x="1075" y="475" text-anchor="middle" style="font-size: 12px; fill: #333;">AI</text>
+    <text x="1075" y="490" text-anchor="middle" style="font-size: 12px; fill: #333;">Ensemble</text>
+    
+    <!-- Validation -->
+    <rect x="100" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="175" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Validation</text>
+    
+    <!-- Signing -->
+    <rect x="280" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="355" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Signing</text>
+    
+    <!-- Dependency Resolution -->
+    <rect x="460" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="535" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Dep. Resolution</text>
+    
+    <!-- Policy Engine -->
+    <rect x="640" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="715" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Policy Engine</text>
+    
+    <!-- Search Engine -->
+    <rect x="820" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="895" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Search Engine</text>
+    
+    <!-- Recommendation -->
+    <rect x="1000" y="530" width="150" height="30" rx="5" fill="#e0f2fe" stroke="#0891b2" stroke-width="1"/>
+    <text x="1075" y="550" text-anchor="middle" style="font-size: 11px; fill: #333;">Recommendations</text>
+  </g>
+  
+  <!-- Arrows from Layer 3 to Layer 4 -->
+  <path d="M 300 580 L 300 630" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 600 580 L 600 630" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 900 580 L 900 630" stroke="#0891b2" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Layer 4: Data Layer -->
+  <g id="data-layer">
+    <rect x="50" y="640" width="1100" height="120" rx="10" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+    <text x="100" y="670" style="font-size: 18px; font-weight: bold; fill: #374151;">Data Layer</text>
+    
+    <!-- SQLite Database -->
+    <rect x="150" y="690" width="250" height="50" rx="5" fill="white" stroke="#6b7280" stroke-width="2" filter="url(#shadow)"/>
+    <text x="275" y="720" text-anchor="middle" style="font-size: 14px; fill: #333;">SQLite Database</text>
+    
+    <!-- Meilisearch -->
+    <rect x="450" y="690" width="250" height="50" rx="5" fill="white" stroke="#6b7280" stroke-width="2" filter="url(#shadow)"/>
+    <text x="575" y="720" text-anchor="middle" style="font-size: 14px; fill: #333;">Meilisearch Index</text>
+    
+    <!-- Object Storage -->
+    <rect x="750" y="690" width="250" height="50" rx="5" fill="white" stroke="#6b7280" stroke-width="2" filter="url(#shadow)"/>
+    <text x="875" y="720" text-anchor="middle" style="font-size: 14px; fill: #333;">Object Storage (S3)</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <rect x="50" y="770" width="400" height="20" fill="white" stroke="#ccc" stroke-width="1"/>
+    <text x="60" y="785" style="font-size: 12px; fill: #666;">
+      Data Flow: Client → API Gateway → Core Services → Data Storage
+    </text>
+  </g>
+</svg>
