@@ -10,6 +10,7 @@ import { SecurityModule } from './modules/security/security.module';
 import { RegistryModule } from './registry/registry.module';
 import { MeshModule } from './mesh/mesh.module';
 import { FrameworksModule } from './frameworks/frameworks.module';
+import { AdvancedAIModule } from './advanced-ai/advanced-ai.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { FrameworksModule } from './frameworks/frameworks.module';
     SecurityModule,
     RegistryModule,
     MeshModule,
-    FrameworksModule
+    FrameworksModule,
+    AdvancedAIModule
   ],
   controllers: [],
   providers: []
