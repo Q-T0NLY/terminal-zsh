@@ -114,7 +114,7 @@ export abstract class BasePlugin implements IPlugin {
     this.id = metadata.id || '';
     this.name = metadata.name || '';
     this.version = metadata.version || '1.0.0';
-    this.category = (metadata.category != null) || PluginCategory.TOOLS;
+    this.category = metadata.category ?? PluginCategory.TOOLS;
     this.capabilities = metadata.capabilities || [];
     this.dependencies = metadata.dependencies || [];
     this.config = metadata.config || {};
