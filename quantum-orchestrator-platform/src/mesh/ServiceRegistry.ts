@@ -217,7 +217,7 @@ export class ServiceRegistry {
    */
   getCircuitBreakerState(id: string): CircuitBreakerState {
     const breaker = this.circuitBreakers.get(id);
-    return ((breaker?.state) != null) || CircuitBreakerState.CLOSED;
+    return breaker?.state ?? CircuitBreakerState.CLOSED;
   }
 
   /**

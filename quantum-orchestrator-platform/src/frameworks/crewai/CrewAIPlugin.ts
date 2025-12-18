@@ -110,7 +110,20 @@ export class CrewAIPlugin extends BasePlugin {
         name: 'calculator',
         description: 'Perform calculations',
         execute: async (input: any) => {
-          return { result: eval(input.expression) };
+          // Safe math evaluation (simple implementation)
+          // In production, use a proper math expression parser
+          try {
+            const expression = String(input.expression);
+            // Only allow numbers and basic operators
+            if (!/^[\d+\-*/().\s]+$/.test(expression)) {
+              throw new Error('Invalid expression');
+            }
+            // Safe evaluation using Function constructor with restricted scope
+            const result = new Function(`'use strict'; return (${expression})`)();
+            return { result };
+          } catch (error) {
+            return { error: 'Invalid calculation' };
+          }
         }
       },
       {
