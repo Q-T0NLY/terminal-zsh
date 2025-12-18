@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  nexus-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: 3.11
+    image: terminal-zsh:latest
+    container_name: nexus-api
+    ports:
+      - "8080:8080"
+    environment:
+      - NEXUS_ENV=development
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./nexus_api.py:/app/nexus_api.py
+      - ./nexus_config.py:/app/nexus_config.py
+      - ./nexus_cache.py:/app/nexus_cache.py
+      - ./nexus_error_handler.py:/app/nexus_error_handler.py
+      - ./nexus_visuals.py:/app/nexus_visuals.py
+    command: uvicorn nexus_api:app --host 0.0.0.0 --port 8080 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - nexus-network
+    restart: unless-stopped
+
+  nexus-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: terminal-zsh:latest
+    container_name: nexus-dashboard
+    ports:
+      - "8081:8081"
+    environment:
+      - NEXUS_ENV=development
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./nexus_dashboard.py:/app/nexus_dashboard.py
+      - ./nexus_visuals.py:/app/nexus_visuals.py
+    command: python nexus_dashboard.py
+    depends_on:
+      - nexus-api
+    networks:
+      - nexus-network
+    restart: unless-stopped
+
+networks:
+  nexus-network:
+    driver: bridge
+
+volumes:
+  nexus-data:
+    driver: local
