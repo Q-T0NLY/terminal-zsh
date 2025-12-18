@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 950" width="1400" height="950">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="gradRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef5350;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d32f2f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#66bb6a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2e7d32;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffa726;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f57c00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ab47bc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6a1b9a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#42a5f5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565c0;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Filters -->
+    <filter id="shadow">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <filter id="redGlow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feFlood flood-color="#ef5350" flood-opacity="0.5" result="coloredBlur2"/>
+      <feComposite in="coloredBlur2" in2="coloredBlur" operator="in" result="coloredBlur3"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur3"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Marker -->
+    <marker id="arrowMarker" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#333">
+    Zero-Trust Security Access Flow
+  </text>
+  <text x="700" y="70" font-size="14" text-anchor="middle" fill="#666">
+    Assume breach, verify everything, enforce least privilege with continuous monitoring
+  </text>
+  
+  <!-- Stage 1: Request Entry -->
+  <text x="700" y="120" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Stage 1: Request Entry & Initial Inspection</text>
+  
+  <g id="request">
+    <rect x="150" y="140" width="1100" height="90" fill="url(#gradRed)" filter="url(#shadow)" rx="6"/>
+    <text x="700" y="165" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Incoming Request (ANY source)</text>
+    <text x="700" y="185" font-size="11" text-anchor="middle" fill="white">No implicit trust. All requests considered potentially malicious.</text>
+    <text x="700" y="205" font-size="11" text-anchor="middle" fill="white">Extract: identity, intent, source IP, device fingerprint, TLS certificate, request signature</text>
+  </g>
+  
+  <!-- Stage 2: Identity Verification -->
+  <text x="700" y="280" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Stage 2: Identity Verification</text>
+  
+  <g id="identity">
+    <rect x="100" y="300" width="550" height="130" fill="url(#gradBlue)" filter="url(#shadow)" rx="6"/>
+    <text x="375" y="325" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Cryptographic Identity Verification</text>
+    <text x="375" y="345" font-size="10" text-anchor="middle" fill="white">• Validate Ed25519 signature on request</text>
+    <text x="375" y="358" font-size="10" text-anchor="middle" fill="white">• Verify X.509 mTLS certificate chain</text>
+    <text x="375" y="371" font-size="10" text-anchor="middle" fill="white">• Check certificate expiration & revocation</text>
+    <text x="375" y="384" font-size="10" text-anchor="middle" fill="white">• Verify certificate issued by trusted CA</text>
+    <text x="375" y="397" font-size="10" text-anchor="middle" fill="white">• Extract subject identity (principal)</text>
+    <text x="375" y="410" font-size="10" text-anchor="middle" fill="white">• Decision: VERIFIED or DENIED</text>
+  </g>
+  
+  <!-- Stage 3: Device Trust -->
+  <g id="device">
+    <rect x="750" y="300" width="550" height="130" fill="url(#gradYellow)" filter="url(#shadow)" rx="6"/>
+    <text x="1025" y="325" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Device Trust Assessment</text>
+    <text x="1025" y="345" font-size="10" text-anchor="middle" fill="white">• Calculate device fingerprint hash</text>
+    <text x="1025" y="358" font-size="10" text-anchor="middle" fill="white">• Check against device inventory</text>
+    <text x="1025" y="371" font-size="10" text-anchor="middle" fill="white">• Verify device compliance (security patches, updates)</text>
+    <text x="1025" y="384" font-size="10" text-anchor="middle" fill="white">• Check device health: antivirus, encryption, firewall</text>
+    <text x="1025" y="397" font-size="10" text-anchor="middle" fill="white">• Detect anomalies: new device, location change</text>
+    <text x="1025" y="410" font-size="10" text-anchor="middle" fill="white">• Score: COMPLIANT, DEGRADED, or QUARANTINED</text>
+  </g>
+  
+  <!-- Arrow to next stage -->
+  <line x1="700" y1="430" x2="700" y2="480" stroke="#666" stroke-width="2" marker-end="url(#arrowMarker)"/>
+  
+  <!-- Stage 3: Authorization & Capabilities -->
+  <text x="700" y="510" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Stage 3: Authorization & Capability-Based Access Control</text>
+  
+  <g id="authz">
+    <rect x="100" y="530" width="1200" height="130" fill="url(#gradPurple)" filter="url(#shadow)" rx="6"/>
+    <text x="700" y="555" font-size="12" font-weight="bold" text-anchor="middle" fill="white">CBAC: Capability Token & Policy Evaluation</text>
+    <text x="700" y="575" font-size="10" text-anchor="middle" fill="white">• Verify capability token cryptographic signature (Ed25519)</text>
+    <text x="700" y="588" font-size="10" text-anchor="middle" fill="white">• Check token expiration (short-lived, <5 min) and not-before times</text>
+    <text x="700" y="601" font-size="10" text-anchor="middle" fill="white">• Extract capabilities list: allowed resources, actions, constraints | Example: {resource: "database", action: "read", constraints: [max_rows: 1000, time_window: 5min]}</text>
+    <text x="700" y="614" font-size="10" text-anchor="middle" fill="white">• Evaluate against request context: resource path, HTTP method, time-of-day, source network, request attributes</text>
+    <text x="700" y="627" font-size="10" text-anchor="middle" fill="white">• Decision: GRANT (with constraints) or DENY | Grant includes: temporary credentials, max lifetime, audit scope</text>
+    <text x="700" y="640" font-size="10" text-anchor="middle" fill="white">• Log decision to immutable audit trail with: identity, resource, action, decision, reason, timestamp, context fingerprint</text>
+  </g>
+  
+  <!-- Stage 4: Continuous Monitoring -->
+  <text x="700" y="720" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Stage 4: Continuous Runtime Monitoring & Threat Detection</text>
+  
+  <g id="monitoring">
+    <rect x="100" y="740" width="1200" height="130" fill="url(#gradGreen)" filter="url(#shadow)" rx="6"/>
+    <text x="700" y="765" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Real-Time Anomaly Detection & Response</text>
+    <text x="700" y="785" font-size="10" text-anchor="middle" fill="white">• Monitor request behavior: latency, data volume, resource consumption, patterns deviations</text>
+    <text x="700" y="798" font-size="10" text-anchor="middle" fill="white">• Detect threats: SQL injection attempts, privilege escalation, data exfiltration, timing attacks, distributed attacks</text>
+    <text x="700" y="811" font-size="10" text-anchor="middle" fill="white">• Rate limiting: per-identity, per-device, per-resource with dynamic adjustment based on threat level</text>
+    <text x="700" y="824" font-size="10" text-anchor="middle" fill="white">• Response: throttle, block, require MFA, rotate credentials, isolate, alert security team, auto-remediate if known threat</text>
+    <text x="700" y="837" font-size="10" text-anchor="middle" fill="white">• Post-incident: enforce re-authentication, token refresh, device re-verification, security audit</text>
+    <text x="700" y="850" font-size="10" text-anchor="middle" fill="white">• Learning: update threat models, adjust policies, improve detection algorithms from incident data</text>
+  </g>
+  
+  <!-- Decision Tree -->
+  <text x="700" y="920" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">
+    Request Flow: Entry → Verify Identity → Check Device Trust → Evaluate Capabilities → Monitor Continuously → Audit Log
+  </text>
+</svg>

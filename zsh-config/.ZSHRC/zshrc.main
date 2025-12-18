@@ -1,0 +1,184 @@
+#!/bin/zsh
+################################################################################
+#                         NEXUSPRO TERMINAL SYSTEM v1.0                        #
+#                    Ultra-Modern macOS Terminal Configuration                 #
+#                    Production-Grade, Modular, Self-Healing                  #
+################################################################################
+#
+# PURPOSE: Core shell initialization with modular architecture
+# LAYER: Shell initialization and environment setup
+# STATUS: Production Ready
+#
+# This file is the main ZSHRC entry point that sources all modular components
+# It provides the foundation for a high-performance development environment
+#
+################################################################################
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 1. BOOTSTRAP & SECURITY                                                      ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+set -o pipefail                    # Fail on pipe failures
+setopt NO_NOMATCH                  # Don't error on unmatched globs
+setopt EXTENDED_GLOB               # Enable extended globbing
+
+# Capture startup time for performance measurement
+export SHELL_STARTUP_START=$(date +%s%N)
+
+# System detection
+export OS_TYPE=$(uname -s)
+export OS_ARCH=$(uname -m)
+export MACOS_VERSION=$(sw_vers -productVersion)
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 2. DEFINE CORE PATHS                                                         ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+export NEXUSPRO_ROOT="${HOME}/.nexuspro"
+export NEXUSPRO_CONFIG="${NEXUSPRO_ROOT}/config"
+export NEXUSPRO_MODULES="${NEXUSPRO_ROOT}/modules"
+export NEXUSPRO_BACKUP="${NEXUSPRO_ROOT}/backups"
+export NEXUSPRO_CACHE="${NEXUSPRO_ROOT}/cache"
+
+# Create directories if missing
+mkdir -p "${NEXUSPRO_CONFIG}" "${NEXUSPRO_MODULES}" "${NEXUSPRO_BACKUP}" "${NEXUSPRO_CACHE}"
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 3. ERROR HANDLING & LOGGING                                                  ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# Logging configuration
+export LOG_DIR="${NEXUSPRO_ROOT}/logs"
+export LOG_FILE="${LOG_DIR}/zshrc.log"
+mkdir -p "$LOG_DIR"
+
+# Logging function
+log_message() {
+    local level="$1"
+    local message="$2"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [$level] $message" >> "$LOG_FILE"
+}
+
+# Error handler with context
+handle_module_error() {
+    local module="$1"
+    local error="$2"
+    log_message "ERROR" "Module '$module' failed: $error"
+    echo "⚠️  Warning: $module initialization failed. Continuing with defaults..."
+}
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 4. MODULE LOADER WITH DEPENDENCY MANAGEMENT                                  ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+declare -A LOADED_MODULES
+LOADED_MODULES=()
+
+load_module() {
+    local module_name="$1"
+    local module_file="${NEXUSPRO_MODULES}/${module_name}.module.zsh"
+    
+    # Check if already loaded
+    if [[ "${LOADED_MODULES[$module_name]}" == "1" ]]; then
+        return 0
+    fi
+    
+    # Load module with error handling
+    if [[ -f "$module_file" ]]; then
+        if source "$module_file" 2>/dev/null; then
+            LOADED_MODULES[$module_name]=1
+            log_message "INFO" "Module '$module_name' loaded successfully"
+            return 0
+        else
+            handle_module_error "$module_name" "source failed"
+            return 1
+        fi
+    else
+        handle_module_error "$module_name" "file not found at $module_file"
+        return 1
+    fi
+}
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 5. CORE ENVIRONMENT VARIABLES                                                ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# History configuration
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE="${NEXUSPRO_CACHE}/.zsh_history"
+
+# Editor configuration
+export EDITOR="nano"
+export VISUAL="nano"
+
+# Language and locale
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+# XDG Base Directory specification
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 6. MODULE INITIALIZATION SEQUENCE                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# Load modules in dependency order
+echo "🚀 Initializing NEXUSPRO Terminal System..."
+
+# Foundation modules (order matters for dependencies)
+load_module "path"              # PATH management and dependency resolution
+load_module "pkgmgr"            # Package manager setup
+load_module "devtools"          # Development tools integration
+load_module "aliases"           # Aliases and functions
+load_module "visual"            # Visual enhancements and prompt
+load_module "performance"       # Performance optimizations
+load_module "cleanup"           # Conflict detection and cleanup
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 7. POST-INITIALIZATION SETUP                                                 ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# Initialize completion system
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(Nmh+24) ]]; then
+    compinit -i
+else
+    compinit -C
+fi
+
+# Enable key bindings
+bindkey -e                       # Emacs key bindings
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 8. STARTUP TIME MEASUREMENT                                                  ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+if [[ -z "${SHELL_STARTUP_START}" ]]; then
+    SHELL_STARTUP_START=$(date +%s%N)
+fi
+
+SHELL_STARTUP_END=$(date +%s%N)
+SHELL_STARTUP_TIME=$(( (SHELL_STARTUP_END - SHELL_STARTUP_START) / 1000000 ))
+
+# Target: <50ms startup time
+if (( SHELL_STARTUP_TIME > 50 )); then
+    log_message "WARN" "Shell startup took ${SHELL_STARTUP_TIME}ms (target: <50ms)"
+fi
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║ 9. FINAL STATUS                                                              ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+log_message "INFO" "Shell initialization complete in ${SHELL_STARTUP_TIME}ms"
+
+# Optional: Display startup banner
+if [[ "${SHOW_STARTUP_BANNER:-0}" == "1" ]]; then
+    echo "✅ NEXUSPRO Terminal System initialized in ${SHELL_STARTUP_TIME}ms"
+fi
+
+################################################################################
+# END OF ZSHRC.MAIN
+################################################################################

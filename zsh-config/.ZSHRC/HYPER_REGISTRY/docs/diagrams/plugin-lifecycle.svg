@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" width="1400" height="1000">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="gradDiscovery" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradValidation" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradInstall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradActive" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradUpgrade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradError" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a6f;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Filters -->
+    <filter id="shadow">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- Marker -->
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#666" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="40" font-size="32" font-weight="bold" text-anchor="middle" fill="#333">
+    Plugin Lifecycle State Machine
+  </text>
+  <text x="700" y="70" font-size="14" text-anchor="middle" fill="#666">
+    Complete plugin lifecycle: discovery → validation → installation → activation → management → deactivation
+  </text>
+  
+  <!-- State 1: Discovery -->
+  <g id="state1">
+    <circle cx="180" cy="200" r="60" fill="url(#gradDiscovery)" filter="url(#shadow)"/>
+    <text x="180" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="white">DISCOVERY</text>
+    <text x="180" y="215" font-size="11" text-anchor="middle" fill="white">Scan registry</text>
+  </g>
+  
+  <!-- State 2: Validation -->
+  <g id="state2">
+    <circle cx="420" cy="200" r="60" fill="url(#gradValidation)" filter="url(#shadow)"/>
+    <text x="420" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="white">VALIDATION</text>
+    <text x="420" y="215" font-size="11" text-anchor="middle" fill="white">Verify integrity</text>
+  </g>
+  
+  <!-- State 3: Installing -->
+  <g id="state3">
+    <circle cx="660" cy="200" r="60" fill="url(#gradInstall)" filter="url(#shadow)"/>
+    <text x="660" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="white">INSTALLING</text>
+    <text x="660" y="215" font-size="11" text-anchor="middle" fill="white">Download & setup</text>
+  </g>
+  
+  <!-- State 4: Active -->
+  <g id="state4">
+    <circle cx="900" cy="200" r="60" fill="url(#gradActive)" filter="url(#shadow)"/>
+    <text x="900" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="white">ACTIVE</text>
+    <text x="900" y="215" font-size="11" text-anchor="middle" fill="white">Running</text>
+  </g>
+  
+  <!-- State 5: Upgrading -->
+  <g id="state5">
+    <circle cx="1140" cy="200" r="60" fill="url(#gradUpgrade)" filter="url(#shadow)"/>
+    <text x="1140" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="white">UPGRADING</text>
+    <text x="1140" y="215" font-size="11" text-anchor="middle" fill="white">New version</text>
+  </g>
+  
+  <!-- State 6: Error -->
+  <g id="state6">
+    <circle cx="700" cy="100" r="50" fill="url(#gradError)" filter="url(#shadow)"/>
+    <text x="700" y="105" font-size="16" font-weight="bold" text-anchor="middle" fill="white">ERROR</text>
+  </g>
+  
+  <!-- Transitions -->
+  <!-- 1->2 -->
+  <line x1="240" y1="200" x2="360" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="300" y="190" font-size="11" fill="#666">success</text>
+  
+  <!-- 2->3 -->
+  <line x1="480" y1="200" x2="600" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="540" y="190" font-size="11" fill="#666">valid</text>
+  
+  <!-- 3->4 -->
+  <line x1="720" y1="200" x2="840" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="780" y="190" font-size="11" fill="#666">complete</text>
+  
+  <!-- 4->5 -->
+  <line x1="960" y1="200" x2="1080" y2="200" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1020" y="190" font-size="11" fill="#666">update</text>
+  
+  <!-- 5->4 -->
+  <path d="M 1140 270 Q 1140 350 900 350 Q 900 270 900 260" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="1050" y="370" font-size="11" fill="#666">success</text>
+  
+  <!-- Error paths -->
+  <path d="M 420 140 Q 500 100 650 100" stroke="#ff6b6b" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="500" y="80" font-size="11" fill="#ff6b6b">invalid</text>
+  
+  <path d="M 660 140 Q 680 100 750 100" stroke="#ff6b6b" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="680" y="75" font-size="11" fill="#ff6b6b">failed</text>
+  
+  <path d="M 900 140 Q 750 100 750 100" stroke="#ff6b6b" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="850" y="110" font-size="11" fill="#ff6b6b">crash</text>
+  
+  <!-- Deactivation path -->
+  <path d="M 900 260 Q 900 400 700 400" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="850" y="340" font-size="11" fill="#999">deactivate</text>
+  
+  <!-- State 7: Deactivated -->
+  <g id="state7">
+    <circle cx="700" cy="450" r="60" fill="#ccc" filter="url(#shadow)"/>
+    <text x="700" y="445" font-size="16" font-weight="bold" text-anchor="middle" fill="#666">DEACTIVATED</text>
+    <text x="700" y="465" font-size="11" text-anchor="middle" fill="#666">Stopped</text>
+  </g>
+  
+  <!-- Details Sections -->
+  <text x="700" y="570" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Lifecycle Details</text>
+  
+  <!-- Discovery Details -->
+  <g id="discoveryDetails">
+    <rect x="50" y="600" width="260" height="140" fill="#f5f5f5" stroke="#ccc" stroke-width="2" rx="4"/>
+    <text x="180" y="620" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Discovery Phase</text>
+    <text x="180" y="640" font-size="10" fill="#555">• Scan plugin registry</text>
+    <text x="180" y="655" font-size="10" fill="#555">• List available versions</text>
+    <text x="180" y="670" font-size="10" fill="#555">• Fetch metadata</text>
+    <text x="180" y="685" font-size="10" fill="#555">• Check dependencies</text>
+    <text x="180" y="700" font-size="10" fill="#555">• Verify compatibility</text>
+    <text x="180" y="715" font-size="10" fill="#555">• Time: <500ms</text>
+  </g>
+  
+  <!-- Validation Details -->
+  <g id="validationDetails">
+    <rect x="350" y="600" width="260" height="140" fill="#f5f5f5" stroke="#ccc" stroke-width="2" rx="4"/>
+    <text x="480" y="620" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Validation Phase</text>
+    <text x="480" y="640" font-size="10" fill="#555">• Check Ed25519 signature</text>
+    <text x="480" y="655" font-size="10" fill="#555">• Verify checksum match</text>
+    <text x="480" y="670" font-size="10" fill="#555">• Static security scan</text>
+    <text x="480" y="685" font-size="10" fill="#555">• Manifest verification</text>
+    <text x="480" y="700" font-size="10" fill="#555">• Dependency resolution</text>
+    <text x="480" y="715" font-size="10" fill="#555">• Time: <2s</text>
+  </g>
+  
+  <!-- Installation Details -->
+  <g id="installDetails">
+    <rect x="650" y="600" width="260" height="140" fill="#f5f5f5" stroke="#ccc" stroke-width="2" rx="4"/>
+    <text x="780" y="620" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Installation Phase</text>
+    <text x="780" y="640" font-size="10" fill="#555">• Download plugin binary</text>
+    <text x="780" y="655" font-size="10" fill="#555">• Create plugin directory</text>
+    <text x="780" y="670" font-size="10" fill="#555">• Extract & organize files</text>
+    <text x="780" y="685" font-size="10" fill="#555">• Install dependencies</text>
+    <text x="780" y="700" font-size="10" fill="#555">• Run post-install hooks</text>
+    <text x="780" y="715" font-size="10" fill="#555">• Time: <10s</text>
+  </g>
+  
+  <!-- Active Details -->
+  <g id="activeDetails">
+    <rect x="950" y="600" width="260" height="140" fill="#f5f5f5" stroke="#ccc" stroke-width="2" rx="4"/>
+    <text x="1080" y="620" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Active Phase</text>
+    <text x="1080" y="640" font-size="10" fill="#555">• Initialize plugin state</text>
+    <text x="1080" y="655" font-size="10" fill="#555">• Register API endpoints</text>
+    <text x="1080" y="670" font-size="10" fill="#555">• Start background tasks</text>
+    <text x="1080" y="685" font-size="10" fill="#555">• Monitor health (5s)</text>
+    <text x="1080" y="700" font-size="10" fill="#555">• Collect metrics</text>
+    <text x="1080" y="715" font-size="10" fill="#555">• Duration: indefinite</text>
+  </g>
+  
+  <!-- Error Handling -->
+  <g id="errorHandling">
+    <rect x="50" y="770" width="1160" height="100" fill="#ffe0e0" stroke="#ff6b6b" stroke-width="2" rx="4"/>
+    <text x="630" y="790" font-size="12" font-weight="bold" text-anchor="middle" fill="#d32f2f">Error Handling & Recovery</text>
+    <text x="630" y="810" font-size="10" fill="#666">• On error: log details, enter ERROR state, notify user, offer retry/rollback options</text>
+    <text x="630" y="825" font-size="10" fill="#666">• Retry logic: exponential backoff (1s, 2s, 4s, 8s max) for transient errors</text>
+    <text x="630" y="840" font-size="10" fill="#666">• Permanent errors: mark plugin as FAILED, require manual intervention, collect diagnostic data</text>
+    <text x="630" y="855" font-size="10" fill="#666">• Rollback: restore previous version, verify recovery, alert admin if needed</text>
+  </g>
+</svg>

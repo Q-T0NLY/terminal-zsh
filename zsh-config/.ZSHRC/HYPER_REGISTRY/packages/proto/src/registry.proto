@@ -1,0 +1,229 @@
+syntax = "proto3";
+
+package hyper.registry.v1;
+
+/**
+ * Registry Service - Core artifact management
+ * Handles CRUD operations, publishing, dependency resolution
+ */
+service RegistryService {
+  // Artifact operations
+  rpc CreateArtifact(CreateArtifactRequest) returns (CreateArtifactResponse);
+  rpc GetArtifact(GetArtifactRequest) returns (GetArtifactResponse);
+  rpc UpdateArtifact(UpdateArtifactRequest) returns (UpdateArtifactResponse);
+  rpc DeleteArtifact(DeleteArtifactRequest) returns (DeleteArtifactResponse);
+  rpc ListArtifacts(ListArtifactsRequest) returns (ListArtifactsResponse);
+
+  // Publishing operations
+  rpc PublishArtifact(PublishArtifactRequest) returns (PublishArtifactResponse);
+  rpc DeprecateArtifact(DeprecateArtifactRequest) returns (DeprecateArtifactResponse);
+
+  // Dependency operations
+  rpc ResolveDependencies(ResolveDependenciesRequest) returns (ResolveDependenciesResponse);
+  rpc DetectConflicts(DetectConflictsRequest) returns (DetectConflictsResponse);
+
+  // Namespace operations
+  rpc ListNamespaces(ListNamespacesRequest) returns (ListNamespacesResponse);
+}
+
+/**
+ * Plugin Service - Plugin ecosystem operations
+ * Manages plugin installation, lifecycle, and integration
+ */
+service PluginService {
+  rpc InstallPlugin(InstallPluginRequest) returns (InstallPluginResponse);
+  rpc UninstallPlugin(UninstallPluginRequest) returns (UninstallPluginResponse);
+  rpc ActivatePlugin(ActivatePluginRequest) returns (ActivatePluginResponse);
+  rpc DeactivatePlugin(DeactivatePluginRequest) returns (DeactivatePluginResponse);
+  rpc ListPlugins(ListPluginsRequest) returns (ListPluginsResponse);
+  rpc GetPluginCapabilities(GetPluginCapabilitiesRequest) returns (GetPluginCapabilitiesResponse);
+}
+
+/**
+ * Mesh Service - Microservices mesh operations
+ * Handles service discovery, routing, observability
+ */
+service MeshService {
+  rpc RegisterService(RegisterServiceRequest) returns (RegisterServiceResponse);
+  rpc DeregisterService(DeregisterServiceRequest) returns (DeregisterServiceResponse);
+  rpc DiscoverServices(DiscoverServicesRequest) returns (DiscoverServicesResponse);
+  rpc GetServiceMetrics(GetServiceMetricsRequest) returns (GetServiceMetricsResponse);
+}
+
+// Message definitions (placeholders - to be expanded with actual fields)
+message CreateArtifactRequest {
+  string name = 1;
+  string artifact_type = 2;
+  string version = 3;
+}
+
+message CreateArtifactResponse {
+  string artifact_id = 1;
+  bool success = 2;
+}
+
+message GetArtifactRequest {
+  string artifact_id = 1;
+}
+
+message GetArtifactResponse {
+  string artifact_id = 1;
+  string name = 2;
+  string artifact_type = 3;
+  string version = 4;
+}
+
+message UpdateArtifactRequest {
+  string artifact_id = 1;
+  map<string, string> updates = 2;
+}
+
+message UpdateArtifactResponse {
+  bool success = 1;
+}
+
+message DeleteArtifactRequest {
+  string artifact_id = 1;
+}
+
+message DeleteArtifactResponse {
+  bool success = 1;
+}
+
+message ListArtifactsRequest {
+  string namespace = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListArtifactsResponse {
+  repeated string artifact_ids = 1;
+  int32 total_count = 2;
+}
+
+message PublishArtifactRequest {
+  string artifact_id = 1;
+}
+
+message PublishArtifactResponse {
+  bool success = 1;
+}
+
+message DeprecateArtifactRequest {
+  string artifact_id = 1;
+  string message = 2;
+}
+
+message DeprecateArtifactResponse {
+  bool success = 1;
+}
+
+message ResolveDependenciesRequest {
+  string artifact_id = 1;
+  string strategy = 2;  // "latest", "compatible", "exact"
+}
+
+message ResolveDependenciesResponse {
+  repeated string resolved_artifacts = 1;
+  repeated string conflicts = 2;
+}
+
+message DetectConflictsRequest {
+  string namespace = 1;
+}
+
+message DetectConflictsResponse {
+  repeated string conflicts = 1;
+}
+
+message ListNamespacesRequest {
+  string parent_namespace = 1;
+}
+
+message ListNamespacesResponse {
+  repeated string namespaces = 1;
+}
+
+message InstallPluginRequest {
+  string plugin_id = 1;
+}
+
+message InstallPluginResponse {
+  bool success = 1;
+}
+
+message UninstallPluginRequest {
+  string plugin_id = 1;
+}
+
+message UninstallPluginResponse {
+  bool success = 1;
+}
+
+message ActivatePluginRequest {
+  string plugin_id = 1;
+}
+
+message ActivatePluginResponse {
+  bool success = 1;
+}
+
+message DeactivatePluginRequest {
+  string plugin_id = 1;
+}
+
+message DeactivatePluginResponse {
+  bool success = 1;
+}
+
+message ListPluginsRequest {
+  bool active_only = 1;
+}
+
+message ListPluginsResponse {
+  repeated string plugin_ids = 1;
+}
+
+message GetPluginCapabilitiesRequest {
+  string plugin_id = 1;
+}
+
+message GetPluginCapabilitiesResponse {
+  repeated string capabilities = 1;
+}
+
+message RegisterServiceRequest {
+  string service_name = 1;
+  string service_type = 2;  // "grpc", "rest", "graphql"
+  string endpoint = 3;
+}
+
+message RegisterServiceResponse {
+  bool success = 1;
+}
+
+message DeregisterServiceRequest {
+  string service_name = 1;
+}
+
+message DeregisterServiceResponse {
+  bool success = 1;
+}
+
+message DiscoverServicesRequest {
+  string service_type = 1;
+}
+
+message DiscoverServicesResponse {
+  repeated string service_endpoints = 1;
+}
+
+message GetServiceMetricsRequest {
+  string service_name = 1;
+}
+
+message GetServiceMetricsResponse {
+  double latency_ms = 1;
+  int32 request_count = 2;
+  double success_rate = 3;
+}

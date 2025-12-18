@@ -1,0 +1,24 @@
+version: v1beta1
+managed:
+  enabled: true
+plugins:
+  - remote: buf.build/bufbuild/es:v1.4.2
+    out: src/generated
+    opt:
+      - target=ts
+  - remote: buf.build/grpc/go:v1.3.0
+    out: src/generated
+plugins_directory: vendor/gen
+
+lint:
+  use:
+    - DEFAULT
+  ignore_only:
+    - RPC_REQUEST_STANDARD_NAME
+    - RPC_RESPONSE_STANDARD_NAME
+
+breaking:
+  use:
+    - FILE
+    - FIELD_SAME_CARDINALITY
+    - RESERVED_ENUM_VALUE

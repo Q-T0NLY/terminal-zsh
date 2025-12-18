@@ -1,0 +1,45 @@
+{
+  "name": "@hyper-registry/tui",
+  "version": "0.1.0",
+  "description": "Hyper Registry terminal user interface",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./layouts": {
+      "import": "./dist/layouts/index.js",
+      "types": "./dist/layouts/index.d.ts"
+    },
+    "./themes": {
+      "import": "./dist/themes/index.js",
+      "types": "./dist/themes/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/**/*.ts src/**/*.tsx --outdir=dist --format=esm --sourcemap --declaration",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsx watch src/index.tsx",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@hyper-registry/core": "workspace:*",
+    "ink": "^4.4.1",
+    "react": "^18.2.0",
+    "blessed": "^0.1.81",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/blessed": "^0.1.26",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "esbuild": "^0.19.10",
+    "vitest": "^1.1.0",
+    "tsx": "^4.7.0"
+  }
+}
