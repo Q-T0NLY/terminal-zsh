@@ -9,6 +9,7 @@ import { ServiceEntity } from '../entities/service.entity';
 import { RegistryModule } from '../registry/registry.module';
 import { FrameworksModule } from '../frameworks/frameworks.module';
 import { AdvancedAIModule } from '../advanced-ai/advanced-ai.module';
+import { GuidanceModule } from '../guidance/guidance.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AdvancedAIModule } from '../advanced-ai/advanced-ai.module';
     RegistryModule,
     FrameworksModule,
     AdvancedAIModule,
+    GuidanceModule,
   ],
   controllers: [MeshController],
   providers: [

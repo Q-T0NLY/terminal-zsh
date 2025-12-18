@@ -7,6 +7,7 @@ import { CrewAIPlugin } from '../frameworks/crewai/CrewAIPlugin';
 import { DAGRAGPlugin } from '../advanced-ai/dag-rag/DAGRAGPlugin';
 import { PromptToolkitPlugin } from '../advanced-ai/prompt-toolkit/PromptToolkitPlugin';
 import { ContextNLPFusionPlugin } from '../advanced-ai/nlp-fusion/ContextNLPFusionPlugin';
+import { GuidancePlugin } from '../guidance/GuidancePlugin';
 
 /**
  * Service Mesh Initializer - Automatically registers all plugins as services on application startup
@@ -25,6 +26,8 @@ export class ServiceMeshInitializer implements OnModuleInit {
     private readonly dagRAGPlugin: DAGRAGPlugin,
     private readonly promptToolkitPlugin: PromptToolkitPlugin,
     private readonly nlpFusionPlugin: ContextNLPFusionPlugin,
+    // Guidance Plugin
+    private readonly guidancePlugin: GuidancePlugin,
   ) {}
 
   /**
@@ -71,6 +74,13 @@ export class ServiceMeshInitializer implements OnModuleInit {
         name: 'NLP Fusion Service',
         description: 'Context fusion and NLP processing service',
         endpoints: ['/nlp/context', '/nlp/features', '/nlp/fuse', '/nlp/stats'],
+      },
+      // Guidance Service
+      {
+        plugin: this.guidancePlugin,
+        name: 'Full Stack Guidance Service',
+        description: 'xAI-powered intelligent assistance for navigation, configuration, and operations',
+        endpoints: ['/guidance', '/guidance/recommendations', '/guidance/config-recommendations', '/guidance/history/:userId', '/guidance/stats'],
       },
     ];
 

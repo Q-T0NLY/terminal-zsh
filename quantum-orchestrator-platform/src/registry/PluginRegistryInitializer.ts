@@ -6,6 +6,7 @@ import { CrewAIPlugin } from '../frameworks/crewai/CrewAIPlugin';
 import { DAGRAGPlugin } from '../advanced-ai/dag-rag/DAGRAGPlugin';
 import { PromptToolkitPlugin } from '../advanced-ai/prompt-toolkit/PromptToolkitPlugin';
 import { ContextNLPFusionPlugin } from '../advanced-ai/nlp-fusion/ContextNLPFusionPlugin';
+import { GuidancePlugin } from '../guidance/GuidancePlugin';
 import { IPlugin } from './PluginInterface';
 
 interface PluginInfo {
@@ -30,6 +31,8 @@ export class PluginRegistryInitializer implements OnModuleInit {
     private readonly dagRAGPlugin: DAGRAGPlugin,
     private readonly promptToolkitPlugin: PromptToolkitPlugin,
     private readonly nlpFusionPlugin: ContextNLPFusionPlugin,
+    // Guidance Plugin
+    private readonly guidancePlugin: GuidancePlugin,
   ) {}
 
   /**
@@ -45,6 +48,8 @@ export class PluginRegistryInitializer implements OnModuleInit {
       { plugin: this.dagRAGPlugin, name: 'DAG/RAG++' },
       { plugin: this.promptToolkitPlugin, name: 'Prompt Toolkit' },
       { plugin: this.nlpFusionPlugin, name: 'NLP Fusion' },
+      // Full Stack Guidance Plugin
+      { plugin: this.guidancePlugin, name: 'Full Stack Guidance' },
     ];
   }
 

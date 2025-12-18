@@ -9,12 +9,14 @@ import { PluginRegistryInitializer } from './PluginRegistryInitializer';
 import { PluginEntity } from '../entities/plugin.entity';
 import { FrameworksModule } from '../frameworks/frameworks.module';
 import { AdvancedAIModule } from '../advanced-ai/advanced-ai.module';
+import { GuidanceModule } from '../guidance/guidance.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([PluginEntity]),
     FrameworksModule,
     AdvancedAIModule,
+    GuidanceModule,
   ],
   controllers: [RegistryController],
   providers: [
