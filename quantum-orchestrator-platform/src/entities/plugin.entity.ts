@@ -3,58 +3,58 @@ import {
   Column,
   PrimaryColumn,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { PluginCategory, PluginStatus, PluginConfig } from '../registry/PluginInterface';
 
 @Entity('plugins')
 export class PluginEntity {
   @PrimaryColumn()
-  id: string;
+    id!: string;
 
   @Column()
-  name: string;
+    name!: string;
 
   @Column()
-  version: string;
+    version!: string;
 
   @Column({ nullable: true })
-  description?: string;
+    description?: string;
 
   @Column({ nullable: true })
-  author?: string;
+    author?: string;
 
   @Column({
     type: 'enum',
-    enum: PluginCategory,
+    enum: PluginCategory
   })
-  category: PluginCategory;
+    category!: PluginCategory;
 
   @Column('simple-array')
-  capabilities: string[];
+    capabilities!: string[];
 
   @Column('simple-array')
-  dependencies: string[];
+    dependencies!: string[];
 
   @Column('jsonb')
-  config: PluginConfig;
+    config!: PluginConfig;
 
   @Column({
     type: 'enum',
     enum: PluginStatus,
-    default: PluginStatus.REGISTERED,
+    default: PluginStatus.REGISTERED
   })
-  status: PluginStatus;
+    status!: PluginStatus;
 
   @Column({ default: true })
-  enabled: boolean;
+    enabled!: boolean;
 
   @Column({ nullable: true })
-  checksum?: string;
+    checksum?: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt!: Date;
 }

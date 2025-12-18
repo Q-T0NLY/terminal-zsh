@@ -4,62 +4,62 @@ import { ServiceProtocol } from '../MeshInterface';
 export class RegisterServiceDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsString()
-  name: string;
+    name!: string;
 
   @IsString()
-  version: string;
+    version!: string;
 
   @IsOptional()
   @IsString()
-  description?: string;
+    description?: string;
 
   @IsEnum(ServiceProtocol)
-  protocol: ServiceProtocol;
+    protocol: ServiceProtocol;
 
   @IsString()
-  host: string;
+    host!: string;
 
   @IsNumber()
-  port: number;
+    port!: number;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  endpoints?: string[];
+    endpoints?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  dependencies?: string[];
+    dependencies?: string[];
 
   @IsOptional()
   @IsString()
-  apiKey?: string;
+    apiKey?: string;
 
   @IsOptional()
   @IsNumber()
-  rateLimit?: number;
+    rateLimit?: number;
 }
 
 export class InvokeServiceDto {
   @IsEnum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
   @IsString()
-  endpoint: string;
+    endpoint!: string;
 
   @IsOptional()
   @IsObject()
-  body?: any;
+    body?: any;
 
   @IsOptional()
   @IsObject()
-  headers?: Record<string, string>;
+    headers?: Record<string, string>;
 
   @IsOptional()
   @IsNumber()
-  timeout?: number;
+    timeout?: number;
 }

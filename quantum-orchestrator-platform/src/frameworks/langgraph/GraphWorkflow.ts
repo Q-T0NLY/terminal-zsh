@@ -4,7 +4,7 @@ import {
   WorkflowEdge,
   WorkflowState,
   WorkflowResult,
-  WorkflowStatus,
+  WorkflowStatus
 } from './LangGraphInterface';
 import { StateManager } from './StateManager';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,7 +23,7 @@ export class GraphWorkflow {
 
   constructor(
     id: string,
-    private readonly stateManager: StateManager,
+    private readonly stateManager: StateManager
   ) {
     this.id = id;
     this.nodes = new Map();
@@ -47,7 +47,7 @@ export class GraphWorkflow {
       id: `${from}-${to}`,
       from,
       to,
-      condition,
+      condition
     };
 
     this.edges.set(edge.id, edge);
@@ -73,7 +73,7 @@ export class GraphWorkflow {
 
       // Find start node
       const startNode = Array.from(this.nodes.values()).find(
-        (n) => n.type === 'start',
+        (n) => n.type === 'start'
       );
 
       if (!startNode) {
@@ -91,12 +91,12 @@ export class GraphWorkflow {
         output,
         state: this.state,
         executionTime,
-        nodesExecuted,
+        nodesExecuted
       };
 
       this.status = WorkflowStatus.COMPLETED;
       this.logger.log(
-        `Workflow ${this.id} completed in ${executionTime}ms, executed ${nodesExecuted.length} nodes`,
+        `Workflow ${this.id} completed in ${executionTime}ms, executed ${nodesExecuted.length} nodes`
       );
 
       return result;
@@ -112,7 +112,7 @@ export class GraphWorkflow {
         state: this.state,
         executionTime,
         nodesExecuted,
-        error: error.message,
+        error: error.message
       };
     }
   }
@@ -122,7 +122,7 @@ export class GraphWorkflow {
    */
   private async executeNode(
     node: WorkflowNode,
-    nodesExecuted: string[],
+    nodesExecuted: string[]
   ): Promise<any> {
     this.logger.debug(`Executing node ${node.id} (${node.type})`);
     nodesExecuted.push(node.id);
@@ -131,36 +131,36 @@ export class GraphWorkflow {
 
     // Execute node based on type
     switch (node.type) {
-      case 'start':
+    case 'start':
+      output = this.state;
+      break;
+
+    case 'end':
+      return this.state;
+
+    case 'agent':
+    case 'tool':
+      if (node.handler) {
+        output = await node.handler(this.state, this.state);
+        // Update state with output
+        this.state = { ...this.state, ...output };
+      } else {
         output = this.state;
-        break;
+      }
+      break;
 
-      case 'end':
-        return this.state;
+    case 'decision':
+      // Decision nodes don't produce output, just route flow
+      output = this.state;
+      break;
 
-      case 'agent':
-      case 'tool':
-        if (node.handler) {
-          output = await node.handler(this.state, this.state);
-          // Update state with output
-          this.state = { ...this.state, ...output };
-        } else {
-          output = this.state;
-        }
-        break;
+    case 'parallel':
+      // Execute parallel branches (simplified - execute sequentially for now)
+      output = this.state;
+      break;
 
-      case 'decision':
-        // Decision nodes don't produce output, just route flow
-        output = this.state;
-        break;
-
-      case 'parallel':
-        // Execute parallel branches (simplified - execute sequentially for now)
-        output = this.state;
-        break;
-
-      default:
-        output = this.state;
+    default:
+      output = this.state;
     }
 
     // Save state after node execution
@@ -185,7 +185,7 @@ export class GraphWorkflow {
 
     // Find all edges from this node
     const outgoingEdges = Array.from(this.edges.values()).filter(
-      (e) => e.from === nodeId,
+      (e) => e.from === nodeId
     );
 
     for (const edge of outgoingEdges) {
@@ -245,12 +245,12 @@ export class GraphWorkflow {
     nodes: WorkflowNode[];
     edges: WorkflowEdge[];
     status: WorkflowStatus;
-  } {
+    } {
     return {
       id: this.id,
       nodes: Array.from(this.nodes.values()),
       edges: Array.from(this.edges.values()),
-      status: this.status,
+      status: this.status
     };
   }
 }

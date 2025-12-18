@@ -8,6 +8,6 @@ import { AgentService } from './services/agent.service';
 @Module({
   controllers: [DashboardController],
   providers: [DashboardService, KPIService, WorkflowService, AgentService],
-  exports: [DashboardService, KPIService, WorkflowService, AgentService],
+  exports: [DashboardService, KPIService, WorkflowService, AgentService]
 })
 export class DashboardModule {}

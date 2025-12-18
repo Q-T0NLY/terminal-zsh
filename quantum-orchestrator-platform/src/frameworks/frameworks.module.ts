@@ -18,12 +18,12 @@ import { TaskExecutor } from './crewai/TaskExecutor';
     // CrewAI
     AgentManager,
     TaskExecutor,
-    CrewAIPlugin,
+    CrewAIPlugin
   ],
   exports: [
     LangGraphPlugin,
     LlamaIndexPlugin,
-    CrewAIPlugin,
-  ],
+    CrewAIPlugin
+  ]
 })
 export class FrameworksModule {}

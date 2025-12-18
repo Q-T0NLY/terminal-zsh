@@ -12,7 +12,7 @@ export class MeshTopology {
 
   constructor(
     private readonly serviceRegistry: ServiceRegistry,
-    private readonly pluginRegistry: UniversalRegistry,
+    private readonly pluginRegistry: UniversalRegistry
   ) {}
 
   /**
@@ -40,8 +40,8 @@ export class MeshTopology {
             protocol: service.protocol,
             host: service.host,
             port: service.port,
-            rateLimit: service.rateLimit,
-          },
+            rateLimit: service.rateLimit
+          }
         });
 
         // Add dependency edges
@@ -49,7 +49,7 @@ export class MeshTopology {
           edges.push({
             source: service.id,
             target: dep,
-            type: 'depends_on',
+            type: 'depends_on'
           });
         }
       }
@@ -67,8 +67,8 @@ export class MeshTopology {
           metadata: {
             version: plugin.version,
             category: plugin.category,
-            capabilities: plugin.capabilities,
-          },
+            capabilities: plugin.capabilities
+          }
         });
 
         // Add dependency edges
@@ -76,7 +76,7 @@ export class MeshTopology {
           edges.push({
             source: plugin.id,
             target: dep,
-            type: 'depends_on',
+            type: 'depends_on'
           });
         }
       }
@@ -87,7 +87,7 @@ export class MeshTopology {
       return {
         nodes,
         edges,
-        timestamp: new Date(),
+        timestamp: new Date()
       };
     } catch (error) {
       this.logger.error('Failed to generate topology:', error);
@@ -114,24 +114,24 @@ export class MeshTopology {
 
       // Find dependencies (nodes that this node depends on)
       const dependencyEdges = topology.edges.filter(
-        (e) => e.source === id && e.type === 'depends_on',
+        (e) => e.source === id && e.type === 'depends_on'
       );
       const dependencies = dependencyEdges
         .map((e) => topology.nodes.find((n) => n.id === e.target))
-        .filter((n) => n !== undefined) as TopologyNode[];
+        .filter((n) => n !== undefined);
 
       // Find dependents (nodes that depend on this node)
       const dependentEdges = topology.edges.filter(
-        (e) => e.target === id && e.type === 'depends_on',
+        (e) => e.target === id && e.type === 'depends_on'
       );
       const dependents = dependentEdges
         .map((e) => topology.nodes.find((n) => n.id === e.source))
-        .filter((n) => n !== undefined) as TopologyNode[];
+        .filter((n) => n !== undefined);
 
       return {
         node,
         dependencies,
-        dependents,
+        dependents
       };
     } catch (error) {
       this.logger.error(`Failed to get dependency graph for ${id}:`, error);
@@ -160,7 +160,7 @@ export class MeshTopology {
         totalPlugins: plugins.length,
         healthyServices: services.filter((n) => n.status === ServiceStatus.HEALTHY).length,
         unhealthyServices: services.filter((n) => n.status !== ServiceStatus.HEALTHY).length,
-        totalDependencies: topology.edges.filter((e) => e.type === 'depends_on').length,
+        totalDependencies: topology.edges.filter((e) => e.type === 'depends_on').length
       };
     } catch (error) {
       this.logger.error('Failed to get metrics:', error);

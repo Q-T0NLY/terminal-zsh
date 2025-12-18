@@ -39,20 +39,20 @@ export class IndexEngine {
         // Generate embeddings and store
         for (const chunk of docChunks) {
           const chunkId = `${doc.id}:${chunk.index}`;
-          
+
           // Simple embedding (in production, use actual embedding model)
           const embedding = await this.generateEmbedding(chunk.content);
-          
+
           this.chunks.set(chunkId, {
             docId: doc.id,
             content: chunk.content,
-            embedding,
+            embedding
           });
 
           await this.vectorStore.add(chunkId, embedding, {
             docId: doc.id,
             content: chunk.content,
-            metadata: doc.metadata,
+            metadata: doc.metadata
           });
         }
       }
@@ -80,7 +80,7 @@ export class IndexEngine {
       totalDocuments: this.documents.size,
       totalChunks: this.chunks.size,
       indexSize: JSON.stringify(Array.from(this.documents.values())).length,
-      lastUpdated: new Date(),
+      lastUpdated: new Date()
     };
   }
 
@@ -99,7 +99,7 @@ export class IndexEngine {
     for (let i = 0; i < words.length; i += chunkSize - overlap) {
       const chunkWords = words.slice(i, i + chunkSize);
       const content = chunkWords.join(' ');
-      
+
       if (content.trim()) {
         chunks.push({ index: index++, content });
       }

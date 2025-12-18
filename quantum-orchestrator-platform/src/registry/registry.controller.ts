@@ -10,7 +10,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  Logger,
+  Logger
 } from '@nestjs/common';
 import { UniversalRegistry } from './UniversalRegistry';
 import { BasePlugin, PluginCategory } from './PluginInterface';
@@ -18,7 +18,7 @@ import {
   RegisterPluginDto,
   UpdatePluginDto,
   SearchPluginDto,
-  ListPluginsDto,
+  ListPluginsDto
 } from './dto/plugin.dto';
 
 /**
@@ -38,29 +38,35 @@ export class RegistryController {
   async registerPlugin(@Body() dto: RegisterPluginDto) {
     this.logger.log(`Registering plugin: ${dto.name}`);
 
-    // Create a basic plugin instance (in real implementation, this would be loaded from code)
-    const pluginInstance = new BasePlugin({
+    // Create a simple plugin instance for basic registration
+    class SimplePlugin extends BasePlugin {
+      constructor(metadata: any) {
+        super(metadata);
+      }
+    }
+
+    const pluginInstance = new SimplePlugin({
       id: dto.id,
       name: dto.name,
       version: dto.version,
       category: dto.category,
       capabilities: dto.capabilities,
       dependencies: dto.dependencies || [],
-      config: dto.config || {},
+      config: dto.config || {}
     });
 
     const metadata = await this.registry.registerPlugin(
       {
         ...dto,
         dependencies: dto.dependencies || [],
-        config: dto.config || {},
+        config: dto.config || {}
       },
-      pluginInstance,
+      pluginInstance
     );
 
     return {
       success: true,
-      data: metadata,
+      data: metadata
     };
   }
 
@@ -73,13 +79,13 @@ export class RegistryController {
 
     const plugins = await this.registry.listPlugins({
       category: query.category,
-      enabled: query.enabled,
+      enabled: query.enabled
     });
 
     return {
       success: true,
       data: plugins,
-      count: plugins.length,
+      count: plugins.length
     };
   }
 
@@ -94,7 +100,7 @@ export class RegistryController {
 
     return {
       success: true,
-      data: plugin,
+      data: plugin
     };
   }
 
@@ -104,7 +110,7 @@ export class RegistryController {
   @Put('plugins/:id')
   async updatePlugin(
     @Param('id') id: string,
-    @Body() dto: UpdatePluginDto,
+    @Body() dto: UpdatePluginDto
   ) {
     this.logger.log(`Updating plugin: ${id}`);
 
@@ -112,7 +118,7 @@ export class RegistryController {
 
     return {
       success: true,
-      data: updated,
+      data: updated
     };
   }
 
@@ -127,7 +133,7 @@ export class RegistryController {
     await this.registry.unregisterPlugin(id);
 
     return {
-      success: true,
+      success: true
     };
   }
 
@@ -142,7 +148,7 @@ export class RegistryController {
 
     return {
       success: true,
-      message: `Plugin ${id} enabled`,
+      message: `Plugin ${id} enabled`
     };
   }
 
@@ -157,7 +163,7 @@ export class RegistryController {
 
     return {
       success: true,
-      message: `Plugin ${id} disabled`,
+      message: `Plugin ${id} disabled`
     };
   }
 
@@ -172,7 +178,7 @@ export class RegistryController {
 
     return {
       success: true,
-      data: health,
+      data: health
     };
   }
 
@@ -187,7 +193,7 @@ export class RegistryController {
 
     return {
       success: true,
-      data: categories,
+      data: categories
     };
   }
 
@@ -201,13 +207,13 @@ export class RegistryController {
     const plugins = await this.registry.searchPlugins({
       name: dto.name,
       category: dto.category,
-      capabilities: dto.capabilities,
+      capabilities: dto.capabilities
     });
 
     return {
       success: true,
       data: plugins,
-      count: plugins.length,
+      count: plugins.length
     };
   }
 
@@ -222,7 +228,7 @@ export class RegistryController {
 
     return {
       success: true,
-      data: stats,
+      data: stats
     };
   }
 }

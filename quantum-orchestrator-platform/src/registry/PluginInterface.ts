@@ -91,6 +91,11 @@ export interface IPlugin {
    * Perform health check
    */
   healthCheck(): Promise<PluginHealth>;
+
+  /**
+   * Get current plugin status
+   */
+  getStatus?(): PluginStatus;
 }
 
 export abstract class BasePlugin implements IPlugin {
@@ -109,7 +114,7 @@ export abstract class BasePlugin implements IPlugin {
     this.id = metadata.id || '';
     this.name = metadata.name || '';
     this.version = metadata.version || '1.0.0';
-    this.category = metadata.category || PluginCategory.TOOLS;
+    this.category = (metadata.category != null) || PluginCategory.TOOLS;
     this.capabilities = metadata.capabilities || [];
     this.dependencies = metadata.dependencies || [];
     this.config = metadata.config || {};
@@ -144,8 +149,8 @@ export abstract class BasePlugin implements IPlugin {
         : PluginHealthStatus.UNHEALTHY,
       timestamp: new Date(),
       metrics: {
-        uptime,
-      },
+        uptime
+      }
     };
   }
 
@@ -169,5 +174,5 @@ export interface PluginResourceLimits {
 export const DEFAULT_RESOURCE_LIMITS: PluginResourceLimits = {
   cpuPercent: 80,
   memoryMB: 512,
-  networkAllowed: true,
+  networkAllowed: true
 };

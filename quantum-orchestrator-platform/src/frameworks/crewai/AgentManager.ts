@@ -23,7 +23,7 @@ export class Agent {
     this.llmModel = config.llmModel || 'gpt-4';
     this.memory = {
       shortTerm: [],
-      longTerm: new Map(),
+      longTerm: new Map()
     };
   }
 
@@ -39,7 +39,7 @@ export class Agent {
       // Store task context in short-term memory
       this.memory.shortTerm.push({
         task: task.description,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
 
       // Simulate task execution (in production, call actual LLM)
@@ -48,7 +48,7 @@ export class Agent {
       // Store result in long-term memory
       this.memory.longTerm.set(task.id, {
         result: output,
-        timestamp: new Date(),
+        timestamp: new Date()
       });
 
       const executionTime = Date.now() - startTime;
@@ -57,7 +57,7 @@ export class Agent {
         taskId: task.id,
         success: true,
         output,
-        executionTime,
+        executionTime
       };
     } catch (error) {
       const executionTime = Date.now() - startTime;
@@ -69,7 +69,7 @@ export class Agent {
         success: false,
         output: null,
         executionTime,
-        error: error.message,
+        error: error.message
       };
     }
   }
@@ -84,7 +84,7 @@ export class Agent {
       task: task.description,
       result: `Task completed by ${this.role}: ${task.expectedOutput}`,
       toolsUsed: this.tools.map((t) => t.name),
-      timestamp: new Date(),
+      timestamp: new Date()
     };
 
     // Execute relevant tools if needed
@@ -108,7 +108,7 @@ export class Agent {
   getMemory(): AgentMemory {
     return {
       shortTerm: [...this.memory.shortTerm],
-      longTerm: new Map(this.memory.longTerm),
+      longTerm: new Map(this.memory.longTerm)
     };
   }
 

@@ -4,66 +4,66 @@ import { IsString, IsEnum, IsArray, IsOptional, IsObject, IsNumber, IsBoolean } 
 export class CreateGraphDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsOptional()
   @IsString()
-  templateId?: string;
+    templateId?: string;
 }
 
 export class AddNodeDto {
   @IsString()
-  id: string;
+    id!: string;
 
   @IsEnum(['start', 'end', 'agent', 'tool', 'decision', 'parallel'])
-  type: 'start' | 'end' | 'agent' | 'tool' | 'decision' | 'parallel';
+    type: 'start' | 'end' | 'agent' | 'tool' | 'decision' | 'parallel';
 
   @IsString()
-  name: string;
+    name!: string;
 
   @IsOptional()
   @IsObject()
-  config?: Record<string, any>;
+    config?: Record<string, any>;
 }
 
 export class AddEdgeDto {
   @IsString()
-  from: string;
+    from!: string;
 
   @IsString()
-  to: string;
+    to!: string;
 }
 
 export class ExecuteGraphDto {
   @IsObject()
-  input: any;
+    input: any;
 }
 
 // LlamaIndex DTOs
 export class CreateIndexDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsString()
-  name: string;
+    name!: string;
 
   @IsOptional()
   @IsString()
-  embeddingModel?: string;
+    embeddingModel?: string;
 
   @IsOptional()
   @IsNumber()
-  chunkSize?: number;
+    chunkSize?: number;
 
   @IsOptional()
   @IsNumber()
-  chunkOverlap?: number;
+    chunkOverlap?: number;
 }
 
 export class AddDocumentsDto {
   @IsArray()
-  documents: Array<{
+    documents: Array<{
     id: string;
     content: string;
     metadata?: Record<string, any>;
@@ -72,71 +72,71 @@ export class AddDocumentsDto {
 
 export class QueryIndexDto {
   @IsString()
-  query: string;
+    query!: string;
 
   @IsOptional()
   @IsNumber()
-  topK?: number;
+    topK?: number;
 
   @IsOptional()
   @IsObject()
-  filter?: Record<string, any>;
+    filter?: Record<string, any>;
 }
 
 // CrewAI DTOs
 export class CreateAgentDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsString()
-  role: string;
+    role!: string;
 
   @IsString()
-  goal: string;
+    goal!: string;
 
   @IsString()
-  backstory: string;
+    backstory!: string;
 
   @IsOptional()
   @IsArray()
-  tools?: string[];
+    tools?: string[];
 
   @IsOptional()
   @IsString()
-  llmModel?: string;
+    llmModel?: string;
 }
 
 export class CreateTaskDto {
   @IsString()
-  id: string;
+    id!: string;
 
   @IsString()
-  description: string;
+    description!: string;
 
   @IsString()
-  expectedOutput: string;
+    expectedOutput!: string;
 
   @IsOptional()
   @IsString()
-  agent?: string;
+    agent?: string;
 }
 
 export class CreateCrewDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsString()
-  name: string;
+    name!: string;
 
   @IsArray()
   @IsString({ each: true })
-  agents: string[];
+    agents!: string[];
 
   @IsArray()
-  tasks: CreateTaskDto[];
+    tasks!: CreateTaskDto[];
 
   @IsEnum(['sequential', 'parallel'])
-  executionMode: 'sequential' | 'parallel';
+    executionMode: 'sequential' | 'parallel';
 }

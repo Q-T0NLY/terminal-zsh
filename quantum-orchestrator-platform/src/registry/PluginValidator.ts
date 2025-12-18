@@ -27,7 +27,7 @@ export class PluginValidator {
     if (!metadata.version) {
       errors.push('Plugin version is required');
     }
-    if (!metadata.category) {
+    if (metadata.category == null) {
       errors.push('Plugin category is required');
     }
 
@@ -43,7 +43,7 @@ export class PluginValidator {
 
     return {
       valid: errors.length === 0,
-      errors,
+      errors
     };
   }
 
@@ -52,7 +52,7 @@ export class PluginValidator {
    */
   async validateDependencies(
     dependencies: string[],
-    availablePlugins: Map<string, PluginMetadata>,
+    availablePlugins: Map<string, PluginMetadata>
   ): Promise<{ valid: boolean; errors: string[] }> {
     const errors: string[] = [];
 
@@ -70,7 +70,7 @@ export class PluginValidator {
 
     return {
       valid: errors.length === 0,
-      errors,
+      errors
     };
   }
 
@@ -96,7 +96,7 @@ export class PluginValidator {
 
     return {
       valid: errors.length === 0,
-      errors,
+      errors
     };
   }
 
@@ -105,7 +105,7 @@ export class PluginValidator {
    */
   async validateSecurity(
     metadata: PluginMetadata,
-    providedChecksum?: string,
+    providedChecksum?: string
   ): Promise<{ valid: boolean; errors: string[] }> {
     const errors: string[] = [];
 
@@ -124,7 +124,7 @@ export class PluginValidator {
 
     return {
       valid: errors.length === 0,
-      errors,
+      errors
     };
   }
 
@@ -134,7 +134,7 @@ export class PluginValidator {
   async validate(
     metadata: Partial<PluginMetadata>,
     availablePlugins: Map<string, PluginMetadata> = new Map(),
-    checksum?: string,
+    checksum?: string
   ): Promise<{ valid: boolean; errors: string[] }> {
     const allErrors: string[] = [];
 
@@ -146,7 +146,7 @@ export class PluginValidator {
     if (metadata.dependencies && metadata.dependencies.length > 0) {
       const depsResult = await this.validateDependencies(
         metadata.dependencies,
-        availablePlugins,
+        availablePlugins
       );
       allErrors.push(...depsResult.errors);
     }
@@ -161,14 +161,14 @@ export class PluginValidator {
     if (metadata as PluginMetadata) {
       const securityResult = await this.validateSecurity(
         metadata as PluginMetadata,
-        checksum,
+        checksum
       );
       allErrors.push(...securityResult.errors);
     }
 
     return {
       valid: allErrors.length === 0,
-      errors: allErrors,
+      errors: allErrors
     };
   }
 
@@ -193,7 +193,7 @@ export class PluginValidator {
    */
   private detectCircularDependencies(
     dependencies: string[],
-    availablePlugins: Map<string, PluginMetadata>,
+    availablePlugins: Map<string, PluginMetadata>
   ): string[] {
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
@@ -214,7 +214,7 @@ export class PluginValidator {
     pluginId: string,
     availablePlugins: Map<string, PluginMetadata>,
     visited: Set<string>,
-    recursionStack: Set<string>,
+    recursionStack: Set<string>
   ): boolean {
     if (recursionStack.has(pluginId)) {
       return true;
@@ -228,7 +228,7 @@ export class PluginValidator {
     recursionStack.add(pluginId);
 
     const plugin = availablePlugins.get(pluginId);
-    if (plugin && plugin.dependencies) {
+    if (plugin?.dependencies) {
       for (const dep of plugin.dependencies) {
         if (this.hasCycle(dep, availablePlugins, visited, recursionStack)) {
           return true;
@@ -258,7 +258,7 @@ export class PluginValidator {
 
     return {
       valid: errors.length === 0,
-      errors,
+      errors
     };
   }
 }

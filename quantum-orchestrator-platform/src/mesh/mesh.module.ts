@@ -10,10 +10,10 @@ import { RegistryModule } from '../registry/registry.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([ServiceEntity]),
-    RegistryModule,
+    RegistryModule
   ],
   controllers: [MeshController],
   providers: [ServiceRegistry, ServiceMesh, MeshTopology],
-  exports: [ServiceRegistry, ServiceMesh, MeshTopology],
+  exports: [ServiceRegistry, ServiceMesh, MeshTopology]
 })
 export class MeshModule {}

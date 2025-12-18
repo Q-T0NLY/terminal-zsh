@@ -64,7 +64,7 @@ export class DashboardController {
   createWorkflow(@Body() workflow: Partial<Workflow>): any {
     this.logger.log(`🚀 Creating workflow: ${workflow.name}`);
     const created = this.dashboardService.createWorkflow(workflow);
-    
+
     return {
       success: true,
       emoji: '✨',
@@ -87,7 +87,7 @@ export class DashboardController {
   deployWorkflow(@Param('id') id: string): any {
     this.logger.log(`🚀 Deploying workflow: ${id}`);
     const success = this.dashboardService.deployWorkflow(id);
-    
+
     if (success) {
       this.logger.log(`✅ Deployment successful: ${id}`);
       return {
@@ -131,7 +131,7 @@ export class DashboardController {
   getWorkflowMetrics(@Param('id') id: string): any {
     const metrics = this.dashboardService.getWorkflowMetrics(id);
     this.logger.log(`📈 Retrieved metrics for workflow: ${id}`);
-    
+
     return {
       workflow_id: id,
       emoji: '📊',
@@ -157,7 +157,7 @@ export class DashboardController {
   @Get('dashboard/kpi')
   getKPIs(): any {
     this.logger.log('📊 Dashboard KPI Request');
-    
+
     return {
       emoji_banner: '🎉 QUANTUM ORCHESTRATOR METRICS 🎉',
       kpis: {
@@ -219,7 +219,7 @@ export class DashboardController {
   @Get('dashboard/agents')
   getAgentStats(): any {
     this.logger.log('🤖 Agent Statistics Request');
-    
+
     return {
       emoji: '🤖',
       title: 'Agent Orchestration Statistics',
@@ -263,7 +263,7 @@ export class DashboardController {
   @Get('dashboard/diagnostics')
   getDiagnostics(): any {
     this.logger.log('🔧 System Diagnostics Request');
-    
+
     return {
       emoji: '🔧',
       title: 'System Diagnostics Report',

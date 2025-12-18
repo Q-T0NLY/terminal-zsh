@@ -4,7 +4,7 @@ import {
   PluginMetadata,
   PluginStatus,
   DEFAULT_RESOURCE_LIMITS,
-  PluginResourceLimits,
+  PluginResourceLimits
 } from './PluginInterface';
 
 /**
@@ -21,7 +21,7 @@ export class PluginLoader {
    */
   async load(
     metadata: PluginMetadata,
-    pluginInstance: IPlugin,
+    pluginInstance: IPlugin
   ): Promise<void> {
     const startTime = Date.now();
 
@@ -79,7 +79,7 @@ export class PluginLoader {
    */
   async reload(
     metadata: PluginMetadata,
-    newPluginInstance: IPlugin,
+    newPluginInstance: IPlugin
   ): Promise<void> {
     const startTime = Date.now();
 
@@ -171,7 +171,7 @@ export class PluginLoader {
 
     this.logger.debug(
       `Applied resource limits to plugin ${pluginId}:`,
-      limits,
+      limits
     );
   }
 
@@ -187,7 +187,7 @@ export class PluginLoader {
    */
   setResourceLimits(
     pluginId: string,
-    limits: Partial<PluginResourceLimits>,
+    limits: Partial<PluginResourceLimits>
   ): void {
     const currentLimits =
       this.resourceLimits.get(pluginId) || DEFAULT_RESOURCE_LIMITS;
@@ -203,10 +203,10 @@ export class PluginLoader {
   getStats(): {
     totalLoaded: number;
     plugins: string[];
-  } {
+    } {
     return {
       totalLoaded: this.loadedPlugins.size,
-      plugins: Array.from(this.loadedPlugins.keys()),
+      plugins: Array.from(this.loadedPlugins.keys())
     };
   }
 }

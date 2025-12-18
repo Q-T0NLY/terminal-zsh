@@ -17,7 +17,7 @@ export class QueryEngine {
   async query(
     queryText: string,
     topK: number = 5,
-    filter?: Record<string, any>,
+    filter?: Record<string, any>
   ): Promise<QueryResult> {
     const startTime = Date.now();
 
@@ -28,7 +28,7 @@ export class QueryEngine {
       // Vector search
       const searchResults = await this.indexEngine.vectorStore.search(
         queryEmbedding,
-        topK,
+        topK
       );
 
       // Format results
@@ -37,7 +37,7 @@ export class QueryEngine {
         return {
           document: doc!,
           score: result.score,
-          chunk: result.metadata.content,
+          chunk: result.metadata.content
         };
       });
 
@@ -55,7 +55,7 @@ export class QueryEngine {
       return {
         results: filteredResults,
         synthesizedResponse,
-        executionTime,
+        executionTime
       };
     } catch (error) {
       this.logger.error('Query failed:', error);
@@ -69,7 +69,7 @@ export class QueryEngine {
   async hybridSearch(
     queryText: string,
     keywords: string[],
-    topK: number = 5,
+    topK: number = 5
   ): Promise<QueryResult> {
     const startTime = Date.now();
 
@@ -80,8 +80,8 @@ export class QueryEngine {
       // Filter by keywords
       const keywordFiltered = vectorResults.results.filter((result) =>
         keywords.some((keyword) =>
-          result.chunk.toLowerCase().includes(keyword.toLowerCase()),
-        ),
+          result.chunk.toLowerCase().includes(keyword.toLowerCase())
+        )
       );
 
       // Take top K
@@ -92,7 +92,7 @@ export class QueryEngine {
       return {
         results,
         synthesizedResponse: this.synthesizeResponse(queryText, results),
-        executionTime,
+        executionTime
       };
     } catch (error) {
       this.logger.error('Hybrid search failed:', error);
@@ -149,7 +149,7 @@ export class QueryEngine {
     }
 
     const topChunks = results.slice(0, 3).map((r) => r.chunk);
-    
+
     return `Based on the query "${query}", here are the most relevant findings:\n\n` +
       topChunks.map((chunk, i) => `${i + 1}. ${chunk.substring(0, 200)}...`).join('\n\n');
   }

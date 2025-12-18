@@ -4,7 +4,7 @@ import {
   ServiceInvocationRequest,
   ServiceInvocationResponse,
   ServiceProtocol,
-  LoadBalancingStrategy,
+  LoadBalancingStrategy
 } from './MeshInterface';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +25,7 @@ export class ServiceMesh {
    */
   async invoke(
     serviceId: string,
-    request: ServiceInvocationRequest,
+    request: ServiceInvocationRequest
   ): Promise<ServiceInvocationResponse> {
     const startTime = Date.now();
     const traceId = uuidv4();
@@ -50,7 +50,7 @@ export class ServiceMesh {
       // Add authentication headers
       const headers = {
         ...request.headers,
-        'X-Trace-ID': traceId,
+        'X-Trace-ID': traceId
       };
 
       if (service.apiKey) {
@@ -63,7 +63,7 @@ export class ServiceMesh {
         url,
         data: request.body,
         headers,
-        timeout: request.timeout || 30000,
+        timeout: request.timeout || 30000
       });
 
       const duration = Date.now() - startTime;
@@ -81,7 +81,7 @@ export class ServiceMesh {
         status: response.status,
         data: response.data,
         responseTime: duration,
-        traceId,
+        traceId
       };
     } catch (error) {
       const duration = Date.now() - startTime;
@@ -99,7 +99,7 @@ export class ServiceMesh {
         status: error.response?.status || 500,
         error: error.message,
         responseTime: duration,
-        traceId,
+        traceId
       };
     }
   }
@@ -110,7 +110,7 @@ export class ServiceMesh {
   async route(
     serviceName: string,
     request: ServiceInvocationRequest,
-    strategy: LoadBalancingStrategy = { type: 'ROUND_ROBIN' },
+    strategy: LoadBalancingStrategy = { type: 'ROUND_ROBIN' }
   ): Promise<ServiceInvocationResponse> {
     const startTime = Date.now();
 
@@ -131,7 +131,7 @@ export class ServiceMesh {
       // Invoke selected instance
       return await this.invoke(selectedInstance.id, request);
     } catch (error) {
-      this.logger.error(`Failed to route request:`, error);
+      this.logger.error('Failed to route request:', error);
       throw error;
     }
   }
@@ -147,7 +147,7 @@ export class ServiceMesh {
       // Reset counter every minute
       this.rateLimitCounters.set(serviceId, {
         count: 1,
-        resetTime: now + 60000, // 1 minute
+        resetTime: now + 60000 // 1 minute
       });
       return;
     }
@@ -167,7 +167,7 @@ export class ServiceMesh {
     protocol: ServiceProtocol,
     host: string,
     port: number,
-    endpoint: string,
+    endpoint: string
   ): string {
     const protocolStr = protocol === ServiceProtocol.HTTPS ? 'https' : 'http';
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
@@ -179,22 +179,22 @@ export class ServiceMesh {
    */
   private selectInstance(instances: any[], strategy: LoadBalancingStrategy): any {
     switch (strategy.type) {
-      case 'ROUND_ROBIN':
-        // Simple round-robin selection
-        const index = Math.floor(Math.random() * instances.length);
-        return instances[index];
+    case 'ROUND_ROBIN':
+      // Simple round-robin selection
+      const index = Math.floor(Math.random() * instances.length);
+      return instances[index];
 
-      case 'RANDOM':
-        const randomIndex = Math.floor(Math.random() * instances.length);
-        return instances[randomIndex];
+    case 'RANDOM':
+      const randomIndex = Math.floor(Math.random() * instances.length);
+      return instances[randomIndex];
 
-      case 'LEAST_CONNECTIONS':
-        // For simplicity, just return first instance
-        // In production, track connection counts
-        return instances[0];
+    case 'LEAST_CONNECTIONS':
+      // For simplicity, just return first instance
+      // In production, track connection counts
+      return instances[0];
 
-      default:
-        return instances[0];
+    default:
+      return instances[0];
     }
   }
 
@@ -206,7 +206,7 @@ export class ServiceMesh {
       serviceId,
       traceId,
       timestamp: new Date(),
-      duration,
+      duration
     });
 
     // Keep only last 1000 logs
@@ -229,7 +229,7 @@ export class ServiceMesh {
     totalRequests: number;
     averageResponseTime: number;
     activeServices: number;
-  } {
+    } {
     const totalRequests = this.requestLogs.length;
     const averageResponseTime =
       this.requestLogs.reduce((sum, log) => sum + log.duration, 0) /
@@ -238,7 +238,7 @@ export class ServiceMesh {
     return {
       totalRequests,
       averageResponseTime,
-      activeServices: this.rateLimitCounters.size,
+      activeServices: this.rateLimitCounters.size
     };
   }
 }

@@ -14,7 +14,7 @@ export class UniversalRegistry {
   constructor(
     private readonly storage: PluginStorage,
     private readonly validator: PluginValidator,
-    private readonly loader: PluginLoader,
+    private readonly loader: PluginLoader
   ) {}
 
   /**
@@ -22,7 +22,7 @@ export class UniversalRegistry {
    */
   async registerPlugin(
     metadata: Partial<PluginMetadata>,
-    pluginInstance: IPlugin,
+    pluginInstance: IPlugin
   ): Promise<PluginMetadata> {
     const startTime = Date.now();
 
@@ -43,12 +43,12 @@ export class UniversalRegistry {
       const validation = await this.validator.validate(
         metadata,
         availablePlugins,
-        metadata.checksum,
+        metadata.checksum
       );
 
       if (!validation.valid) {
         throw new Error(
-          `Plugin validation failed: ${validation.errors.join(', ')}`,
+          `Plugin validation failed: ${validation.errors.join(', ')}`
         );
       }
 
@@ -67,7 +67,7 @@ export class UniversalRegistry {
         enabled: true,
         createdAt: new Date(),
         updatedAt: new Date(),
-        checksum: metadata.checksum,
+        checksum: metadata.checksum
       };
 
       // Save to storage
@@ -78,7 +78,7 @@ export class UniversalRegistry {
 
       const duration = Date.now() - startTime;
       this.logger.log(
-        `Plugin ${completeMetadata.id} registered successfully in ${duration}ms`,
+        `Plugin ${completeMetadata.id} registered successfully in ${duration}ms`
       );
 
       return completeMetadata;
@@ -104,12 +104,12 @@ export class UniversalRegistry {
       // Check dependencies - don't allow removal if other plugins depend on it
       const allPlugins = await this.storage.getAll();
       const dependents = allPlugins.filter((p) =>
-        p.dependencies.includes(pluginId),
+        p.dependencies.includes(pluginId)
       );
 
       if (dependents.length > 0) {
         throw new ConflictException(
-          `Cannot unregister plugin ${pluginId}. It is required by: ${dependents.map((p) => p.id).join(', ')}`,
+          `Cannot unregister plugin ${pluginId}. It is required by: ${dependents.map((p) => p.id).join(', ')}`
         );
       }
 
@@ -179,7 +179,7 @@ export class UniversalRegistry {
    */
   async updatePlugin(
     pluginId: string,
-    updates: Partial<PluginMetadata>,
+    updates: Partial<PluginMetadata>
   ): Promise<PluginMetadata> {
     const startTime = Date.now();
 
@@ -195,12 +195,12 @@ export class UniversalRegistry {
       const availablePlugins = await this.getAvailablePlugins();
       const validation = await this.validator.validate(
         updatedMetadata,
-        availablePlugins,
+        availablePlugins
       );
 
       if (!validation.valid) {
         throw new Error(
-          `Plugin update validation failed: ${validation.errors.join(', ')}`,
+          `Plugin update validation failed: ${validation.errors.join(', ')}`
         );
       }
 
@@ -311,19 +311,19 @@ export class UniversalRegistry {
       if (query.name) {
         const searchTerm = query.name.toLowerCase();
         plugins = plugins.filter((p) =>
-          p.name.toLowerCase().includes(searchTerm),
+          p.name.toLowerCase().includes(searchTerm)
         );
       }
 
       // Filter by category
-      if (query.category) {
+      if (query.category != null) {
         plugins = plugins.filter((p) => p.category === query.category);
       }
 
       // Filter by capabilities
       if (query.capabilities && query.capabilities.length > 0) {
         plugins = plugins.filter((p) =>
-          query.capabilities!.some((cap) => p.capabilities.includes(cap)),
+          query.capabilities!.some((cap) => p.capabilities.includes(cap))
         );
       }
 
@@ -388,7 +388,7 @@ export class UniversalRegistry {
       totalPlugins: allPlugins.length,
       loadedPlugins: loaderStats.totalLoaded,
       enabledPlugins: allPlugins.filter((p) => p.enabled).length,
-      categories,
+      categories
     };
   }
 }

@@ -22,7 +22,7 @@ export class LangGraphPlugin extends BasePlugin {
       category: PluginCategory.AI_MODELS,
       capabilities: ['workflow', 'graph', 'state-management', 'agent'],
       dependencies: [],
-      config: {},
+      config: {}
     });
 
     // Initialize default templates
@@ -76,8 +76,8 @@ export class LangGraphPlugin extends BasePlugin {
       metrics: {
         ...baseHealth.metrics,
         activeWorkflows: this.workflows.size,
-        totalTemplates: this.templates.size,
-      },
+        totalTemplates: this.templates.size
+      }
     };
   }
 
@@ -178,25 +178,25 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'start',
           type: 'start',
           name: 'Start',
-          config: {},
+          config: {}
         },
         {
           id: 'agent',
           type: 'agent',
           name: 'Agent',
-          config: { model: 'gpt-4' },
+          config: { model: 'gpt-4' }
         },
         {
           id: 'end',
           type: 'end',
           name: 'End',
-          config: {},
-        },
+          config: {}
+        }
       ],
       edges: [
         { id: 'start-agent', from: 'start', to: 'agent' },
-        { id: 'agent-end', from: 'agent', to: 'end' },
-      ],
+        { id: 'agent-end', from: 'agent', to: 'end' }
+      ]
     });
 
     // Template 2: RAG Workflow
@@ -209,32 +209,32 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'start',
           type: 'start',
           name: 'Start',
-          config: {},
+          config: {}
         },
         {
           id: 'retrieval',
           type: 'tool',
           name: 'Document Retrieval',
-          config: { tool: 'vector-search' },
+          config: { tool: 'vector-search' }
         },
         {
           id: 'generation',
           type: 'agent',
           name: 'Response Generation',
-          config: { model: 'gpt-4' },
+          config: { model: 'gpt-4' }
         },
         {
           id: 'end',
           type: 'end',
           name: 'End',
-          config: {},
-        },
+          config: {}
+        }
       ],
       edges: [
         { id: 'start-retrieval', from: 'start', to: 'retrieval' },
         { id: 'retrieval-generation', from: 'retrieval', to: 'generation' },
-        { id: 'generation-end', from: 'generation', to: 'end' },
-      ],
+        { id: 'generation-end', from: 'generation', to: 'end' }
+      ]
     });
 
     // Template 3: Conditional Workflow
@@ -247,32 +247,32 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'start',
           type: 'start',
           name: 'Start',
-          config: {},
+          config: {}
         },
         {
           id: 'decision',
           type: 'decision',
           name: 'Decision Point',
-          config: {},
+          config: {}
         },
         {
           id: 'path-a',
           type: 'agent',
           name: 'Path A',
-          config: {},
+          config: {}
         },
         {
           id: 'path-b',
           type: 'agent',
           name: 'Path B',
-          config: {},
+          config: {}
         },
         {
           id: 'end',
           type: 'end',
           name: 'End',
-          config: {},
-        },
+          config: {}
+        }
       ],
       edges: [
         { id: 'start-decision', from: 'start', to: 'decision' },
@@ -280,17 +280,17 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'decision-a',
           from: 'decision',
           to: 'path-a',
-          condition: (state) => state.condition === 'A',
+          condition: (state) => state.condition === 'A'
         },
         {
           id: 'decision-b',
           from: 'decision',
           to: 'path-b',
-          condition: (state) => state.condition === 'B',
+          condition: (state) => state.condition === 'B'
         },
         { id: 'path-a-end', from: 'path-a', to: 'end' },
-        { id: 'path-b-end', from: 'path-b', to: 'end' },
-      ],
+        { id: 'path-b-end', from: 'path-b', to: 'end' }
+      ]
     });
 
     // Template 4: Multi-Agent Collaboration
@@ -303,39 +303,39 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'start',
           type: 'start',
           name: 'Start',
-          config: {},
+          config: {}
         },
         {
           id: 'researcher',
           type: 'agent',
           name: 'Researcher Agent',
-          config: { role: 'researcher' },
+          config: { role: 'researcher' }
         },
         {
           id: 'analyst',
           type: 'agent',
           name: 'Analyst Agent',
-          config: { role: 'analyst' },
+          config: { role: 'analyst' }
         },
         {
           id: 'writer',
           type: 'agent',
           name: 'Writer Agent',
-          config: { role: 'writer' },
+          config: { role: 'writer' }
         },
         {
           id: 'end',
           type: 'end',
           name: 'End',
-          config: {},
-        },
+          config: {}
+        }
       ],
       edges: [
         { id: 'start-researcher', from: 'start', to: 'researcher' },
         { id: 'researcher-analyst', from: 'researcher', to: 'analyst' },
         { id: 'analyst-writer', from: 'analyst', to: 'writer' },
-        { id: 'writer-end', from: 'writer', to: 'end' },
-      ],
+        { id: 'writer-end', from: 'writer', to: 'end' }
+      ]
     });
 
     // Template 5: Parallel Processing
@@ -348,44 +348,44 @@ export class LangGraphPlugin extends BasePlugin {
           id: 'start',
           type: 'start',
           name: 'Start',
-          config: {},
+          config: {}
         },
         {
           id: 'parallel',
           type: 'parallel',
           name: 'Parallel Split',
-          config: {},
+          config: {}
         },
         {
           id: 'task-1',
           type: 'tool',
           name: 'Task 1',
-          config: {},
+          config: {}
         },
         {
           id: 'task-2',
           type: 'tool',
           name: 'Task 2',
-          config: {},
+          config: {}
         },
         {
           id: 'task-3',
           type: 'tool',
           name: 'Task 3',
-          config: {},
+          config: {}
         },
         {
           id: 'merge',
           type: 'tool',
           name: 'Merge Results',
-          config: {},
+          config: {}
         },
         {
           id: 'end',
           type: 'end',
           name: 'End',
-          config: {},
-        },
+          config: {}
+        }
       ],
       edges: [
         { id: 'start-parallel', from: 'start', to: 'parallel' },
@@ -395,8 +395,8 @@ export class LangGraphPlugin extends BasePlugin {
         { id: 'task-1-merge', from: 'task-1', to: 'merge' },
         { id: 'task-2-merge', from: 'task-2', to: 'merge' },
         { id: 'task-3-merge', from: 'task-3', to: 'merge' },
-        { id: 'merge-end', from: 'merge', to: 'end' },
-      ],
+        { id: 'merge-end', from: 'merge', to: 'end' }
+      ]
     });
 
     this.logger.log('Initialized 5 default workflow templates');

@@ -7,7 +7,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
-  Logger,
+  Logger
 } from '@nestjs/common';
 import { LangGraphPlugin } from './langgraph/LangGraphPlugin';
 import { LlamaIndexPlugin } from './llamaindex/LlamaIndexPlugin';
@@ -21,7 +21,7 @@ import {
   AddDocumentsDto,
   QueryIndexDto,
   CreateAgentDto,
-  CreateCrewDto,
+  CreateCrewDto
 } from './dto/frameworks.dto';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,7 +35,7 @@ export class FrameworksController {
   constructor(
     private readonly langGraphPlugin: LangGraphPlugin,
     private readonly llamaIndexPlugin: LlamaIndexPlugin,
-    private readonly crewAIPlugin: CrewAIPlugin,
+    private readonly crewAIPlugin: CrewAIPlugin
   ) {}
 
   // ========== LangGraph Endpoints ==========
@@ -53,7 +53,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: workflow.getConfig(),
+      data: workflow.getConfig()
     };
   }
 
@@ -64,7 +64,7 @@ export class FrameworksController {
     return {
       success: true,
       data: workflows.map((w) => w.getConfig()),
-      count: workflows.length,
+      count: workflows.length
     };
   }
 
@@ -78,7 +78,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: workflow.getConfig(),
+      data: workflow.getConfig()
     };
   }
 
@@ -96,7 +96,7 @@ export class FrameworksController {
 
     return {
       success: result.success,
-      data: result,
+      data: result
     };
   }
 
@@ -110,7 +110,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: workflow.getState(),
+      data: workflow.getState()
     };
   }
 
@@ -126,12 +126,12 @@ export class FrameworksController {
       id: dto.id,
       type: dto.type,
       name: dto.name,
-      config: dto.config || {},
+      config: dto.config || {}
     });
 
     return {
       success: true,
-      data: workflow.getConfig(),
+      data: workflow.getConfig()
     };
   }
 
@@ -147,7 +147,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: workflow.getConfig(),
+      data: workflow.getConfig()
     };
   }
 
@@ -158,7 +158,7 @@ export class FrameworksController {
     return {
       success: true,
       data: templates,
-      count: templates.length,
+      count: templates.length
     };
   }
 
@@ -175,8 +175,8 @@ export class FrameworksController {
       data: {
         id: engine.id,
         config: engine.config,
-        stats: engine.getStats(),
-      },
+        stats: engine.getStats()
+      }
     };
   }
 
@@ -189,9 +189,9 @@ export class FrameworksController {
       data: indexes.map((idx) => ({
         id: idx.id,
         config: idx.engine.config,
-        stats: idx.engine.getStats(),
+        stats: idx.engine.getStats()
       })),
-      count: indexes.length,
+      count: indexes.length
     };
   }
 
@@ -209,15 +209,15 @@ export class FrameworksController {
       dto.documents.map((doc) => ({
         id: doc.id,
         content: doc.content,
-        metadata: doc.metadata || {},
-      })),
+        metadata: doc.metadata || {}
+      }))
     );
 
     await index.engine.buildIndex();
 
     return {
       success: true,
-      data: index.engine.getStats(),
+      data: index.engine.getStats()
     };
   }
 
@@ -235,7 +235,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: result,
+      data: result
     };
   }
 
@@ -249,7 +249,7 @@ export class FrameworksController {
 
     return {
       success: true,
-      data: index.engine.getStats(),
+      data: index.engine.getStats()
     };
   }
 
@@ -259,7 +259,7 @@ export class FrameworksController {
     await this.llamaIndexPlugin.deleteIndex(id);
 
     return {
-      success: true,
+      success: true
     };
   }
 
@@ -277,7 +277,7 @@ export class FrameworksController {
       goal: dto.goal,
       backstory: dto.backstory,
       tools: tools,
-      llmModel: dto.llmModel,
+      llmModel: dto.llmModel
     });
 
     return {
@@ -287,8 +287,8 @@ export class FrameworksController {
         role: agent.role,
         goal: agent.goal,
         backstory: agent.backstory,
-        toolCount: agent.tools.length,
-      },
+        toolCount: agent.tools.length
+      }
     };
   }
 
@@ -302,9 +302,9 @@ export class FrameworksController {
         id: a.id,
         role: a.role,
         goal: a.goal,
-        backstory: a.backstory,
+        backstory: a.backstory
       })),
-      count: agents.length,
+      count: agents.length
     };
   }
 
@@ -317,12 +317,12 @@ export class FrameworksController {
       name: dto.name,
       agents: dto.agents,
       tasks: dto.tasks,
-      executionMode: dto.executionMode as any,
+      executionMode: dto.executionMode as any
     });
 
     return {
       success: true,
-      data: crew.getConfig(),
+      data: crew.getConfig()
     };
   }
 
@@ -334,7 +334,7 @@ export class FrameworksController {
 
     return {
       success: result.success,
-      data: result,
+      data: result
     };
   }
 
@@ -350,8 +350,8 @@ export class FrameworksController {
       success: true,
       data: {
         status: crew.getStatus(),
-        config: crew.getConfig(),
-      },
+        config: crew.getConfig()
+      }
     };
   }
 
@@ -362,7 +362,7 @@ export class FrameworksController {
     return {
       success: true,
       data: templates,
-      count: templates.length,
+      count: templates.length
     };
   }
 }

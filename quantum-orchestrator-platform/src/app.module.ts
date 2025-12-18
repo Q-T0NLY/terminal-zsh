@@ -15,19 +15,19 @@ import { FrameworksModule } from './frameworks/frameworks.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: ['.env.local', '.env']
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT) || 5432,
+      port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USERNAME || 'quantum',
       password: process.env.DB_PASSWORD || 'quantum',
       database: process.env.DB_NAME || 'quantum_orchestrator',
       entities: [__dirname + '/entities/**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV === 'development',
-      autoLoadEntities: true,
+      autoLoadEntities: true
     }),
     DashboardModule,
     AgentModule,
@@ -37,9 +37,9 @@ import { FrameworksModule } from './frameworks/frameworks.module';
     SecurityModule,
     RegistryModule,
     MeshModule,
-    FrameworksModule,
+    FrameworksModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

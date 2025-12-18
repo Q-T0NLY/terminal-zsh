@@ -16,7 +16,7 @@ export class ServiceRegistry {
 
   constructor(
     @InjectRepository(ServiceEntity)
-    private readonly serviceRepository: Repository<ServiceEntity>,
+    private readonly serviceRepository: Repository<ServiceEntity>
   ) {}
 
   /**
@@ -42,12 +42,12 @@ export class ServiceRegistry {
         health: {
           status: ServiceStatus.HEALTHY,
           timestamp: new Date(),
-          lastCheck: new Date(),
+          lastCheck: new Date()
         },
         apiKey: metadata.apiKey,
         rateLimit: metadata.rateLimit || 100,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       };
 
       // Save to database
@@ -60,7 +60,7 @@ export class ServiceRegistry {
       // Initialize circuit breaker
       this.circuitBreakers.set(id, {
         state: CircuitBreakerState.CLOSED,
-        failures: 0,
+        failures: 0
       });
 
       const duration = Date.now() - startTime;
@@ -89,7 +89,7 @@ export class ServiceRegistry {
 
       // Search database
       const entity = await this.serviceRepository.findOne({
-        where: [{ id: idOrName }, { name: idOrName }],
+        where: [{ id: idOrName }, { name: idOrName }]
       });
 
       if (!entity) {
@@ -97,7 +97,7 @@ export class ServiceRegistry {
       }
 
       const metadata = this.entityToMetadata(entity);
-      
+
       // Update cache
       this.serviceCache.set(metadata.id, metadata);
 
@@ -185,7 +185,7 @@ export class ServiceRegistry {
           message: 'Service is healthy',
           timestamp: new Date(),
           responseTime,
-          lastCheck: new Date(),
+          lastCheck: new Date()
         };
 
         // Reset circuit breaker on successful health check
@@ -195,7 +195,7 @@ export class ServiceRegistry {
           status: ServiceStatus.UNHEALTHY,
           message: `Health check failed: ${error.message}`,
           timestamp: new Date(),
-          lastCheck: new Date(),
+          lastCheck: new Date()
         };
 
         // Update circuit breaker
@@ -217,7 +217,7 @@ export class ServiceRegistry {
    */
   getCircuitBreakerState(id: string): CircuitBreakerState {
     const breaker = this.circuitBreakers.get(id);
-    return breaker?.state || CircuitBreakerState.CLOSED;
+    return ((breaker?.state) != null) || CircuitBreakerState.CLOSED;
   }
 
   /**
@@ -225,7 +225,7 @@ export class ServiceRegistry {
    */
   canInvoke(id: string): boolean {
     const breaker = this.circuitBreakers.get(id);
-    
+
     if (!breaker) {
       return true;
     }
@@ -248,7 +248,7 @@ export class ServiceRegistry {
    */
   recordFailure(id: string): void {
     const breaker = this.circuitBreakers.get(id);
-    
+
     if (!breaker) {
       return;
     }
@@ -268,7 +268,7 @@ export class ServiceRegistry {
    */
   resetCircuitBreaker(id: string): void {
     const breaker = this.circuitBreakers.get(id);
-    
+
     if (breaker) {
       breaker.state = CircuitBreakerState.CLOSED;
       breaker.failures = 0;
@@ -303,7 +303,7 @@ export class ServiceRegistry {
       apiKey: entity.apiKey,
       rateLimit: entity.rateLimit,
       createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
+      updatedAt: entity.updatedAt
     };
   }
 }

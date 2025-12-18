@@ -14,7 +14,7 @@ export class MemoryVectorStore implements VectorStore {
 
   async search(
     queryVector: number[],
-    topK: number,
+    topK: number
   ): Promise<Array<{ id: string; score: number; metadata: any }>> {
     const results: Array<{ id: string; score: number; metadata: any }> = [];
 

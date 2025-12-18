@@ -14,13 +14,13 @@ import { PluginEntity } from '../entities/plugin.entity';
     UniversalRegistry,
     PluginStorage,
     PluginValidator,
-    PluginLoader,
+    PluginLoader
   ],
   exports: [
     UniversalRegistry,
     PluginStorage,
     PluginValidator,
-    PluginLoader,
-  ],
+    PluginLoader
+  ]
 })
 export class RegistryModule {}

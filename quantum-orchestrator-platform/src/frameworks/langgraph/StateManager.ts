@@ -26,7 +26,7 @@ export class StateManager {
       const history = this.stateStore.get(workflowId)!;
       history.push({
         ...state,
-        _timestamp: new Date(),
+        _timestamp: new Date()
       });
 
       // Keep only last 100 states in history
@@ -62,7 +62,7 @@ export class StateManager {
    */
   async getStateVersion(workflowId: string, version: number): Promise<WorkflowState | null> {
     const history = this.stateStore.get(workflowId);
-    
+
     if (!history || version < 0 || version >= history.length) {
       return null;
     }
@@ -83,7 +83,7 @@ export class StateManager {
     const snapshot = {
       ...state,
       _snapshotName: name,
-      _snapshotTimestamp: new Date(),
+      _snapshotTimestamp: new Date()
     };
 
     // Save snapshot
@@ -150,7 +150,7 @@ export class StateManager {
     return {
       currentStateSize: currentState ? JSON.stringify(currentState).length : 0,
       historyLength: history.length,
-      snapshotCount: snapshots.length,
+      snapshotCount: snapshots.length
     };
   }
 }

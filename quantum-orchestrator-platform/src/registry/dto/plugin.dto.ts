@@ -4,96 +4,96 @@ import { PluginCategory } from '../PluginInterface';
 export class RegisterPluginDto {
   @IsOptional()
   @IsString()
-  id?: string;
+    id?: string;
 
   @IsString()
-  name: string;
+    name!: string;
 
   @IsString()
-  version: string;
-
-  @IsOptional()
-  @IsString()
-  description?: string;
+    version!: string;
 
   @IsOptional()
   @IsString()
-  author?: string;
+    description?: string;
+
+  @IsOptional()
+  @IsString()
+    author?: string;
 
   @IsEnum(PluginCategory)
-  category: PluginCategory;
+    category!: PluginCategory;
 
   @IsArray()
   @IsString({ each: true })
-  capabilities: string[];
+    capabilities!: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  dependencies?: string[];
+    dependencies?: string[];
 
   @IsOptional()
   @IsObject()
-  config?: Record<string, any>;
+    config?: Record<string, any>;
 
   @IsOptional()
   @IsString()
-  checksum?: string;
+    checksum?: string;
 }
 
 export class UpdatePluginDto {
   @IsOptional()
   @IsString()
-  name?: string;
+    name?: string;
 
   @IsOptional()
   @IsString()
-  version?: string;
+    version?: string;
 
   @IsOptional()
   @IsString()
-  description?: string;
+    description?: string;
 
   @IsOptional()
   @IsEnum(PluginCategory)
-  category?: PluginCategory;
+    category?: PluginCategory;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  capabilities?: string[];
+    capabilities?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  dependencies?: string[];
+    dependencies?: string[];
 
   @IsOptional()
   @IsObject()
-  config?: Record<string, any>;
+    config?: Record<string, any>;
 }
 
 export class SearchPluginDto {
   @IsOptional()
   @IsString()
-  name?: string;
+    name?: string;
 
   @IsOptional()
   @IsEnum(PluginCategory)
-  category?: PluginCategory;
+    category?: PluginCategory;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  capabilities?: string[];
+    capabilities?: string[];
 }
 
 export class ListPluginsDto {
   @IsOptional()
   @IsEnum(PluginCategory)
-  category?: PluginCategory;
+    category?: PluginCategory;
 
   @IsOptional()
   @IsBoolean()
-  enabled?: boolean;
+    enabled?: boolean;
 }

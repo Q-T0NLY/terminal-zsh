@@ -22,7 +22,7 @@ export class LlamaIndexPlugin extends BasePlugin {
       category: PluginCategory.AI_MODELS,
       capabilities: ['indexing', 'retrieval', 'rag', 'vector-search'],
       dependencies: [],
-      config: {},
+      config: {}
     });
   }
 
@@ -54,8 +54,8 @@ export class LlamaIndexPlugin extends BasePlugin {
       ...baseHealth,
       metrics: {
         ...baseHealth.metrics,
-        activeIndexes: this.indexes.size,
-      },
+        activeIndexes: this.indexes.size
+      }
     };
   }
 
@@ -69,7 +69,7 @@ export class LlamaIndexPlugin extends BasePlugin {
       embeddingModel: config.embeddingModel || 'openai-ada-002',
       chunkSize: config.chunkSize || 512,
       chunkOverlap: config.chunkOverlap || 50,
-      vectorStore: config.vectorStore || 'memory',
+      vectorStore: config.vectorStore || 'memory'
     };
 
     const vectorStore = new MemoryVectorStore();
@@ -95,7 +95,7 @@ export class LlamaIndexPlugin extends BasePlugin {
   getAllIndexes(): Array<{ id: string; engine: IndexEngine; query: QueryEngine }> {
     return Array.from(this.indexes.entries()).map(([id, index]) => ({
       id,
-      ...index,
+      ...index
     }));
   }
 

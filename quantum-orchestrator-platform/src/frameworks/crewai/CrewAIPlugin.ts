@@ -15,7 +15,7 @@ export class CrewAIPlugin extends BasePlugin {
 
   constructor(
     public readonly agentManager: AgentManager,
-    public readonly taskExecutor: TaskExecutor,
+    public readonly taskExecutor: TaskExecutor
   ) {
     super({
       id: 'crewai-plugin',
@@ -24,7 +24,7 @@ export class CrewAIPlugin extends BasePlugin {
       category: PluginCategory.AI_MODELS,
       capabilities: ['agents', 'tasks', 'collaboration', 'roles'],
       dependencies: [],
-      config: {},
+      config: {}
     });
 
     this.initializeDefaultTools();
@@ -61,8 +61,8 @@ export class CrewAIPlugin extends BasePlugin {
         ...baseHealth.metrics,
         totalAgents: this.agentManager.getAllAgents().length,
         totalCrews: this.taskExecutor.getAllCrews().length,
-        totalTemplates: this.templates.size,
-      },
+        totalTemplates: this.templates.size
+      }
     };
   }
 
@@ -90,28 +90,28 @@ export class CrewAIPlugin extends BasePlugin {
         description: 'Search the web for information',
         execute: async (input: any) => {
           return { results: [`Search results for: ${input.query}`] };
-        },
+        }
       },
       {
         name: 'file-read',
         description: 'Read file contents',
         execute: async (input: any) => {
           return { content: `File content from: ${input.path}` };
-        },
+        }
       },
       {
         name: 'file-write',
         description: 'Write content to file',
         execute: async (input: any) => {
           return { success: true, path: input.path };
-        },
+        }
       },
       {
         name: 'calculator',
         description: 'Perform calculations',
         execute: async (input: any) => {
           return { result: eval(input.expression) };
-        },
+        }
       },
       {
         name: 'text-analyzer',
@@ -119,10 +119,10 @@ export class CrewAIPlugin extends BasePlugin {
         execute: async (input: any) => {
           return {
             wordCount: input.text.split(' ').length,
-            characterCount: input.text.length,
+            characterCount: input.text.length
           };
-        },
-      },
+        }
+      }
     ];
   }
 
@@ -139,20 +139,20 @@ export class CrewAIPlugin extends BasePlugin {
         {
           id: 'research',
           description: 'Research the given topic thoroughly',
-          expectedOutput: 'Comprehensive research findings',
+          expectedOutput: 'Comprehensive research findings'
         },
         {
           id: 'analyze',
           description: 'Analyze the research findings',
-          expectedOutput: 'Detailed analysis report',
+          expectedOutput: 'Detailed analysis report'
         },
         {
           id: 'report',
           description: 'Create a summary report',
-          expectedOutput: 'Final research report',
-        },
+          expectedOutput: 'Final research report'
+        }
       ],
-      executionMode: 'sequential' as any,
+      executionMode: 'sequential' as any
     });
 
     // Template 2: Content Creation
@@ -164,20 +164,20 @@ export class CrewAIPlugin extends BasePlugin {
         {
           id: 'ideation',
           description: 'Generate content ideas',
-          expectedOutput: 'List of content ideas',
+          expectedOutput: 'List of content ideas'
         },
         {
           id: 'writing',
           description: 'Write the content',
-          expectedOutput: 'Draft content',
+          expectedOutput: 'Draft content'
         },
         {
           id: 'editing',
           description: 'Edit and refine content',
-          expectedOutput: 'Polished final content',
-        },
+          expectedOutput: 'Polished final content'
+        }
       ],
-      executionMode: 'sequential' as any,
+      executionMode: 'sequential' as any
     });
 
     // Template 3: Data Analysis
@@ -189,25 +189,25 @@ export class CrewAIPlugin extends BasePlugin {
         {
           id: 'collect',
           description: 'Collect and validate data',
-          expectedOutput: 'Clean dataset',
+          expectedOutput: 'Clean dataset'
         },
         {
           id: 'analyze',
           description: 'Analyze data patterns',
-          expectedOutput: 'Analysis results',
+          expectedOutput: 'Analysis results'
         },
         {
           id: 'visualize',
           description: 'Create data visualizations',
-          expectedOutput: 'Charts and graphs',
+          expectedOutput: 'Charts and graphs'
         },
         {
           id: 'insights',
           description: 'Generate insights and recommendations',
-          expectedOutput: 'Actionable insights',
-        },
+          expectedOutput: 'Actionable insights'
+        }
       ],
-      executionMode: 'sequential' as any,
+      executionMode: 'sequential' as any
     });
 
     // Template 4: Code Review
@@ -219,20 +219,20 @@ export class CrewAIPlugin extends BasePlugin {
         {
           id: 'static-analysis',
           description: 'Perform static code analysis',
-          expectedOutput: 'Code quality metrics',
+          expectedOutput: 'Code quality metrics'
         },
         {
           id: 'security-review',
           description: 'Review for security vulnerabilities',
-          expectedOutput: 'Security assessment',
+          expectedOutput: 'Security assessment'
         },
         {
           id: 'best-practices',
           description: 'Check adherence to best practices',
-          expectedOutput: 'Best practices report',
-        },
+          expectedOutput: 'Best practices report'
+        }
       ],
-      executionMode: 'parallel' as any,
+      executionMode: 'parallel' as any
     });
 
     // Template 5: Customer Support
@@ -244,20 +244,20 @@ export class CrewAIPlugin extends BasePlugin {
         {
           id: 'triage',
           description: 'Triage customer inquiry',
-          expectedOutput: 'Issue classification',
+          expectedOutput: 'Issue classification'
         },
         {
           id: 'research',
           description: 'Research solution',
-          expectedOutput: 'Potential solutions',
+          expectedOutput: 'Potential solutions'
         },
         {
           id: 'response',
           description: 'Craft customer response',
-          expectedOutput: 'Customer-ready response',
-        },
+          expectedOutput: 'Customer-ready response'
+        }
       ],
-      executionMode: 'sequential' as any,
+      executionMode: 'sequential' as any
     });
 
     this.logger.log('Initialized 5 default crew templates');

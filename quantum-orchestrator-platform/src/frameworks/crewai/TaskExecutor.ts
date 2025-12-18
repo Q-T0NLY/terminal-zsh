@@ -6,7 +6,7 @@ import {
   CrewStatus,
   CrewResult,
   Task,
-  TaskResult,
+  TaskResult
 } from './CrewAIInterface';
 
 /**
@@ -30,7 +30,7 @@ export class Crew {
     // Load agents
     this.agents = config.agents
       .map((agentId) => agentManager.getAgent(agentId))
-      .filter((a) => a !== undefined) as Agent[];
+      .filter((a) => a !== undefined);
   }
 
   /**
@@ -67,14 +67,14 @@ export class Crew {
       this.status = allSuccessful ? CrewStatus.COMPLETED : CrewStatus.FAILED;
 
       this.logger.log(
-        `Crew ${this.name} execution ${allSuccessful ? 'completed' : 'failed'} in ${executionTime}ms`,
+        `Crew ${this.name} execution ${allSuccessful ? 'completed' : 'failed'} in ${executionTime}ms`
       );
 
       return {
         success: allSuccessful,
         results,
         executionTime,
-        status: this.status,
+        status: this.status
       };
     } catch (error) {
       const executionTime = Date.now() - startTime;
@@ -86,7 +86,7 @@ export class Crew {
         success: false,
         results,
         executionTime,
-        status: this.status,
+        status: this.status
       };
     }
   }
@@ -111,7 +111,7 @@ export class Crew {
         success: false,
         output: null,
         executionTime: 0,
-        error: 'No agent available for task',
+        error: 'No agent available for task'
       };
     }
 
@@ -134,7 +134,7 @@ export class Crew {
       name: this.name,
       agents: this.agents.map((a) => a.id),
       tasks: this.tasks,
-      executionMode: this.executionMode,
+      executionMode: this.executionMode
     };
   }
 }

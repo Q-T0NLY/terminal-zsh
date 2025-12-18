@@ -15,7 +15,7 @@ export class PluginStorage {
 
   constructor(
     @InjectRepository(PluginEntity)
-    private readonly pluginRepository: Repository<PluginEntity>,
+    private readonly pluginRepository: Repository<PluginEntity>
   ) {}
 
   /**
@@ -37,7 +37,7 @@ export class PluginStorage {
         config: metadata.config,
         status: metadata.status,
         enabled: metadata.enabled,
-        checksum: metadata.checksum,
+        checksum: metadata.checksum
       });
 
       await this.pluginRepository.save(entity);
@@ -75,7 +75,7 @@ export class PluginStorage {
       }
 
       const metadata = this.entityToMetadata(entity);
-      
+
       // Update cache
       this.cache.set(id, metadata);
 
@@ -103,13 +103,13 @@ export class PluginStorage {
 
       if (filters?.category) {
         queryBuilder.andWhere('plugin.category = :category', {
-          category: filters.category,
+          category: filters.category
         });
       }
 
       if (filters?.enabled !== undefined) {
         queryBuilder.andWhere('plugin.enabled = :enabled', {
-          enabled: filters.enabled,
+          enabled: filters.enabled
         });
       }
 
@@ -173,7 +173,7 @@ export class PluginStorage {
     try {
       const entities = await this.pluginRepository.find({
         where: { name },
-        order: { createdAt: 'DESC' },
+        order: { createdAt: 'DESC' }
       });
 
       return entities.map((e) => this.entityToMetadata(e));
@@ -197,7 +197,7 @@ export class PluginStorage {
   getCacheStats(): { size: number; keys: string[] } {
     return {
       size: this.cache.size,
-      keys: Array.from(this.cache.keys()),
+      keys: Array.from(this.cache.keys())
     };
   }
 
@@ -219,7 +219,7 @@ export class PluginStorage {
       enabled: entity.enabled,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      checksum: entity.checksum,
+      checksum: entity.checksum
     };
   }
 }

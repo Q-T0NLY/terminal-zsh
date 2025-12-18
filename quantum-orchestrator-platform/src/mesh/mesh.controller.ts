@@ -6,7 +6,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
-  Logger,
+  Logger
 } from '@nestjs/common';
 import { ServiceRegistry } from './ServiceRegistry';
 import { ServiceMesh } from './ServiceMesh';
@@ -23,7 +23,7 @@ export class MeshController {
   constructor(
     private readonly serviceRegistry: ServiceRegistry,
     private readonly serviceMesh: ServiceMesh,
-    private readonly meshTopology: MeshTopology,
+    private readonly meshTopology: MeshTopology
   ) {}
 
   /**
@@ -37,12 +37,12 @@ export class MeshController {
     const metadata = await this.serviceRegistry.register({
       ...dto,
       endpoints: dto.endpoints || [],
-      dependencies: dto.dependencies || [],
+      dependencies: dto.dependencies || []
     });
 
     return {
       success: true,
-      data: metadata,
+      data: metadata
     };
   }
 
@@ -58,7 +58,7 @@ export class MeshController {
     return {
       success: true,
       data: services,
-      count: services.length,
+      count: services.length
     };
   }
 
@@ -73,7 +73,7 @@ export class MeshController {
 
     return {
       success: true,
-      data: service,
+      data: service
     };
   }
 
@@ -88,7 +88,7 @@ export class MeshController {
 
     return {
       success: true,
-      data: service.health,
+      data: service.health
     };
   }
 
@@ -98,7 +98,7 @@ export class MeshController {
   @Post('services/:id/invoke')
   async invokeService(
     @Param('id') id: string,
-    @Body() dto: InvokeServiceDto,
+    @Body() dto: InvokeServiceDto
   ) {
     this.logger.log(`Invoking service: ${id} - ${dto.method} ${dto.endpoint}`);
 
@@ -107,12 +107,12 @@ export class MeshController {
       endpoint: dto.endpoint,
       body: dto.body,
       headers: dto.headers,
-      timeout: dto.timeout,
+      timeout: dto.timeout
     });
 
     return {
       success: response.success,
-      data: response,
+      data: response
     };
   }
 
@@ -127,7 +127,7 @@ export class MeshController {
 
     return {
       success: true,
-      data: topology,
+      data: topology
     };
   }
 
@@ -142,7 +142,7 @@ export class MeshController {
 
     return {
       success: true,
-      data: graph,
+      data: graph
     };
   }
 
@@ -160,8 +160,8 @@ export class MeshController {
       success: true,
       data: {
         ...topologyMetrics,
-        ...meshStats,
-      },
+        ...meshStats
+      }
     };
   }
 
@@ -177,7 +177,7 @@ export class MeshController {
     return {
       success: true,
       data: logs,
-      count: logs.length,
+      count: logs.length
     };
   }
 }
