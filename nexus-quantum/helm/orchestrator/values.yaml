@@ -1,0 +1,78 @@
+replicaCount: 3
+
+image:
+  repository: ghcr.io/your-org/orchestrator
+  tag: "v1.0.0"
+  pullPolicy: IfNotPresent
+  pullSecrets:
+    - regcred
+
+service:
+  type: ClusterIP
+  port: 8080
+  metricsPort: 9090
+
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: MESSAGE_BUS_URL
+    value: "nats://message-bus:4222"
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: orchestrator-secrets
+        key: database-url
+  - name: REDIS_URL
+    valueFrom:
+      secretKeyRef:
+        name: orchestrator-secrets
+        key: redis-url
+  - name: JWT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: orchestrator-secrets
+        key: jwt-secret
+
+resources:
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+  requests:
+    cpu: "1"
+    memory: "2Gi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: orchestrator.your-domain.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: orchestrator-tls
+      hosts:
+        - orchestrator.your-domain.com
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: ""
+    username: "orchestrator"
+    password: ""
+    database: "orchestrator"
+
+redis:
+  enabled: true
+  auth:
+    enabled: false
