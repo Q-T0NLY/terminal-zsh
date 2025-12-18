@@ -7,6 +7,9 @@ import { IntegrationModule } from './modules/integration/integration.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { SecurityModule } from './modules/security/security.module';
+import { RegistryModule } from './registry/registry.module';
+import { MeshModule } from './mesh/mesh.module';
+import { FrameworksModule } from './frameworks/frameworks.module';
 
 @Module({
   imports: [
@@ -21,9 +24,10 @@ import { SecurityModule } from './modules/security/security.module';
       username: process.env.DB_USERNAME || 'quantum',
       password: process.env.DB_PASSWORD || 'quantum',
       database: process.env.DB_NAME || 'quantum_orchestrator',
-      entities: ['src/entities/**/*.entity.ts'],
+      entities: [__dirname + '/entities/**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV === 'development',
+      autoLoadEntities: true,
     }),
     DashboardModule,
     AgentModule,
@@ -31,6 +35,9 @@ import { SecurityModule } from './modules/security/security.module';
     NotificationModule,
     AnalyticsModule,
     SecurityModule,
+    RegistryModule,
+    MeshModule,
+    FrameworksModule,
   ],
   controllers: [],
   providers: [],
