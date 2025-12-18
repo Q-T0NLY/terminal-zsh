@@ -6,6 +6,12 @@ import { CrewAIPlugin } from '../frameworks/crewai/CrewAIPlugin';
 import { DAGRAGPlugin } from '../advanced-ai/dag-rag/DAGRAGPlugin';
 import { PromptToolkitPlugin } from '../advanced-ai/prompt-toolkit/PromptToolkitPlugin';
 import { ContextNLPFusionPlugin } from '../advanced-ai/nlp-fusion/ContextNLPFusionPlugin';
+import { IPlugin } from './PluginInterface';
+
+interface PluginInfo {
+  plugin: IPlugin;
+  name: string;
+}
 
 /**
  * Plugin Registry Initializer - Automatically registers all plugins on application startup
@@ -27,12 +33,10 @@ export class PluginRegistryInitializer implements OnModuleInit {
   ) {}
 
   /**
-   * Initialize all plugins when the module starts
+   * Get all available plugins
    */
-  async onModuleInit(): Promise<void> {
-    this.logger.log('Initializing Universal Plugin Registry with all available plugins...');
-
-    const plugins = [
+  private getPlugins(): PluginInfo[] {
+    return [
       // AI Framework Plugins
       { plugin: this.langGraphPlugin, name: 'LangGraph' },
       { plugin: this.llamaIndexPlugin, name: 'LlamaIndex' },
@@ -42,7 +46,15 @@ export class PluginRegistryInitializer implements OnModuleInit {
       { plugin: this.promptToolkitPlugin, name: 'Prompt Toolkit' },
       { plugin: this.nlpFusionPlugin, name: 'NLP Fusion' },
     ];
+  }
 
+  /**
+   * Initialize all plugins when the module starts
+   */
+  async onModuleInit(): Promise<void> {
+    this.logger.log('Initializing Universal Plugin Registry with all available plugins...');
+
+    const plugins = this.getPlugins();
     let registeredCount = 0;
     let failedCount = 0;
 
@@ -89,25 +101,24 @@ export class PluginRegistryInitializer implements OnModuleInit {
   private async startAllPlugins(): Promise<void> {
     this.logger.log('Starting all registered plugins...');
 
-    const plugins = [
-      this.langGraphPlugin,
-      this.llamaIndexPlugin,
-      this.crewAIPlugin,
-      this.dagRAGPlugin,
-      this.promptToolkitPlugin,
-      this.nlpFusionPlugin,
-    ];
+    const plugins = this.getPlugins();
+    let startedCount = 0;
+    let failedCount = 0;
 
-    for (const plugin of plugins) {
+    for (const { plugin, name } of plugins) {
       try {
         await plugin.init();
         await plugin.start();
-        this.logger.log(`✅ ${plugin.name} plugin started`);
+        this.logger.log(`✅ ${name} plugin started`);
+        startedCount++;
       } catch (error) {
-        this.logger.error(`❌ Failed to start ${plugin.name} plugin:`, error.message);
+        this.logger.error(`❌ Failed to start ${name} plugin:`, error.message);
+        failedCount++;
       }
     }
 
-    this.logger.log('All plugins started successfully');
+    this.logger.log(
+      `Plugin startup complete: ${startedCount} started successfully, ${failedCount} failed`
+    );
   }
 }

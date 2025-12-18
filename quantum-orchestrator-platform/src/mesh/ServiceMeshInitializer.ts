@@ -1,12 +1,12 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ServiceRegistry } from '../mesh/ServiceRegistry';
+import { ServiceProtocol } from '../mesh/MeshInterface';
 import { LangGraphPlugin } from '../frameworks/langgraph/LangGraphPlugin';
 import { LlamaIndexPlugin } from '../frameworks/llamaindex/LlamaIndexPlugin';
 import { CrewAIPlugin } from '../frameworks/crewai/CrewAIPlugin';
 import { DAGRAGPlugin } from '../advanced-ai/dag-rag/DAGRAGPlugin';
 import { PromptToolkitPlugin } from '../advanced-ai/prompt-toolkit/PromptToolkitPlugin';
 import { ContextNLPFusionPlugin } from '../advanced-ai/nlp-fusion/ContextNLPFusionPlugin';
-import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Service Mesh Initializer - Automatically registers all plugins as services on application startup
@@ -38,66 +38,60 @@ export class ServiceMeshInitializer implements OnModuleInit {
       {
         plugin: this.langGraphPlugin,
         name: 'LangGraph Service',
-        endpoint: '/api/frameworks/langgraph',
         description: 'Graph-based AI workflow orchestration service',
+        endpoints: ['/graphs', '/graphs/:id', '/graphs/:id/execute', '/graphs/:id/state', '/graphs/:id/nodes', '/graphs/:id/edges'],
       },
       {
         plugin: this.llamaIndexPlugin,
         name: 'LlamaIndex Service',
-        endpoint: '/api/frameworks/llamaindex',
         description: 'Document indexing and RAG service',
+        endpoints: ['/indexes', '/indexes/:id', '/indexes/:id/documents', '/indexes/:id/query', '/indexes/:id/stats'],
       },
       {
         plugin: this.crewAIPlugin,
         name: 'CrewAI Service',
-        endpoint: '/api/frameworks/crewai',
         description: 'Multi-agent collaboration service',
+        endpoints: ['/agents', '/tasks', '/crews', '/crews/:id/execute', '/crews/:id/status'],
       },
       // Advanced AI Services
       {
         plugin: this.dagRAGPlugin,
         name: 'DAG/RAG++ Service',
-        endpoint: '/api/advanced-ai/rag',
         description: 'Directed Acyclic Graph Retrieval-Augmented Generation service',
+        endpoints: ['/rag/index', '/rag/generate', '/rag/dag', '/rag/search', '/rag/fuse', '/rag/stats'],
       },
       {
         plugin: this.promptToolkitPlugin,
         name: 'Prompt Toolkit Service',
-        endpoint: '/api/advanced-ai/prompts',
         description: 'Advanced prompt engineering and optimization service',
+        endpoints: ['/prompts/templates', '/prompts/render', '/prompts/optimize', '/prompts/chain', '/prompts/few-shot', '/prompts/search'],
       },
       {
         plugin: this.nlpFusionPlugin,
         name: 'NLP Fusion Service',
-        endpoint: '/api/advanced-ai/nlp',
         description: 'Context fusion and NLP processing service',
+        endpoints: ['/nlp/context', '/nlp/features', '/nlp/fuse', '/nlp/stats'],
       },
     ];
 
     let registeredCount = 0;
     let failedCount = 0;
 
-    for (const { plugin, name, endpoint, description } of services) {
+    for (const { plugin, name, description, endpoints } of services) {
       try {
-        const serviceId = await this.serviceRegistry.registerService({
-          id: uuidv4(),
+        const serviceId = await this.serviceRegistry.register({
           name,
           version: plugin.version,
-          endpoint,
-          healthEndpoint: `${endpoint}/health`,
-          metadata: {
-            pluginId: plugin.id,
-            category: plugin.category,
-            capabilities: plugin.capabilities,
-            description,
-          },
-          rateLimit: {
-            maxRequests: 100,
-            windowMs: 60000, // 1 minute
-          },
+          description,
+          protocol: ServiceProtocol.HTTP,
+          host: 'localhost',
+          port: 3000,
+          endpoints,
+          dependencies: plugin.dependencies,
+          rateLimit: 100, // 100 requests per minute
         });
 
-        this.logger.log(`✅ ${name} registered as service: ${serviceId}`);
+        this.logger.log(`✅ ${name} registered as service: ${serviceId.id}`);
         registeredCount++;
       } catch (error) {
         this.logger.error(`❌ Failed to register ${name} as service:`, error.message);
