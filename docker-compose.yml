@@ -21,7 +21,15 @@ services:
       - ./nexus_cache.py:/app/nexus_cache.py
       - ./nexus_error_handler.py:/app/nexus_error_handler.py
       - ./nexus_visuals.py:/app/nexus_visuals.py
-    command: uvicorn nexus_api:app --host 0.0.0.0 --port 8080 --reload
+    # Use reload only in development - see NEXUS_ENV
+    command: >
+      sh -c "
+      if [ \"$${NEXUS_ENV}\" = \"development\" ]; then
+        uvicorn nexus_api:app --host 0.0.0.0 --port 8080 --reload
+      else
+        uvicorn nexus_api:app --host 0.0.0.0 --port 8080
+      fi
+      "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

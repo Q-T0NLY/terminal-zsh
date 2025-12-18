@@ -40,7 +40,15 @@ perflib::timer_stop() {
     
     local start=${PERFLIB_TIMERS[$name]}
     local end=$(date +%s.%N)
-    local elapsed=$(echo "$end - $start" | bc)
+    
+    # Use bc if available, otherwise use zsh arithmetic (less precise)
+    local elapsed
+    if command -v bc &>/dev/null; then
+        elapsed=$(echo "$end - $start" | bc)
+    else
+        # Fallback to integer arithmetic (loses decimal precision)
+        elapsed=$((${end%.*} - ${start%.*}))
+    fi
     
     # Store metric
     perflib::_record_metric "timer" "$name" "$elapsed"

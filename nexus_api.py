@@ -11,6 +11,7 @@ import uvicorn
 from datetime import datetime
 import logging
 import sys
+import os
 
 from nexus_config import ConfigManager
 from nexus_widgets import Widget
@@ -71,9 +72,15 @@ start_time = datetime.now()
 async def global_exception_handler(request: Request, exc: Exception):
     """Handle all uncaught exceptions"""
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
+    
+    # Don't expose internal details in production
+    error_detail = "Internal server error"
+    if os.getenv("NEXUS_ENV", "production") == "development":
+        error_detail = str(exc)
+    
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"detail": "Internal server error", "type": type(exc).__name__}
+        content={"detail": error_detail, "type": type(exc).__name__}
     )
 
 @app.get("/")

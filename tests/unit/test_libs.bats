@@ -5,6 +5,7 @@ setup() {
     export TEST_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" && pwd)"
     export PROJECT_ROOT="$(cd "$TEST_DIR/../.." && pwd)"
     export LIB_DIR="$PROJECT_ROOT/src/lib"
+    export TMPDIR="${TMPDIR:-/tmp}"
 }
 
 teardown() {
@@ -51,11 +52,12 @@ teardown() {
 
 @test "loglib can log messages" {
     source "$LIB_DIR/loglib.zsh"
-    LOGLIB_CONFIG[log_file]="/tmp/test_log.log"
+    local test_log="${TMPDIR:-/tmp}/test_log.log"
+    LOGLIB_CONFIG[log_file]="$test_log"
     
     run loglib::info "Test message"
     [ "$status" -eq 0 ]
-    [ -f "/tmp/test_log.log" ]
+    [ -f "$test_log" ]
 }
 
 @test "perflib can time operations" {
