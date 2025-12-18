@@ -1,0 +1,406 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated to dark purple/blue theme from enhanced JSON spec */
+  --bg-dark: #0e0f13;
+  --bg-light: #f7f9fb;
+  --primary: #6e63ff;
+  --accent: #38bdf8;
+  --success: #34c759;
+  --warning: #f59e0b;
+  --danger: #ff3b30;
+  --text: #e6eef6;
+
+  --background: oklch(0.06 0.002 247);
+  --foreground: oklch(0.92 0.002 247);
+  --card: oklch(0.08 0.002 247);
+  --card-foreground: oklch(0.92 0.002 247);
+  --popover: oklch(0.08 0.002 247);
+  --popover-foreground: oklch(0.92 0.002 247);
+  --primary: oklch(0.6 0.2 270);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.15 0.05 250);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.12 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.65 0.15 210);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.55 0.25 15);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.2 0 0);
+  --ring: oklch(0.6 0.2 270);
+  --radius: 0.5rem;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.2 0 0);
+  --sidebar-primary: oklch(0.5 0.15 250);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.2 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.5 0.15 250);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  /* Updated fonts to Inter and Fira Code as per JSON spec */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Fira Code", "Roboto Mono", monospace;
+  --font-orbitron: var(--font-orbitron);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Added custom animations for agent creation UI */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slideInDown {
+  animation: slideInDown 0.5s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Added Ultimate Dashboard styles */
+.ultimate-dashboard {
+  @apply h-screen flex flex-col bg-background;
+}
+
+.main-content {
+  @apply flex-1 overflow-hidden;
+}
+
+.sidebar-panel {
+  @apply bg-sidebar border-r border-sidebar-border;
+}
+
+.sidebar-container {
+  @apply h-full flex flex-col p-4 space-y-4 overflow-y-auto;
+}
+
+.main-panel {
+  @apply bg-background;
+}
+
+.inspector-panel {
+  @apply bg-sidebar border-l border-sidebar-border;
+}
+
+.resize-handle {
+  @apply relative flex items-center justify-center w-1 bg-border hover:bg-primary/20 transition-colors cursor-col-resize;
+}
+
+.resize-indicator {
+  @apply w-0.5 h-8 bg-muted-foreground/50 rounded-full;
+}
+
+.resize-handle-vertical {
+  @apply relative flex items-center justify-center h-1 bg-border hover:bg-primary/20 transition-colors cursor-row-resize;
+}
+
+.resize-indicator-vertical {
+  @apply h-0.5 w-8 bg-muted-foreground/50 rounded-full;
+}
+
+.tab-drag-overlay {
+  @apply bg-card border border-border rounded-lg p-4 shadow-lg;
+}
+
+/* Added theme gallery styles */
+.theme-gallery-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+}
+
+.gallery-header {
+  @apply sticky top-0 z-10 flex items-center justify-between p-6 bg-card border-b border-border;
+}
+
+.category-filters {
+  @apply flex gap-2 p-6 border-b border-border overflow-x-auto;
+}
+
+.theme-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6;
+}
+
+.theme-card {
+  @apply cursor-pointer overflow-hidden rounded-lg border border-border hover:shadow-lg transition-all;
+}
+
+.theme-preview {
+  @apply h-32 p-4;
+}
+
+.theme-info {
+  @apply p-4 bg-card;
+}
+
+/* Added advanced grid system styles */
+.advanced-grid-system {
+  @apply h-full flex flex-col;
+}
+
+.grid-controls {
+  @apply flex items-center justify-between p-4 border-b border-border;
+}
+
+.widget-grid {
+  @apply grid gap-4;
+}
+
+.widget-container {
+  @apply bg-card border border-border rounded-lg overflow-hidden transition-all;
+}
+
+.widget-container.dragging {
+  @apply opacity-50 scale-105;
+}
+
+.widget-renderer {
+  @apply h-full flex flex-col;
+}
+
+.widget-header {
+  @apply flex items-center justify-between p-3 border-b border-border bg-muted/50;
+}
+
+.widget-title {
+  @apply flex items-center gap-2 font-medium text-sm;
+}
+
+.widget-actions {
+  @apply flex items-center gap-1;
+}
+
+.widget-content {
+  @apply flex-1 p-4 overflow-auto;
+}
+
+/* Enhanced futuristic theme styles with more glow effects */
+@keyframes quantum-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(102, 126, 234, 0.6);
+  }
+}
+
+.quantum-glow {
+  animation: quantum-glow 3s ease-in-out infinite;
+}
+
+@keyframes nebula-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.nebula-bg {
+  background-size: 200% 200%;
+  animation: nebula-shift 20s ease infinite;
+}
+
+@keyframes cyber-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.cyber-pulse {
+  animation: cyber-pulse 1.5s ease-in-out infinite;
+}
+
+/* Added neon glow effects for futuristic themes */
+@keyframes neon-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+  50% {
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor;
+  }
+}
+
+.neon-text {
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scan-line {
+  animation: scan-line 8s linear infinite;
+}
+
+/* Added holographic effect */
+@keyframes holographic {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.holographic {
+  background: linear-gradient(45deg, #4cc9f0, #7209b7, #f72585, #4cc9f0);
+  background-size: 300% 300%;
+  animation: holographic 5s ease infinite;
+}
+
+/* Enhanced card styles for futuristic themes */
+.futuristic-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.futuristic-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, transparent, var(--color-primary), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.futuristic-card:hover::before {
+  opacity: 0.5;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

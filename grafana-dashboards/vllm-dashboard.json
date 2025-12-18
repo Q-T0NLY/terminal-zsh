@@ -1,0 +1,101 @@
+{
+  "dashboard": {
+    "title": "Nexus Quantum - vLLM Gateway",
+    "tags": ["nexus-quantum", "vllm", "gpu"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "GPU Memory Usage",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "vllm_gpu_memory_usage_bytes / vllm_gpu_memory_total_bytes",
+            "legendFormat": "GPU {{gpu_id}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": { "params": [0.9], "type": "gt" },
+              "query": { "params": ["A", "5m", "now"] },
+              "type": "query"
+            }
+          ],
+          "name": "High GPU Memory Usage"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Inference Requests/sec",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(vllm_inference_requests_total[5m])",
+            "legendFormat": "{{model}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+      },
+      {
+        "id": 3,
+        "title": "Token Generation Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(vllm_tokens_generated_total[5m])"
+          }
+        ],
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 8 }
+      },
+      {
+        "id": 4,
+        "title": "Average Latency (ms)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg(vllm_inference_latency_seconds) * 1000"
+          }
+        ],
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 8 }
+      },
+      {
+        "id": 5,
+        "title": "Queue Depth",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "vllm_request_queue_depth",
+            "legendFormat": "Queue"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+      },
+      {
+        "id": 6,
+        "title": "GPU Utilization %",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "vllm_gpu_utilization_percent",
+            "legendFormat": "GPU {{gpu_id}}"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+      },
+      {
+        "id": 7,
+        "title": "Model Cache Hit Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(vllm_cache_hits_total[5m]) / (rate(vllm_cache_hits_total[5m]) + rate(vllm_cache_misses_total[5m]))",
+            "legendFormat": "Hit Rate"
+          }
+        ],
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+      }
+    ]
+  }
+}
