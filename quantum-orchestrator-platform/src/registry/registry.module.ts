@@ -5,16 +5,24 @@ import { PluginStorage } from './PluginStorage';
 import { PluginValidator } from './PluginValidator';
 import { PluginLoader } from './PluginLoader';
 import { RegistryController } from './registry.controller';
+import { PluginRegistryInitializer } from './PluginRegistryInitializer';
 import { PluginEntity } from '../entities/plugin.entity';
+import { FrameworksModule } from '../frameworks/frameworks.module';
+import { AdvancedAIModule } from '../advanced-ai/advanced-ai.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PluginEntity])],
+  imports: [
+    TypeOrmModule.forFeature([PluginEntity]),
+    FrameworksModule,
+    AdvancedAIModule,
+  ],
   controllers: [RegistryController],
   providers: [
     UniversalRegistry,
     PluginStorage,
     PluginValidator,
-    PluginLoader
+    PluginLoader,
+    PluginRegistryInitializer,
   ],
   exports: [
     UniversalRegistry,
