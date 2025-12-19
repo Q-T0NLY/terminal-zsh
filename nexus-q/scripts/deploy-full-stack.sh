@@ -1,56 +1,133 @@
-#!/bin/bash
-# deploy-full-stack.sh - Deploy complete Nexus Quantum stack
+#!/usr/bin/env bash
+# deploy-full-stack.sh - Deploy complete Nexus Quantum stack (advanced/prod-ready)
 
-set -e
+set -euo pipefail
 
+# Namespace and optional kube context can be overridden via env:
+#   NAMESPACE=ai-prod KUBE_CONTEXT=your-context ./deploy-full-stack.sh
 NAMESPACE="${NAMESPACE:-ai-system}"
+KUBE_CONTEXT="${KUBE_CONTEXT:-}"
 
-echo "🚀 Deploying Nexus Quantum Full Stack..."
+KUBECTL="${KUBECTL:-kubectl}"
+HELM="${HELM:-helm}"
 
-# Create namespace
-echo "📦 Creating namespace..."
-kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+log()   { printf '%s\n' "[$(date +%Y-%m-%dT%H:%M:%S)] $*"; }
+err()   { printf '%s\n' "[$(date +%Y-%m-%dT%H:%M:%S)] ERROR: $*" >&2; }
+fatal() { err "$@"; exit 1; }
 
-# Deploy NATS message bus
-echo "📨 Deploying NATS message bus..."
-kubectl apply -f k8s/nats/nats-deployment.yaml
+ensure_tools() {
+  command -v "$KUBECTL" >/dev/null 2>&1 || fatal "kubectl not found in PATH"
+  command -v "$HELM" >/dev/null 2>&1 || fatal "helm not found in PATH"
+}
 
-# Wait for NATS to be ready
-echo "⏳ Waiting for NATS to be ready..."
-kubectl wait --for=condition=ready pod -l app=nats -n $NAMESPACE --timeout=300s
+set_context() {
+  if [[ -n "$KUBE_CONTEXT" ]]; then
+    log "🔧 Using kube context: $KUBE_CONTEXT"
+    "$KUBECTL" config use-context "$KUBE_CONTEXT" >/dev/null
+  fi
+}
 
-# Deploy Orchestrator with dependencies
-echo "🎯 Deploying Orchestrator..."
-helm upgrade --install orchestrator helm/orchestrator \
-  --namespace $NAMESPACE \
-  --wait \
-  --timeout 10m
+apply_namespace() {
+  log "📦 Ensuring namespace '$NAMESPACE' exists..."
+  "$KUBECTL" create namespace "$NAMESPACE" --dry-run=client -o yaml | "$KUBECTL" apply -f -
+}
 
-# Deploy vLLM Gateway
-echo "🤖 Deploying vLLM Gateway..."
-helm upgrade --install vllm-gateway helm/vllm-gateway \
-  --namespace $NAMESPACE \
-  --wait \
-  --timeout 10m
+wait_for_app() {
+  local app_label="$1"
+  local timeout="${2:-300s}"
 
-# Deploy Generative Agents
-echo "✨ Deploying Generative Agents..."
-helm upgrade --install agent-generative helm/agent-generative \
-  --namespace $NAMESPACE \
-  --wait \
-  --timeout 5m
+  log "⏳ Waiting for pods with label 'app=$app_label' in namespace '$NAMESPACE' (timeout: $timeout)..."
+  "$KUBECTL" wait \
+    --namespace "$NAMESPACE" \
+    --for=condition=ready pod \
+    -l "app=$app_label" \
+    --timeout="$timeout"
+}
 
-# Apply Prometheus rules
-echo "📊 Applying Prometheus monitoring rules..."
-kubectl apply -f k8s/prometheus/rules.yaml
+deploy_nats() {
+  log "📨 Deploying NATS message bus..."
+  "$KUBECTL" apply -n "$NAMESPACE" -f k8s/nats/nats-deployment.yaml
 
-# Run health checks
-echo "🏥 Running health checks..."
-./scripts/health-check.sh
+  wait_for_app "nats" "300s"
+}
 
-echo "✅ Full stack deployment completed!"
-echo ""
-echo "📝 Next steps:"
-echo "  1. Import Grafana dashboards: ./scripts/import-grafana-dashboards.sh"
-echo "  2. Access the orchestrator: kubectl port-forward -n $NAMESPACE svc/orchestrator 8080:8080"
-echo "  3. View logs: kubectl logs -n $NAMESPACE -l app=orchestrator -f"
+deploy_orchestrator() {
+  log "🎯 Deploying Orchestrator..."
+  "$HELM" upgrade --install orchestrator helm/orchestrator \
+    --namespace "$NAMESPACE" \
+    --create-namespace=false \
+    --wait \
+    --timeout 10m
+}
+
+deploy_vllm_gateway() {
+  log "🤖 Deploying vLLM Gateway..."
+  "$HELM" upgrade --install vllm-gateway helm/vllm-gateway \
+    --namespace "$NAMESPACE" \
+    --create-namespace=false \
+    --wait \
+    --timeout 10m
+}
+
+deploy_generative_agents() {
+  log "✨ Deploying Generative Agents..."
+  "$HELM" upgrade --install agent-generative helm/agent-generative \
+    --namespace "$NAMESPACE" \
+    --create-namespace=false \
+    --wait \
+    --timeout 5m
+}
+
+apply_prometheus_rules() {
+  log "📊 Applying Prometheus monitoring rules..."
+  "$KUBECTL" apply -n "$NAMESPACE" -f k8s/prometheus/rules.yaml
+}
+
+run_health_checks() {
+  if [[ -x "./scripts/health-check.sh" ]]; then
+    log "🏥 Running health checks..."
+    ./scripts/health-check.sh
+  else
+    log "🏥 Health check script not found or not executable: ./scripts/health-check.sh (skipping)"
+  fi
+}
+
+summary_next_steps() {
+  cat <<EOF
+
+✅ Full stack deployment completed to namespace: $NAMESPACE
+
+📝 Next steps:
+  1. Import Grafana dashboards (if script present):
+       ./scripts/import-grafana-dashboards.sh
+
+  2. Access the orchestrator API:
+       kubectl port-forward -n "$NAMESPACE" svc/orchestrator 8080:8080
+
+  3. Access vLLM Gateway (adjust service/port as needed):
+       kubectl get svc -n "$NAMESPACE"
+       kubectl port-forward -n "$NAMESPACE" svc/vllm-gateway 8000:8000
+
+  4. View orchestrator logs:
+       kubectl logs -n "$NAMESPACE" -l app=orchestrator -f
+
+  5. Verify NATS status:
+       kubectl get pods -n "$NAMESPACE" -l app=nats
+EOF
+}
+
+main() {
+  log "🚀 Deploying Nexus Quantum Full Stack..."
+  ensure_tools
+  set_context
+  apply_namespace
+  deploy_nats
+  deploy_orchestrator
+  deploy_vllm_gateway
+  deploy_generative_agents
+  apply_prometheus_rules
+  run_health_checks
+  summary_next_steps
+}
+
+main "$@"

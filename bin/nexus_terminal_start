@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV="$ROOT/.venv"
+
+# Activate venv if present
+if [[ -d "$VENV" && -f "$VENV/bin/activate" ]]; then
+  # shellcheck disable=SC1090
+  source "$VENV/bin/activate"
+fi
+
+# Prefer a dedicated launcher if present
+if [[ -f "$ROOT/launch_nexus_hyper.zsh" ]]; then
+  exec zsh "$ROOT/launch_nexus_hyper.zsh" "$@"
+elif [[ -f "$ROOT/nexus-ai-studio.zsh" ]]; then
+  exec zsh "$ROOT/nexus-ai-studio.zsh" "$@"
+elif [[ -f "$ROOT/UNIFIED_MASTER_SYSTEM.zsh" ]]; then
+  exec zsh "$ROOT/UNIFIED_MASTER_SYSTEM.zsh" "$@"
+else
+  echo "No primary launcher script found in $ROOT."
+  echo "Looked for: launch_nexus_hyper.zsh, nexus-ai-studio.zsh, UNIFIED_MASTER_SYSTEM.zsh"
+  exit 1
+fi
