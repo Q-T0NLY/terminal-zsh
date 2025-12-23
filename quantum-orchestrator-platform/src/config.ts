@@ -1,9 +1,7 @@
 import { config } from 'dotenv';
-import { expand } from 'dotenv-expand';
 
 const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.local';
-const env = config({ path: envFile });
-expand(env);
+config({ path: envFile });
 
 export default {
   port: parseInt(process.env.PORT || '3000', 10),

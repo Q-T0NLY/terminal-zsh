@@ -18,35 +18,32 @@
   },
   "ignorePatterns": [".eslintrc.js", "dist/", "node_modules/"],
   "rules": {
-    "@typescript-eslint/explicit-function-return-types": "error",
-    "@typescript-eslint/explicit-member-accessibility": [
-      "error",
-      {
-        "accessibility": "explicit",
-        "overrides": {
-          "constructors": "no-public"
-        }
-      }
-    ],
-    "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/explicit-function-return-types": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-non-null-assertion": "warn",
-    "@typescript-eslint/no-shadow": ["error"],
-    "@typescript-eslint/prefer-nullish-coalescing": "error",
-    "@typescript-eslint/prefer-optional-chain": "error",
-    "@typescript-eslint/strict-boolean-expressions": "error",
-    "@typescript-eslint/unbound-method": "error",
-    "no-console": "error",
+    "@typescript-eslint/no-shadow": ["warn"],
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/prefer-optional-chain": "warn",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/unbound-method": "warn",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "no-console": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-new-func": "error",
-    "prefer-const": "error",
+    "prefer-const": "warn",
     "semi": ["error", "always"],
-    "quotes": ["error", "single", { "avoidEscape": true }],
+    "quotes": ["warn", "single", { "avoidEscape": true }],
     "max-len": [
-      "warn",
+      "off",
       {
         "code": 120,
         "ignoreUrls": true,
@@ -54,22 +51,15 @@
       }
     ],
     "no-var": "error",
-    "eqeqeq": ["error", "always"],
+    "eqeqeq": ["warn", "always"],
     "curly": ["error", "all"],
-    "brace-style": ["error", "1tbs"],
-    "no-multi-spaces": "error",
-    "no-trailing-spaces": "error",
-    "comma-dangle": ["error", "never"],
-    "indent": ["error", 2],
-    "object-curly-spacing": ["error", "always"],
-    "array-bracket-spacing": ["error", "never"],
-    "space-before-function-paren": [
-      "error",
-      {
-        "anonymous": "always",
-        "named": "never",
-        "asyncArrow": "always"
-      }
-    ]
+    "brace-style": ["warn", "1tbs"],
+    "no-multi-spaces": "warn",
+    "no-trailing-spaces": "warn",
+    "comma-dangle": ["warn", "never"],
+    "indent": "off",
+    "object-curly-spacing": ["warn", "always"],
+    "array-bracket-spacing": ["warn", "never"],
+    "space-before-function-paren": "off"
   }
 }

@@ -59,7 +59,9 @@ export class DashboardService {
 
   deployWorkflow(id: string): boolean {
     const workflow = this.workflows.get(id);
-    if (!workflow) return false;
+    if (!workflow) {
+      return false;
+    }
 
     workflow.status = 'deployed';
     this.logger.log(`Workflow deployed: ${id}`);
@@ -83,7 +85,9 @@ export class DashboardService {
 
   getWorkflowMetrics(id: string): Record<string, any> {
     const workflow = this.workflows.get(id);
-    if (!workflow) return {};
+    if (!workflow) {
+      return {};
+    }
 
     const metrics = {
       workflowId: id,

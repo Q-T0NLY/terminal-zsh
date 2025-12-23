@@ -1,4 +1,4 @@
 import { Module } from '@nestjs/common';
 
-@Injectable()
+@Module({})
 export class AgentModule {}

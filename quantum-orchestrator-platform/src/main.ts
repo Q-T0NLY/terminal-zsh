@@ -9,7 +9,7 @@ async function bootstrap() {
 
   // Global middleware
   app.use(cors());
-  
+
   // Validation
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,8 +17,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       transform: true,
       transformOptions: {
-        enableImplicitConversion: true,
-      },
+        enableImplicitConversion: true
+      }
     })
   );
 

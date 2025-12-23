@@ -7,23 +7,29 @@ import { IntegrationModule } from './modules/integration/integration.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { SecurityModule } from './modules/security/security.module';
+import { RegistryModule } from './registry/registry.module';
+import { MeshModule } from './mesh/mesh.module';
+import { FrameworksModule } from './frameworks/frameworks.module';
+import { AdvancedAIModule } from './advanced-ai/advanced-ai.module';
+import { GuidanceModule } from './guidance/guidance.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: ['.env.local', '.env']
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT) || 5432,
+      port: parseInt(process.env.DB_PORT || '5432'),
       username: process.env.DB_USERNAME || 'quantum',
       password: process.env.DB_PASSWORD || 'quantum',
       database: process.env.DB_NAME || 'quantum_orchestrator',
-      entities: ['src/entities/**/*.entity.ts'],
+      entities: [__dirname + '/entities/**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV === 'development',
+      autoLoadEntities: true
     }),
     DashboardModule,
     AgentModule,
@@ -31,8 +37,13 @@ import { SecurityModule } from './modules/security/security.module';
     NotificationModule,
     AnalyticsModule,
     SecurityModule,
+    RegistryModule,
+    MeshModule,
+    FrameworksModule,
+    AdvancedAIModule,
+    GuidanceModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

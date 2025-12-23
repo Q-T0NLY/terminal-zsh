@@ -17,8 +17,12 @@ export class WorkflowService {
 
     if (workflow.nodes) {
       workflow.nodes.forEach((node: any, index: number) => {
-        if (!node.name) errors.push(`Node ${index} is missing a name`);
-        if (!node.type) errors.push(`Node ${index} is missing a type`);
+        if (!node.name) {
+          errors.push(`Node ${index} is missing a name`);
+        }
+        if (!node.type) {
+          errors.push(`Node ${index} is missing a type`);
+        }
       });
     }
 
@@ -59,27 +63,27 @@ export class WorkflowService {
   }
 
   async generateWorkflowCode(workflow: any): Promise<string> {
-    let code = `// Generated Quantum Orchestrator Workflow\n`;
+    let code = '// Generated Quantum Orchestrator Workflow\n';
     code += `// Created: ${new Date().toISOString()}\n\n`;
-    code += `import { QuantumOrchestrator } from '@quantum/orchestrator';\n\n`;
+    code += 'import { QuantumOrchestrator } from \'@quantum/orchestrator\';\n\n';
 
-    code += `const workflow = new QuantumOrchestrator({\n`;
+    code += 'const workflow = new QuantumOrchestrator({\n';
     code += `  name: '${workflow.name}',\n`;
-    code += `  nodes: [\n`;
+    code += '  nodes: [\n';
 
     workflow.nodes?.forEach((node: any) => {
-      code += `    {\n`;
+      code += '    {\n';
       code += `      id: '${node.id}',\n`;
       code += `      name: '${node.name}',\n`;
       code += `      type: '${node.type}',\n`;
       code += `      position: { top: '${node.position?.top}', left: '${node.position?.left}' }\n`;
-      code += `    },\n`;
+      code += '    },\n';
     });
 
-    code += `  ],\n`;
+    code += '  ],\n';
     code += `  connections: ${JSON.stringify(workflow.connections || [], null, 2)}\n`;
-    code += `});\n\n`;
-    code += `export default workflow;\n`;
+    code += '});\n\n';
+    code += 'export default workflow;\n';
 
     return code;
   }
